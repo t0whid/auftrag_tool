@@ -300,6 +300,250 @@
                 padding: 16px;
             }
         }
+
+        .table-shell {
+    background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+    border: 1px solid #dfe8f2;
+    border-radius: 22px;
+    padding: 14px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+    overflow: hidden;
+}
+
+.table-modern {
+    width: 100% !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    margin: 0 !important;
+    border: 1px solid #e2eaf3;
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+.table-modern thead th {
+    background: linear-gradient(180deg, #f8fbff 0%, #f1f6fc 100%) !important;
+    color: #5f7087;
+    font-size: .84rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    padding: 15px 14px !important;
+    text-align: center !important;
+    vertical-align: middle;
+    border-right: 1px solid #e2eaf3 !important;
+    border-bottom: 1px solid #dfe8f2 !important;
+    white-space: nowrap;
+}
+
+.table-modern thead th:last-child {
+    border-right: none !important;
+}
+
+.table-modern tbody td {
+    padding: 16px 14px !important;
+    vertical-align: middle;
+    background: #fff;
+    border-right: 1px solid #edf2f7 !important;
+    border-bottom: 1px solid #edf2f7 !important;
+}
+
+.table-modern tbody td:last-child {
+    border-right: none !important;
+}
+
+.table-modern tbody tr:last-child td {
+    border-bottom: none !important;
+}
+
+.table-modern tbody tr:hover td {
+    background: #fbfdff;
+}
+
+.employee-name {
+    font-weight: 700;
+    color: #163253;
+}
+
+.employee-username {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: #f3f7fc;
+    color: #46607d;
+    font-size: .88rem;
+    font-weight: 600;
+}
+
+.employee-email {
+    color: #5f7087;
+    font-weight: 500;
+}
+
+.badge-block-no {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: #dcfce7;
+    color: #166534;
+    font-weight: 700;
+    font-size: .85rem;
+}
+
+.badge-block-yes {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: #fee2e2;
+    color: #b91c1c;
+    font-weight: 700;
+    font-size: .85rem;
+}
+
+.action-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+}
+
+.btn-action-edit {
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-weight: 700;
+    border: 1px solid #cfe0f7;
+    color: #2367c9;
+    background: #f4f9ff;
+}
+
+.btn-action-edit:hover {
+    background: #eaf3ff;
+    color: #1c58ae;
+    border-color: #bcd4f3;
+}
+
+.btn-action-delete {
+    border-radius: 999px;
+    padding: 8px 14px;
+    font-weight: 700;
+    border: 1px solid #f3c7c7;
+    color: #c53030;
+    background: #fff6f6;
+}
+
+.btn-action-delete:hover {
+    background: #ffecec;
+    color: #a61f1f;
+    border-color: #ecb3b3;
+}
+
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter {
+    margin-bottom: 18px;
+}
+
+.dataTables_wrapper .dataTables_length label,
+.dataTables_wrapper .dataTables_filter label {
+    font-weight: 700;
+    color: #5f7087;
+}
+
+.dataTables_wrapper .dataTables_length select {
+    min-width: 84px;
+    margin: 0 8px;
+    height: 42px;
+    padding: 6px 38px 6px 12px !important;
+    border-radius: 12px;
+    border: 1px solid #d7e2ef !important;
+    background-color: #fff !important;
+    color: #163253;
+    font-weight: 600;
+    appearance: auto !important;
+    -webkit-appearance: menulist !important;
+    -moz-appearance: menulist !important;
+    background-image: none !important;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+    height: 42px;
+    min-width: 240px;
+    margin-left: 8px;
+    border-radius: 999px;
+    border: 1px solid #d7e2ef !important;
+    padding: 8px 16px;
+    background: #fff;
+}
+
+.dataTables_wrapper .dataTables_info {
+    color: #708197;
+    font-weight: 600;
+    margin-top: 14px;
+}
+
+.dataTables_wrapper .dataTables_paginate {
+    margin-top: 14px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    border: none !important;
+    background: transparent !important;
+    color: #4b6380 !important;
+    padding: 6px 12px !important;
+    margin: 0 2px;
+    border-radius: 10px !important;
+    font-weight: 700;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: #eaf3ff !important;
+    color: #2f80ed !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: #f1f6fd !important;
+    color: #1f5fb9 !important;
+}
+
+.table-date {
+    white-space: nowrap;
+    color: #607287;
+    font-size: .9rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.table-center {
+    text-align: center;
+}
+
+@media (max-width: 767.98px) {
+    .dataTables_wrapper .dataTables_filter input {
+        min-width: 100%;
+        margin-left: 0;
+        margin-top: 8px;
+    }
+
+    .dataTables_wrapper .dataTables_filter label,
+    .dataTables_wrapper .dataTables_length label {
+        width: 100%;
+    }
+
+    .action-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn-action-edit,
+    .btn-action-delete {
+        width: 100%;
+    }
+}
     </style>
 
     @stack('styles')
