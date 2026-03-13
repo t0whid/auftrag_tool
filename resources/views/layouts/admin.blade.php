@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
     <link rel="stylesheet" href="{{ asset('assets/css/admin.css') }}">
 
@@ -116,12 +117,6 @@
             </div>
 
             <div class="page-body">
-                @if(session('success'))
-                    <div class="alert alert-success rounded-4 border-0 shadow-sm">
-                        {{ session('success') }}
-                    </div>
-                @endif
-
                 @yield('content')
             </div>
         </main>
@@ -131,8 +126,47 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <script src="{{ asset('assets/js/admin.js') }}"></script>
+
+    <script>
+        toastr.options = {
+            closeButton: true,
+            progressBar: true,
+            positionClass: "toast-top-right",
+            timeOut: 3500,
+            extendedTimeOut: 1200,
+            preventDuplicates: true,
+            newestOnTop: true,
+            showDuration: 250,
+            hideDuration: 200,
+            showMethod: "fadeIn",
+            hideMethod: "fadeOut"
+        };
+
+        @if(session('success'))
+            toastr.success(@json(session('success')));
+        @endif
+
+        @if(session('error'))
+            toastr.error(@json(session('error')));
+        @endif
+
+        @if(session('warning'))
+            toastr.warning(@json(session('warning')));
+        @endif
+
+        @if(session('info'))
+            toastr.info(@json(session('info')));
+        @endif
+
+        @if($errors->any())
+            @foreach($errors->all() as $error)
+                toastr.error(@json($error));
+            @endforeach
+        @endif
+    </script>
 
     @stack('scripts')
 </body>
