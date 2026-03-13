@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Employee\EmployeeDashboardController;
+use App\Http\Controllers\Employee\OrderResponseController;
 
 Route::get('/lang/{locale}', [LanguageController::class, 'switch'])->name('lang.switch');
 
@@ -28,5 +29,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 });
 
 Route::middleware(['auth', 'employee'])->prefix('employee')->name('employee.')->group(function () {
-   Route::get('/dashboard', [EmployeeDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [EmployeeDashboardController::class, 'index'])->name('dashboard');
+    Route::post('/orders/{order}/response', [OrderResponseController::class, 'store'])->name('orders.response.store');
 });

@@ -1,407 +1,696 @@
-@extends('layouts.employee')
-
-@php
-    $pageTitle = __('employee.dashboard_heading');
-@endphp
+@extends('layouts.app')
 
 @section('content')
-    @php
-        $employeeUser = auth()->user();
-    @endphp
-
-    <div class="card-soft welcome-card">
-        <h2 class="welcome-title">{{ __('employee.dashboard_heading') }}</h2>
-        <p class="welcome-text">{{ __('employee.dashboard_subheading') }}</p>
-
-        <div class="employee-chip">
-            <div class="employee-chip-avatar">
-                {{ strtoupper(substr($employeeUser->name ?? 'E', 0, 1)) }}
-            </div>
-            <div>
-                <div class="employee-chip-name">{{ $employeeUser->name }}</div>
-                <div class="employee-chip-role">{{ __('employee.employee_role') }}</div>
-            </div>
-        </div>
-    </div>
-
-    @if($activeOrder)
-        <div class="card-soft employee-order-card">
-            <div class="employee-order-head">
-                <div class="employee-order-head-left">
-                    <div class="employee-order-icon">
-                        <i class="bi bi-clipboard2-check"></i>
-                    </div>
-
-                    <div>
-                        <div class="employee-order-label">{{ __('employee.current_order_title') }}</div>
-                        <h3 class="employee-order-title">{{ $activeOrder->title }}</h3>
-                        <p class="employee-order-subtitle">
-                            {{ $activeOrder->location ?: __('employee.no_location_text') }}
-                        </p>
-                    </div>
-                </div>
-
-                <div class="employee-order-status">
-                    <span class="employee-status-badge">
-                        <i class="bi bi-check-circle-fill"></i>
-                        {{ __('employee.active_order_badge') }}
-                    </span>
-                </div>
-            </div>
-
-            <div class="employee-order-meta">
-                <div class="employee-meta-chip">
-                    <i class="bi bi-calendar-event"></i>
-                    <span>{{ $activeOrder->start_date?->format('d M Y') }} — {{ $activeOrder->end_date?->format('d M Y') }}</span>
-                </div>
-
-                @if($activeOrder->team_info)
-                    <div class="employee-meta-chip">
-                        <i class="bi bi-people"></i>
-                        <span>{{ $activeOrder->team_info }}</span>
-                    </div>
-                @endif
-
-                @if($activeOrder->location)
-                    <div class="employee-meta-chip">
-                        <i class="bi bi-geo-alt"></i>
-                        <span>{{ $activeOrder->location }}</span>
-                    </div>
-                @endif
-            </div>
-
-            <div class="employee-order-section">
-                <div class="employee-section-title">
-                    <i class="bi bi-card-text"></i>
-                    <span>{{ __('employee.order_description') }}</span>
-                </div>
-
-                <div class="employee-description-box" style="white-space: pre-line;">{{ $activeOrder->description }}</div>
-            </div>
-
-            <div class="row g-3 mt-1">
-                <div class="col-12 col-lg-6">
-                    <div class="employee-info-card h-100">
-                        <div class="employee-section-title">
-                            <i class="bi bi-cash-stack"></i>
-                            <span>{{ __('employee.cost_fields_title') }}</span>
-                        </div>
-
-                        <div class="employee-info-list">
-                            <div class="employee-info-row">
-                                <span>{{ __('employee.hourly_rate') }}</span>
-                                <strong>{{ $activeOrder->hourly_rate !== null ? $activeOrder->hourly_rate : '—' }}</strong>
-                            </div>
-
-                            <div class="employee-info-row">
-                                <span>{{ __('employee.travel_cost') }}</span>
-                                <strong>{{ $activeOrder->travel_cost !== null ? $activeOrder->travel_cost : '—' }}</strong>
-                            </div>
-
-                            <div class="employee-info-row">
-                                <span>{{ __('employee.travel_cost_unit') }}</span>
-                                <strong>{{ $activeOrder->travel_cost_unit ?: '—' }}</strong>
-                            </div>
-
-                            <div class="employee-info-row">
-                                <span>{{ __('employee.meal_allowance') }}</span>
-                                <strong>{{ $activeOrder->meal_allowance !== null ? $activeOrder->meal_allowance : '—' }}</strong>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12 col-lg-6">
-                    <div class="employee-info-card h-100">
-                        <div class="employee-section-title">
-                            <i class="bi bi-input-cursor-text"></i>
-                            <span>{{ __('employee.custom_fields_title') }}</span>
-                        </div>
-
-                        <div class="employee-info-list">
-                            @if($activeOrder->custom_field_1_label || $activeOrder->custom_field_1_value)
-                                <div class="employee-info-row employee-info-row-stack">
-                                    <span>{{ $activeOrder->custom_field_1_label ?: __('employee.custom_field_1') }}</span>
-                                    <strong>{{ $activeOrder->custom_field_1_value ?: '—' }}</strong>
-                                </div>
-                            @endif
-
-                            @if($activeOrder->custom_field_2_label || $activeOrder->custom_field_2_value)
-                                <div class="employee-info-row employee-info-row-stack">
-                                    <span>{{ $activeOrder->custom_field_2_label ?: __('employee.custom_field_2') }}</span>
-                                    <strong>{{ $activeOrder->custom_field_2_value ?: '—' }}</strong>
-                                </div>
-                            @endif
-
-                            @if(
-                                !($activeOrder->custom_field_1_label || $activeOrder->custom_field_1_value) &&
-                                !($activeOrder->custom_field_2_label || $activeOrder->custom_field_2_value)
-                            )
-                                <div class="employee-info-empty">
-                                    {{ __('employee.no_custom_fields') }}
-                                </div>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="employee-next-step-note">
-                <i class="bi bi-info-circle"></i>
-                <span>{{ __('employee.response_buttons_coming') }}</span>
-            </div>
-        </div>
-    @else
-        <div class="card-soft order-placeholder">
-            <div class="placeholder-icon">
-                <i class="bi bi-clipboard2-check"></i>
-            </div>
-
-            <div class="placeholder-title">{{ __('employee.no_active_order_title') }}</div>
-            <div class="placeholder-text">{{ __('employee.no_active_order_text') }}</div>
-
-            <div class="info-list">
-                <div class="info-item">
-                    <i class="bi bi-eye"></i>
-                    <div>
-                        <div class="info-item-title">{{ __('employee.info_visibility_title') }}</div>
-                        <div class="info-item-text">{{ __('employee.info_visibility_text') }}</div>
-                    </div>
-                </div>
-
-                <div class="info-item">
-                    <i class="bi bi-phone"></i>
-                    <div>
-                        <div class="info-item-title">{{ __('employee.info_mobile_title') }}</div>
-                        <div class="info-item-text">{{ __('employee.info_mobile_text') }}</div>
-                    </div>
-                </div>
-
-                <div class="info-item">
-                    <i class="bi bi-arrow-repeat"></i>
-                    <div>
-                        <div class="info-item-title">{{ __('employee.info_response_title') }}</div>
-                        <div class="info-item-text">{{ __('employee.info_response_text') }}</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
-
-    <div class="employee-footer-actions">
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button type="submit" class="btn btn-soft-light w-100">
-                <i class="bi bi-box-arrow-right me-1"></i>
-                {{ __('auth.logout') }}
-            </button>
-        </form>
-    </div>
-@endsection
-
-@push('styles')
 <style>
-    .employee-order-card {
-        padding: 22px;
-        overflow: hidden;
+    :root {
+        --page-bg: #edf2f8;
+        --card-bg: #ffffff;
+        --text-main: #183153;
+        --text-soft: #6c809c;
+        --border-soft: #d9e2ee;
+        --shadow-soft: 0 10px 30px rgba(24, 49, 83, 0.08);
+        --radius-xl: 28px;
+        --radius-lg: 22px;
+        --radius-md: 18px;
+
+        --yes-bg: linear-gradient(135deg, #5dd7b2 0%, #38c9b5 100%);
+        --maybe-bg: linear-gradient(135deg, #f7dc84 0%, #f0c759 100%);
+        --no-bg: linear-gradient(135deg, #ff9a9a 0%, #ff7a7a 100%);
+
+        --yes-text: #0f9f7f;
+        --maybe-text: #9d6b00;
+        --no-text: #d94b4b;
     }
 
-    .employee-order-head {
+    body {
+        background: linear-gradient(180deg, #f4f7fb 0%, #eaf0f7 100%);
+        color: var(--text-main);
+    }
+
+    .employee-shell {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 18px 14px 120px;
+    }
+
+    .phone-frame {
+        background: rgba(255, 255, 255, 0.35);
+        border: 1px solid rgba(24, 49, 83, 0.08);
+        border-radius: 34px;
+        box-shadow: 0 20px 45px rgba(24, 49, 83, 0.12);
+        overflow: hidden;
+        backdrop-filter: blur(8px);
+    }
+
+    .employee-topbar {
+        background: #f8fbff;
+        border-bottom: 1px solid var(--border-soft);
+        padding: 16px 18px;
+    }
+
+    .employee-brand-row {
         display: flex;
+        align-items: center;
         justify-content: space-between;
-        align-items: flex-start;
-        gap: 16px;
+        gap: 14px;
         flex-wrap: wrap;
     }
 
-    .employee-order-head-left {
+    .employee-brand {
         display: flex;
-        align-items: flex-start;
+        align-items: center;
         gap: 14px;
+        min-width: 0;
     }
 
-    .employee-order-icon {
-        width: 58px;
-        height: 58px;
-        border-radius: 18px;
-        display: inline-flex;
+    .employee-logo-wrap {
+        width: 50px;
+        height: 50px;
+        border-radius: 14px;
+        background: #ffffff;
+        display: flex;
         align-items: center;
         justify-content: center;
-        background: linear-gradient(180deg, #eef6ff 0%, #e1efff 100%);
-        color: #2f80ed;
-        font-size: 1.35rem;
+        box-shadow: var(--shadow-soft);
+        overflow: hidden;
         flex-shrink: 0;
     }
 
-    .employee-order-label {
-        font-size: .78rem;
-        font-weight: 800;
-        color: #5f84c7;
-        text-transform: uppercase;
-        letter-spacing: .08em;
-        margin-bottom: 6px;
+    .employee-logo-wrap img {
+        max-width: 78%;
+        max-height: 78%;
+        object-fit: contain;
     }
 
-    .employee-order-title {
-        font-size: 1.4rem;
-        font-weight: 900;
-        color: #163253;
+    .employee-brand-text h1 {
+        font-size: 1.05rem;
+        font-weight: 800;
         margin: 0;
+        letter-spacing: 0.02em;
+    }
+
+    .employee-brand-text p {
+        margin: 2px 0 0;
+        color: var(--text-soft);
+        font-size: 0.9rem;
+    }
+
+    .employee-user-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: #fff;
+        border: 1px solid var(--border-soft);
+        padding: 8px 12px;
+        border-radius: 999px;
+        box-shadow: var(--shadow-soft);
+        color: var(--text-main);
+        font-weight: 700;
+        font-size: 0.95rem;
+    }
+
+    .employee-user-avatar {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: #184f90;
+        color: #fff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 0.95rem;
+    }
+
+    .employee-content {
+        background: #f5f8fc;
+        padding: 22px 16px 24px;
+    }
+
+    .section-title {
+        font-size: 2rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+        line-height: 1.15;
+        color: var(--text-main);
+    }
+
+    .soft-card {
+        background: var(--card-bg);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-soft);
+        border: 1px solid rgba(24, 49, 83, 0.04);
+    }
+
+    .order-main-card {
+        padding: 24px 22px;
+        margin-bottom: 16px;
+    }
+
+    .order-title {
+        font-size: 1.8rem;
+        font-weight: 800;
+        line-height: 1.2;
+        margin-bottom: 14px;
+        color: var(--text-main);
+    }
+
+    .order-lines {
+        display: grid;
+        gap: 8px;
+    }
+
+    .order-line {
+        font-size: 1.25rem;
+        line-height: 1.45;
+        color: var(--text-main);
+    }
+
+    .order-line .label {
+        color: var(--text-soft);
+        margin-right: 4px;
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-bottom: 18px;
+    }
+
+    .info-card {
+        padding: 16px 18px;
+        min-height: 88px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .info-card.single-line {
+        min-height: 76px;
+    }
+
+    .info-label {
+        font-size: 1rem;
+        color: var(--text-soft);
+        margin-bottom: 6px;
         line-height: 1.2;
     }
 
-    .employee-order-subtitle {
-        margin: 6px 0 0;
-        color: #6b7a90;
-    }
-
-    .employee-status-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 14px;
-        border-radius: 999px;
-        background: #dcfce7;
-        color: #166534;
+    .info-value {
+        font-size: 1.45rem;
         font-weight: 800;
-        font-size: .88rem;
+        line-height: 1.2;
+        color: var(--text-main);
+        word-break: break-word;
     }
 
-    .employee-order-meta {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 18px;
+    .info-value small {
+        font-weight: 600;
+        font-size: 1rem;
+        color: var(--text-soft);
     }
 
-    .employee-meta-chip {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 14px;
-        border-radius: 999px;
-        background: #f8fbff;
-        border: 1px solid #e4edf6;
-        color: #46607d;
-        font-weight: 700;
-        font-size: .9rem;
+    .response-card {
+        padding: 22px 16px;
+        margin-bottom: 18px;
     }
 
-    .employee-meta-chip i {
-        color: #2f80ed;
-    }
-
-    .employee-order-section {
-        margin-top: 18px;
-    }
-
-    .employee-section-title {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: .95rem;
-        font-weight: 800;
-        color: #163253;
-        margin-bottom: 12px;
-    }
-
-    .employee-section-title i {
-        color: #2f80ed;
-    }
-
-    .employee-description-box {
-        padding: 16px;
-        border-radius: 18px;
-        background: #f8fbff;
-        border: 1px solid #e7eef6;
-        color: #1f2d3d;
-        line-height: 1.7;
-        font-weight: 500;
-    }
-
-    .employee-info-card {
-        padding: 18px;
-        border-radius: 20px;
-        background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
-        border: 1px solid #e7eef6;
-    }
-
-    .employee-info-list {
+    .response-grid {
         display: grid;
+        grid-template-columns: repeat(3, 1fr);
         gap: 12px;
+        text-align: center;
     }
 
-    .employee-info-row {
+    .response-option {
+        border: none;
+        background: transparent;
+        padding: 8px;
+        border-radius: 18px;
+        transition: transform 0.18s ease, background 0.18s ease;
+        color: var(--text-main);
+    }
+
+    .response-option:active {
+        transform: scale(0.97);
+    }
+
+    .response-option.selected-yes {
+        background: rgba(56, 201, 181, 0.1);
+    }
+
+    .response-option.selected-maybe {
+        background: rgba(240, 199, 89, 0.16);
+    }
+
+    .response-option.selected-no {
+        background: rgba(255, 122, 122, 0.12);
+    }
+
+    .response-circle {
+        width: 82px;
+        height: 82px;
+        border-radius: 50%;
+        margin: 0 auto 12px;
         display: flex;
-        justify-content: space-between;
-        gap: 14px;
-        padding: 12px 14px;
-        border-radius: 14px;
-        background: #f9fbfe;
-        border: 1px solid #ebf1f7;
-        font-size: .94rem;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.6rem;
+        font-weight: 900;
+        color: #fff;
+        box-shadow: 0 8px 18px rgba(24, 49, 83, 0.12);
     }
 
-    .employee-info-row span {
-        color: #6b7a90;
+    .response-circle.yes {
+        background: var(--yes-bg);
+    }
+
+    .response-circle.maybe {
+        background: var(--maybe-bg);
+    }
+
+    .response-circle.no {
+        background: var(--no-bg);
+    }
+
+    .response-text {
+        font-size: 1.15rem;
+        font-weight: 700;
+        line-height: 1.25;
+    }
+
+    .response-text.yes {
+        color: var(--yes-text);
+    }
+
+    .response-text.maybe {
+        color: #7f6208;
+    }
+
+    .response-text.no {
+        color: var(--no-text);
+    }
+
+    .account-card {
+        padding: 18px 18px;
+        color: var(--text-soft);
+        font-size: 1rem;
+        line-height: 1.45;
+    }
+
+    .account-card a {
+        color: #2b6cb0;
+        text-decoration: none;
         font-weight: 600;
     }
 
-    .employee-info-row strong {
-        color: #163253;
+    .account-card a:hover {
+        text-decoration: underline;
+    }
+
+    .sticky-response-bar {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 50;
+        padding: 12px 14px max(14px, env(safe-area-inset-bottom));
+        background: rgba(245, 248, 252, 0.92);
+        backdrop-filter: blur(14px);
+        border-top: 1px solid rgba(24, 49, 83, 0.08);
+    }
+
+    .sticky-response-inner {
+        max-width: 760px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .sticky-response-btn {
+        border: none;
+        border-radius: 999px;
+        min-height: 58px;
+        padding: 12px 18px;
+        font-size: 1.15rem;
         font-weight: 800;
-        text-align: right;
-    }
-
-    .employee-info-row-stack {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .employee-info-row-stack strong {
-        text-align: left;
-    }
-
-    .employee-info-empty {
-        padding: 14px;
-        border-radius: 14px;
-        background: #f9fbfe;
-        border: 1px dashed #dfe8f2;
-        color: #6b7a90;
-        font-size: .93rem;
-    }
-
-    .employee-next-step-note {
         display: inline-flex;
         align-items: center;
-        gap: 8px;
-        margin-top: 18px;
-        padding: 12px 14px;
-        border-radius: 14px;
-        background: #fff8e8;
-        color: #8a6400;
-        font-weight: 700;
-        font-size: .9rem;
+        justify-content: center;
+        gap: 10px;
+        box-shadow: 0 10px 22px rgba(24, 49, 83, 0.12);
+        color: var(--text-main);
     }
 
-    @media (max-width: 576px) {
-        .employee-order-card {
-            padding: 18px;
+    .sticky-response-btn .icon {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.82);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        font-weight: 900;
+    }
+
+    .sticky-response-btn.yes {
+        background: var(--yes-bg);
+        color: #fff;
+    }
+
+    .sticky-response-btn.maybe {
+        background: var(--maybe-bg);
+        color: #183153;
+    }
+
+    .sticky-response-btn.no {
+        background: var(--no-bg);
+        color: #183153;
+    }
+
+    .sticky-response-btn.is-selected {
+        outline: 3px solid rgba(24, 49, 83, 0.14);
+    }
+
+    .empty-state {
+        padding: 42px 20px;
+        text-align: center;
+    }
+
+    .empty-state h3 {
+        font-weight: 800;
+        margin-bottom: 8px;
+    }
+
+    .empty-state p {
+        color: var(--text-soft);
+        margin: 0;
+    }
+
+    .flash-wrap {
+        margin-bottom: 14px;
+    }
+
+    @media (min-width: 576px) {
+        .employee-shell {
+            padding: 28px 22px 132px;
         }
 
-        .employee-order-head {
-            flex-direction: column;
-            align-items: stretch;
+        .employee-content {
+            padding: 28px 22px 28px;
         }
 
-        .employee-info-row {
-            flex-direction: column;
+        .info-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .sticky-response-inner {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        .section-title {
+            font-size: 1.8rem;
+        }
+
+        .order-title {
+            font-size: 1.55rem;
+        }
+
+        .order-line {
+            font-size: 1.08rem;
+        }
+
+        .info-value {
+            font-size: 1.22rem;
+        }
+
+        .response-circle {
+            width: 72px;
+            height: 72px;
+            font-size: 2.2rem;
+        }
+
+        .response-text {
+            font-size: 1rem;
+        }
+
+        .employee-brand-row {
             align-items: flex-start;
         }
 
-        .employee-info-row strong {
-            text-align: left;
+        .employee-user-chip {
+            font-size: 0.9rem;
         }
     }
 </style>
-@endpush
+
+<div class="employee-shell">
+    <div class="phone-frame">
+        <div class="employee-topbar">
+            <div class="employee-brand-row">
+                <div class="employee-brand">
+                    <div class="employee-logo-wrap">
+                        <img src="{{ asset('assets/images/logo.png') }}" alt="Logo">
+                    </div>
+
+                    <div class="employee-brand-text">
+                        <h1>MEDIAAV</h1>
+                        <p>{{ __('Employee Dashboard') }}</p>
+                    </div>
+                </div>
+
+                <div class="employee-user-chip">
+                    <span>{{ auth()->user()->name ?? 'Employee' }}</span>
+                    <span class="employee-user-avatar">
+                        {{ strtoupper(substr(auth()->user()->name ?? 'E', 0, 1)) }}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="employee-content">
+            <div class="flash-wrap">
+                @if(session('success'))
+                    <div class="alert alert-success mb-3">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if(session('error'))
+                    <div class="alert alert-danger mb-3">
+                        {{ session('error') }}
+                    </div>
+                @endif
+            </div>
+
+            @if($activeOrder)
+                <h2 class="section-title">{{ __('Neuer Auftrag') }}</h2>
+
+                <div class="soft-card order-main-card">
+                    <div class="order-title">
+                        {{ $activeOrder->title }}
+                    </div>
+
+                    <div class="order-lines">
+                        @if($activeOrder->location)
+                            <div class="order-line">
+                                <span class="label">{{ __('Ort:') }}</span>{{ $activeOrder->location }}
+                            </div>
+                        @endif
+
+                        @if($activeOrder->start_date || $activeOrder->end_date)
+                            <div class="order-line">
+                                <span class="label">{{ __('Datum:') }}</span>
+                                {{ $activeOrder->start_date?->format('d.m.Y') }}
+                                @if($activeOrder->end_date)
+                                    &nbsp;–&nbsp;{{ $activeOrder->end_date->format('d.m.Y') }}
+                                @endif
+                            </div>
+                        @endif
+
+                        @if($activeOrder->team_info)
+                            <div class="order-line">
+                                <span class="label">{{ __('Team:') }}</span>{{ $activeOrder->team_info }}
+                            </div>
+                        @endif
+
+                        @if($activeOrder->description)
+                            <div class="order-line">
+                                {!! nl2br(e($activeOrder->description)) !!}
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="info-grid">
+                    @if($activeOrder->start_date || $activeOrder->end_date)
+                        <div class="soft-card info-card single-line" style="grid-column: 1 / -1;">
+                            <div class="info-value" style="font-size: 1.25rem;">
+                                📅
+                                {{ $activeOrder->start_date?->format('d.m.Y') }}
+                                @if($activeOrder->end_date)
+                                    &nbsp;–&nbsp;{{ $activeOrder->end_date->format('d.m.Y') }}
+                                @endif
+                            </div>
+                        </div>
+                    @endif
+
+                    @if(!is_null($activeOrder->hourly_rate))
+                        <div class="soft-card info-card">
+                            <div class="info-label">{{ __('Stundensatz') }}</div>
+                            <div class="info-value">
+                                {{ number_format($activeOrder->hourly_rate, 2, ',', '.') }} €
+                                <small>{{ __('/ Stunde') }}</small>
+                            </div>
+                        </div>
+                    @endif
+
+                    @if(!is_null($activeOrder->travel_cost))
+                        <div class="soft-card info-card">
+                            <div class="info-label">{{ __('Fahrtkosten') }}</div>
+                            <div class="info-value">
+                                {{ number_format($activeOrder->travel_cost, 2, ',', '.') }} €
+                                @if($activeOrder->travel_cost_unit)
+                                    <small>/ {{ $activeOrder->travel_cost_unit }}</small>
+                                @endif
+                            </div>
+                        </div>
+                    @endif
+
+                    @if(!is_null($activeOrder->meal_allowance))
+                        <div class="soft-card info-card">
+                            <div class="info-label">{{ __('Verpflegung') }}</div>
+                            <div class="info-value">
+                                {{ number_format($activeOrder->meal_allowance, 2, ',', '.') }} €
+                            </div>
+                        </div>
+                    @endif
+
+                    @if($activeOrder->custom_field_1_label)
+                        <div class="soft-card info-card">
+                            <div class="info-label">{{ $activeOrder->custom_field_1_label }}</div>
+                            <div class="info-value">
+                                {{ $activeOrder->custom_field_1_value ?: '—' }}
+                            </div>
+                        </div>
+                    @endif
+
+                    @if($activeOrder->custom_field_2_label)
+                        <div class="soft-card info-card">
+                            <div class="info-label">{{ $activeOrder->custom_field_2_label }}</div>
+                            <div class="info-value">
+                                {{ $activeOrder->custom_field_2_value ?: '—' }}
+                            </div>
+                        </div>
+                    @endif
+                </div>
+
+                <div class="soft-card response-card">
+                    <form method="POST" action="{{ route('employee.orders.response.store', $activeOrder) }}">
+                        @csrf
+
+                        @error('response')
+                            <div class="text-danger small mb-3">{{ $message }}</div>
+                        @enderror
+
+                        <div class="response-grid">
+                            <button type="submit"
+                                    name="response"
+                                    value="yes"
+                                    class="response-option {{ $myResponse?->response === 'yes' ? 'selected-yes' : '' }}">
+                                <div class="response-circle yes">✓</div>
+                                <div class="response-text yes">{{ __('Ja, bin dabei') }}</div>
+                            </button>
+
+                            <button type="submit"
+                                    name="response"
+                                    value="maybe"
+                                    class="response-option {{ $myResponse?->response === 'maybe' ? 'selected-maybe' : '' }}">
+                                <div class="response-circle maybe">?</div>
+                                <div class="response-text maybe">{{ __('Eventuell') }}</div>
+                            </button>
+
+                            <button type="submit"
+                                    name="response"
+                                    value="no"
+                                    class="response-option {{ $myResponse?->response === 'no' ? 'selected-no' : '' }}">
+                                <div class="response-circle no">✕</div>
+                                <div class="response-text no">{{ __('Nein, bin raus') }}</div>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="soft-card account-card">
+                    {{ __('Angemeldet als:') }}
+                    <a href="mailto:{{ auth()->user()->email }}">{{ auth()->user()->email }}</a>
+                    &nbsp;&nbsp;|&nbsp;&nbsp;
+                    <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                        @csrf
+                        <button type="submit"
+                                style="background:none;border:none;padding:0;color:#2b6cb0;font-weight:600;">
+                            {{ __('Abmelden') }}
+                        </button>
+                    </form>
+
+                    @if($myResponse)
+                        <div class="mt-2 small">
+                            {{ __('Aktuelle Antwort:') }}
+                            <strong>{{ ucfirst($myResponse->response) }}</strong>
+                            @if($myResponse->responded_at)
+                                · {{ $myResponse->responded_at->format('d.m.Y H:i') }}
+                            @endif
+                        </div>
+                    @endif
+                </div>
+            @else
+                <div class="soft-card empty-state">
+                    <h3>{{ __('Kein aktiver Auftrag verfügbar') }}</h3>
+                    <p>{{ __('Bitte später erneut prüfen.') }}</p>
+                </div>
+            @endif
+        </div>
+    </div>
+</div>
+
+@if($activeOrder)
+    <div class="sticky-response-bar">
+        <div class="sticky-response-inner">
+            <form method="POST" action="{{ route('employee.orders.response.store', $activeOrder) }}">
+                @csrf
+                <input type="hidden" name="response" value="yes">
+                <button type="submit"
+                        class="sticky-response-btn yes {{ $myResponse?->response === 'yes' ? 'is-selected' : '' }}">
+                    <span class="icon">✓</span>
+                    <span>{{ __('Ja, bin dabei') }}</span>
+                </button>
+            </form>
+
+            <form method="POST" action="{{ route('employee.orders.response.store', $activeOrder) }}">
+                @csrf
+                <input type="hidden" name="response" value="maybe">
+                <button type="submit"
+                        class="sticky-response-btn maybe {{ $myResponse?->response === 'maybe' ? 'is-selected' : '' }}">
+                    <span class="icon">?</span>
+                    <span>{{ __('Eventuell') }}</span>
+                </button>
+            </form>
+
+            <form method="POST" action="{{ route('employee.orders.response.store', $activeOrder) }}">
+                @csrf
+                <input type="hidden" name="response" value="no">
+                <button type="submit"
+                        class="sticky-response-btn no {{ $myResponse?->response === 'no' ? 'is-selected' : '' }}">
+                    <span class="icon">✕</span>
+                    <span>{{ __('Nein, bin raus') }}</span>
+                </button>
+            </form>
+        </div>
+    </div>
+@endif
+@endsection
