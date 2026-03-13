@@ -17,7 +17,7 @@
     <div class="admin-app">
         <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-        <aside class="admin-sidebar mobile-hidden" id="adminSidebar">
+        <aside class="admin-sidebar" id="adminSidebar">
             <div class="brand-box">
                 <div class="brand-wrap">
                     <div class="brand-icon">
