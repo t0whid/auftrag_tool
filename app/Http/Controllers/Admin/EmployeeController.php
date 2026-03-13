@@ -32,7 +32,6 @@ class EmployeeController extends Controller
             'username' => ['required', 'string', 'max:255', 'unique:users,username'],
             'email' => ['nullable', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
-            'status' => ['required', 'boolean'],
         ]);
 
         User::create([
@@ -41,7 +40,6 @@ class EmployeeController extends Controller
             'email' => $validated['email'] ?? null,
             'password' => $validated['password'],
             'role' => 'employee',
-            'status' => (bool) $validated['status'],
         ]);
 
         return redirect()

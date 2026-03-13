@@ -43,4 +43,7 @@ return [
     'employee_deleted' => 'Mitarbeiter erfolgreich gelöscht.',
     'created_at' => 'Erstellt am',
     'updated_at' => 'Aktualisiert am',
+    'back' => 'Zurück',
+    'personal_information' => 'Persönliche Informationen',
+    'security_information' => 'Sicherheitsinformationen',
 ];

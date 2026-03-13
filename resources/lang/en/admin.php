@@ -43,4 +43,7 @@ return [
     'employee_deleted' => 'Employee deleted successfully.',
     'created_at' => 'Created At',
     'updated_at' => 'Updated At',
+    'back' => 'Back',
+    'personal_information' => 'Personal Information',
+    'security_information' => 'Security Information',
 ];
