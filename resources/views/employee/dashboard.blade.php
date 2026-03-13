@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -44,7 +45,8 @@
             box-sizing: border-box;
         }
 
-        html, body {
+        html,
+        body {
             margin: 0;
             padding: 0;
         }
@@ -81,7 +83,7 @@
 
         .topbar {
             padding: 20px 34px;
-            background: rgba(255,255,255,0.72);
+            background: rgba(255, 255, 255, 0.72);
             border-bottom: 1px solid var(--stroke);
             display: flex;
             align-items: center;
@@ -116,7 +118,7 @@
             gap: 6px;
             padding: 6px;
             border-radius: 999px;
-            background: rgba(255,255,255,0.96);
+            background: rgba(255, 255, 255, 0.96);
             border: 1px solid var(--stroke);
             box-shadow: var(--shadow-soft);
         }
@@ -143,7 +145,7 @@
 
         .user-dropdown .btn {
             border: 1px solid var(--stroke);
-            background: rgba(255,255,255,0.96);
+            background: rgba(255, 255, 255, 0.96);
             border-radius: 999px;
             padding: 7px 10px 7px 16px;
             color: var(--text);
@@ -171,7 +173,7 @@
             font-size: 1rem;
             font-weight: 800;
             box-shadow: 0 6px 14px rgba(28, 75, 131, 0.22);
-            border: 3px solid rgba(255,255,255,0.95);
+            border: 3px solid rgba(255, 255, 255, 0.95);
         }
 
         .dropdown-menu-modern {
@@ -229,7 +231,7 @@
         }
 
         .card-soft {
-            background: rgba(255,255,255,0.78);
+            background: rgba(255, 255, 255, 0.78);
             border: 1px solid rgba(217, 226, 238, 0.72);
             border-radius: var(--radius-xl);
             box-shadow: var(--shadow);
@@ -271,7 +273,7 @@
 
         .info-card {
             grid-column: span 6;
-            background: rgba(255,255,255,0.84);
+            background: rgba(255, 255, 255, 0.84);
             border: 1px solid var(--stroke-soft);
             border-radius: var(--radius-lg);
             box-shadow: var(--shadow-soft);
@@ -293,7 +295,7 @@
             border-radius: 16px;
             display: grid;
             place-items: center;
-            background: linear-gradient(135deg, rgba(65,169,232,0.15), rgba(65,169,232,0.08));
+            background: linear-gradient(135deg, rgba(65, 169, 232, 0.15), rgba(65, 169, 232, 0.08));
             color: var(--brand);
             font-size: 1.2rem;
         }
@@ -332,7 +334,7 @@
             align-items: center;
             justify-content: space-between;
             gap: 14px;
-            background: rgba(255,255,255,0.74);
+            background: rgba(255, 255, 255, 0.74);
             border: 1px solid var(--stroke);
             box-shadow: var(--shadow-soft);
         }
@@ -424,7 +426,7 @@
             place-items: center;
             color: #fff;
             font-size: 2.15rem;
-            box-shadow: 0 12px 24px rgba(0,0,0,0.10);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.10);
         }
 
         .response-btn .label {
@@ -477,7 +479,7 @@
             bottom: 0;
             z-index: 20;
             padding: 18px 26px 26px;
-            background: linear-gradient(to top, rgba(255,255,255,0.96), rgba(255,255,255,0.82), rgba(255,255,255,0));
+            background: linear-gradient(to top, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0));
             backdrop-filter: blur(8px);
             border-top: 1px solid rgba(217, 226, 238, 0.45);
         }
@@ -550,7 +552,7 @@
             place-items: center;
             font-size: 2rem;
             color: var(--brand);
-            background: linear-gradient(135deg, rgba(65,169,232,0.14), rgba(65,169,232,0.06));
+            background: linear-gradient(135deg, rgba(65, 169, 232, 0.14), rgba(65, 169, 232, 0.06));
         }
 
         .toast-container-custom {
@@ -703,361 +705,363 @@
         }
     </style>
 </head>
+
 <body>
 
-@php
-    $userName = auth()->user()->name ?? 'Employee';
-    $userEmail = auth()->user()->email ?? 'employee@gmail.com';
+    @php
+        $userName = auth()->user()->name ?? 'Employee';
+        $userEmail = auth()->user()->email ?? 'employee@gmail.com';
 
-    $currentResponseClass = match($myResponse->response ?? null) {
-        'yes' => 'yes',
-        'maybe' => 'maybe',
-        'no' => 'no',
-        default => '',
-    };
+        $currentResponseClass = match ($myResponse->response ?? null) {
+            'yes' => 'yes',
+            'maybe' => 'maybe',
+            'no' => 'no',
+            default => '',
+        };
 
-    $currentResponseText = match($myResponse->response ?? null) {
-        'yes' => __('order.yes'),
-        'maybe' => __('order.possibly'),
-        'no' => __('order.no'),
-        default => __('order.no_response_yet'),
-    };
-@endphp
+        $currentResponseText = match ($myResponse->response ?? null) {
+            'yes' => __('order.yes'),
+            'maybe' => __('order.possibly'),
+            'no' => __('order.no'),
+            default => __('order.no_response_yet'),
+        };
+    @endphp
 
-<div class="page-wrap">
-    <div class="dashboard-shell">
+    <div class="page-wrap">
+        <div class="dashboard-shell">
 
-        <header class="topbar">
-            <div class="brand-wrap">
-                <img src="{{ asset('assets/images/logo.png') }}" alt="MEDIAAV" class="brand-logo">
-            </div>
-
-            <div class="topbar-right">
-                <div class="lang-switcher">
-                    <a href="{{ route('lang.switch', ['locale' => 'de']) }}"
-                       class="{{ app()->getLocale() === 'de' ? 'active' : '' }}">
-                        DE
-                    </a>
-                    <a href="{{ route('lang.switch', ['locale' => 'en']) }}"
-                       class="{{ app()->getLocale() === 'en' ? 'active' : '' }}">
-                        EN
-                    </a>
+            <header class="topbar">
+                <div class="brand-wrap">
+                    <img src="{{ asset('assets/images/logo.png') }}" alt="MEDIAAV" class="brand-logo">
                 </div>
 
-                <div class="dropdown user-dropdown">
-                    <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <div class="avatar-circle">E</div>
-                    </button>
-
-                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-modern">
-                        <li>
-                            <div class="dropdown-user-head">
-                                <div class="dropdown-user-name">{{ $userName }}</div>
-                                <div class="dropdown-user-email">{{ $userEmail }}</div>
-                            </div>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="mailto:{{ $userEmail }}">
-                                <i class="fa-regular fa-envelope"></i>
-                                <span>{{ $userEmail }}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="{{ route('logout') }}">
-                                <i class="fa-solid fa-right-from-bracket"></i>
-                                <span>{{ __('order.logout') }}</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </header>
-
-        <main class="page-body">
-            <h1 class="page-heading">{{ __('order.new_order') }}</h1>
-
-            @if($activeOrder)
-                <section class="card-soft order-hero">
-                    <h2 class="order-title">{{ $activeOrder->title }}</h2>
-
-                    <div class="order-lines">
-                        @if($activeOrder->location)
-                            <div>
-                                <strong>{{ __('order.location') }}:</strong> {{ $activeOrder->location }}
-                            </div>
-                        @endif
-
-                        <div>
-                            <strong>{{ __('order.date') }}:</strong>
-                            {{ $activeOrder->start_date?->format('d.m.Y') }}
-                            @if($activeOrder->end_date)
-                                – {{ $activeOrder->end_date->format('d.m.Y') }}
-                            @endif
-                        </div>
-
-                        @if($activeOrder->team_info)
-                            <div>
-                                <strong>{{ __('order.team_info') }}:</strong> {{ $activeOrder->team_info }}
-                            </div>
-                        @endif
-
-                        @if($activeOrder->description)
-                            <div>
-                                <strong>{{ __('order.description') }}:</strong>
-                                {!! nl2br(e($activeOrder->description)) !!}
-                            </div>
-                        @endif
+                <div class="topbar-right">
+                    <div class="lang-switcher">
+                        <a href="{{ route('lang.switch', ['locale' => 'de']) }}"
+                            class="{{ app()->getLocale() === 'de' ? 'active' : '' }}">
+                            DE
+                        </a>
+                        <a href="{{ route('lang.switch', ['locale' => 'en']) }}"
+                            class="{{ app()->getLocale() === 'en' ? 'active' : '' }}">
+                            EN
+                        </a>
                     </div>
-                </section>
 
-                <section class="grid-cards">
-                    <div class="info-card full">
-                        <div class="info-icon">
-                            <i class="fa-regular fa-calendar-days"></i>
-                        </div>
-                        <div class="info-content">
-                            <div class="info-label">{{ __('order.date') }}</div>
-                            <div class="info-value">
+                    <div class="dropdown user-dropdown">
+                        <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <div class="avatar-circle">E</div>
+                        </button>
+
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-modern">
+                            <li>
+                                <div class="dropdown-user-head">
+                                    <div class="dropdown-user-name">{{ $userName }}</div>
+                                    <div class="dropdown-user-email">{{ $userEmail }}</div>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="mailto:{{ $userEmail }}">
+                                    <i class="fa-regular fa-envelope"></i>
+                                    <span>{{ $userEmail }}</span>
+                                </a>
+                            </li>
+                            <li>
+                               
+                                <form method="POST" action="{{ route('logout') }}" class="dropdown-item">
+                                    @csrf
+                                    <button type="submit" class="sidebar-logout-btn w-100">
+                                        <i class="bi bi-box-arrow-right"></i>
+                                        <span class="sidebar-label">{{ __('order.logout') }}</span>
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </header>
+
+            <main class="page-body">
+                <h1 class="page-heading">{{ __('order.new_order') }}</h1>
+
+                @if ($activeOrder)
+                    <section class="card-soft order-hero">
+                        <h2 class="order-title">{{ $activeOrder->title }}</h2>
+
+                        <div class="order-lines">
+                            @if ($activeOrder->location)
+                                <div>
+                                    <strong>{{ __('order.location') }}:</strong> {{ $activeOrder->location }}
+                                </div>
+                            @endif
+
+                            <div>
+                                <strong>{{ __('order.date') }}:</strong>
                                 {{ $activeOrder->start_date?->format('d.m.Y') }}
-                                @if($activeOrder->end_date)
+                                @if ($activeOrder->end_date)
                                     – {{ $activeOrder->end_date->format('d.m.Y') }}
                                 @endif
                             </div>
-                        </div>
-                    </div>
 
-                    @if($activeOrder->hourly_rate !== null)
-                        <div class="info-card">
-                            <div class="info-icon">
-                                <i class="fa-regular fa-clock"></i>
-                            </div>
-                            <div class="info-content">
-                                <div class="info-label">{{ __('order.hourly_rate') }}</div>
-                                <div class="info-value">
-                                    {{ number_format($activeOrder->hourly_rate, 2) }} €
-                                    <small>/ {{ __('order.hour') }}</small>
+                            @if ($activeOrder->team_info)
+                                <div>
+                                    <strong>{{ __('order.team_info') }}:</strong> {{ $activeOrder->team_info }}
                                 </div>
-                            </div>
-                        </div>
-                    @endif
+                            @endif
 
-                    @if($activeOrder->travel_cost !== null)
-                        <div class="info-card">
+                            @if ($activeOrder->description)
+                                <div>
+                                    <strong>{{ __('order.description') }}:</strong>
+                                    {!! nl2br(e($activeOrder->description)) !!}
+                                </div>
+                            @endif
+                        </div>
+                    </section>
+
+                    <section class="grid-cards">
+                        <div class="info-card full">
                             <div class="info-icon">
-                                <i class="fa-solid fa-road"></i>
+                                <i class="fa-regular fa-calendar-days"></i>
                             </div>
                             <div class="info-content">
-                                <div class="info-label">{{ __('order.travel_cost') }}</div>
+                                <div class="info-label">{{ __('order.date') }}</div>
                                 <div class="info-value">
-                                    {{ number_format($activeOrder->travel_cost, 2) }} €
-                                    @if($activeOrder->travel_cost_unit)
-                                        <small>/ {{ $activeOrder->travel_cost_unit }}</small>
+                                    {{ $activeOrder->start_date?->format('d.m.Y') }}
+                                    @if ($activeOrder->end_date)
+                                        – {{ $activeOrder->end_date->format('d.m.Y') }}
                                     @endif
                                 </div>
                             </div>
                         </div>
-                    @endif
 
-                    @if($activeOrder->meal_allowance !== null)
-                        <div class="info-card">
-                            <div class="info-icon">
-                                <i class="fa-solid fa-utensils"></i>
+                        @if ($activeOrder->hourly_rate !== null)
+                            <div class="info-card">
+                                <div class="info-icon">
+                                    <i class="fa-regular fa-clock"></i>
+                                </div>
+                                <div class="info-content">
+                                    <div class="info-label">{{ __('order.hourly_rate') }}</div>
+                                    <div class="info-value">
+                                        {{ number_format($activeOrder->hourly_rate, 2) }} €
+                                        <small>/ {{ __('order.hour') }}</small>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="info-content">
-                                <div class="info-label">{{ __('order.meal_allowance') }}</div>
-                                <div class="info-value">{{ number_format($activeOrder->meal_allowance, 2) }} €</div>
+                        @endif
+
+                        @if ($activeOrder->travel_cost !== null)
+                            <div class="info-card">
+                                <div class="info-icon">
+                                    <i class="fa-solid fa-road"></i>
+                                </div>
+                                <div class="info-content">
+                                    <div class="info-label">{{ __('order.travel_cost') }}</div>
+                                    <div class="info-value">
+                                        {{ number_format($activeOrder->travel_cost, 2) }} €
+                                        @if ($activeOrder->travel_cost_unit)
+                                            <small>/ {{ $activeOrder->travel_cost_unit }}</small>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
+                        @if ($activeOrder->meal_allowance !== null)
+                            <div class="info-card">
+                                <div class="info-icon">
+                                    <i class="fa-solid fa-utensils"></i>
+                                </div>
+                                <div class="info-content">
+                                    <div class="info-label">{{ __('order.meal_allowance') }}</div>
+                                    <div class="info-value">{{ number_format($activeOrder->meal_allowance, 2) }} €
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
+                        @if ($activeOrder->custom_field_1_label && $activeOrder->custom_field_1_value)
+                            <div class="info-card">
+                                <div class="info-icon">
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                </div>
+                                <div class="info-content">
+                                    <div class="info-label">{{ $activeOrder->custom_field_1_label }}</div>
+                                    <div class="info-value">{{ $activeOrder->custom_field_1_value }}</div>
+                                </div>
+                            </div>
+                        @endif
+
+                        @if ($activeOrder->custom_field_2_label && $activeOrder->custom_field_2_value)
+                            <div class="info-card">
+                                <div class="info-icon">
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                </div>
+                                <div class="info-content">
+                                    <div class="info-label">{{ $activeOrder->custom_field_2_label }}</div>
+                                    <div class="info-value">{{ $activeOrder->custom_field_2_value }}</div>
+                                </div>
+                            </div>
+                        @endif
+                    </section>
+
+                    @if ($myResponse)
+                        <div class="current-response">
+                            <div class="left">
+                                <div class="title">{{ __('order.your_current_response') }}</div>
+                                <div class="time">
+                                    {{ $myResponse->responded_at?->format('d.m.Y H:i') }}
+                                </div>
+                            </div>
+
+                            <div class="right">
+                                <span class="state-pill {{ $currentResponseClass }}">
+                                    @if ($myResponse->response === 'yes')
+                                        <i class="fa-solid fa-circle-check"></i>
+                                    @elseif($myResponse->response === 'maybe')
+                                        <i class="fa-solid fa-circle-question"></i>
+                                    @else
+                                        <i class="fa-solid fa-circle-xmark"></i>
+                                    @endif
+                                    {{ $currentResponseText }}
+                                </span>
                             </div>
                         </div>
                     @endif
 
-                    @if($activeOrder->custom_field_1_label && $activeOrder->custom_field_1_value)
-                        <div class="info-card">
-                            <div class="info-icon">
-                                <i class="fa-regular fa-pen-to-square"></i>
-                            </div>
-                            <div class="info-content">
-                                <div class="info-label">{{ $activeOrder->custom_field_1_label }}</div>
-                                <div class="info-value">{{ $activeOrder->custom_field_1_value }}</div>
-                            </div>
-                        </div>
-                    @endif
-
-                    @if($activeOrder->custom_field_2_label && $activeOrder->custom_field_2_value)
-                        <div class="info-card">
-                            <div class="info-icon">
-                                <i class="fa-regular fa-pen-to-square"></i>
-                            </div>
-                            <div class="info-content">
-                                <div class="info-label">{{ $activeOrder->custom_field_2_label }}</div>
-                                <div class="info-value">{{ $activeOrder->custom_field_2_value }}</div>
-                            </div>
-                        </div>
-                    @endif
-                </section>
-
-                @if($myResponse)
-                    <div class="current-response">
-                        <div class="left">
-                            <div class="title">{{ __('order.your_current_response') }}</div>
-                            <div class="time">
-                                {{ $myResponse->responded_at?->format('d.m.Y H:i') }}
-                            </div>
+                    <section class="card-soft response-panel">
+                        <div class="response-title-inline">
+                            <i class="fa-regular fa-hand-pointer"></i>
+                            <span>{{ __('order.please_select_your_response') }}</span>
                         </div>
 
-                        <div class="right">
-                            <span class="state-pill {{ $currentResponseClass }}">
-                                @if($myResponse->response === 'yes')
-                                    <i class="fa-solid fa-circle-check"></i>
-                                @elseif($myResponse->response === 'maybe')
-                                    <i class="fa-solid fa-circle-question"></i>
-                                @else
-                                    <i class="fa-solid fa-circle-xmark"></i>
-                                @endif
-                                {{ $currentResponseText }}
-                            </span>
+                        @error('response')
+                            <div class="text-danger small mb-3">{{ $message }}</div>
+                        @enderror
+
+                        <form method="POST" action="{{ route('employee.orders.response.store', $activeOrder) }}">
+                            @csrf
+
+                            <div class="response-grid">
+                                <button type="submit" name="response" value="yes"
+                                    class="response-btn yes {{ $myResponse?->response === 'yes' ? 'active' : '' }}">
+                                    <div class="circle">
+                                        <i class="fa-solid fa-check"></i>
+                                    </div>
+                                    <div class="label">{{ __('order.yes') }}</div>
+                                </button>
+
+                                <button type="submit" name="response" value="maybe"
+                                    class="response-btn maybe {{ $myResponse?->response === 'maybe' ? 'active' : '' }}">
+                                    <div class="circle">
+                                        <i class="fa-solid fa-question"></i>
+                                    </div>
+                                    <div class="label">{{ __('order.possibly') }}</div>
+                                </button>
+
+                                <button type="submit" name="response" value="no"
+                                    class="response-btn no {{ $myResponse?->response === 'no' ? 'active' : '' }}">
+                                    <div class="circle">
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </div>
+                                    <div class="label">{{ __('order.no') }}</div>
+                                </button>
+                            </div>
+                        </form>
+                    </section>
+                @else
+                    <section class="card-soft empty-state">
+                        <div class="empty-icon">
+                            <i class="fa-regular fa-folder-open"></i>
                         </div>
-                    </div>
+                        <h3 class="fw-bold mb-2">{{ __('order.no_active_order_available') }}</h3>
+                        <p class="text-muted mb-0">{{ __('order.please_check_back_later') }}</p>
+                    </section>
                 @endif
+            </main>
 
-                <section class="card-soft response-panel">
-                    <div class="response-title-inline">
+            @if ($activeOrder)
+                <div class="bottom-action-bar">
+                    <div class="bottom-action-header">
                         <i class="fa-regular fa-hand-pointer"></i>
                         <span>{{ __('order.please_select_your_response') }}</span>
                     </div>
 
-                    @error('response')
-                        <div class="text-danger small mb-3">{{ $message }}</div>
-                    @enderror
-
                     <form method="POST" action="{{ route('employee.orders.response.store', $activeOrder) }}">
                         @csrf
 
-                        <div class="response-grid">
-                            <button type="submit"
-                                    name="response"
-                                    value="yes"
-                                    class="response-btn yes {{ $myResponse?->response === 'yes' ? 'active' : '' }}">
-                                <div class="circle">
-                                    <i class="fa-solid fa-check"></i>
-                                </div>
-                                <div class="label">{{ __('order.yes') }}</div>
+                        <div class="bottom-action-inner">
+                            <button type="submit" name="response" value="yes" class="bottom-btn yes">
+                                <i class="fa-solid fa-circle-check"></i>
+                                <span>{{ __('order.yes') }}</span>
                             </button>
 
-                            <button type="submit"
-                                    name="response"
-                                    value="maybe"
-                                    class="response-btn maybe {{ $myResponse?->response === 'maybe' ? 'active' : '' }}">
-                                <div class="circle">
-                                    <i class="fa-solid fa-question"></i>
-                                </div>
-                                <div class="label">{{ __('order.possibly') }}</div>
+                            <button type="submit" name="response" value="maybe" class="bottom-btn maybe">
+                                <i class="fa-solid fa-circle-question"></i>
+                                <span>{{ __('order.possibly') }}</span>
                             </button>
 
-                            <button type="submit"
-                                    name="response"
-                                    value="no"
-                                    class="response-btn no {{ $myResponse?->response === 'no' ? 'active' : '' }}">
-                                <div class="circle">
-                                    <i class="fa-solid fa-xmark"></i>
-                                </div>
-                                <div class="label">{{ __('order.no') }}</div>
+                            <button type="submit" name="response" value="no" class="bottom-btn no">
+                                <i class="fa-solid fa-circle-xmark"></i>
+                                <span>{{ __('order.no') }}</span>
                             </button>
                         </div>
                     </form>
-                </section>
-            @else
-                <section class="card-soft empty-state">
-                    <div class="empty-icon">
-                        <i class="fa-regular fa-folder-open"></i>
-                    </div>
-                    <h3 class="fw-bold mb-2">{{ __('order.no_active_order_available') }}</h3>
-                    <p class="text-muted mb-0">{{ __('order.please_check_back_later') }}</p>
-                </section>
-            @endif
-        </main>
-
-        @if($activeOrder)
-            <div class="bottom-action-bar">
-                <div class="bottom-action-header">
-                    <i class="fa-regular fa-hand-pointer"></i>
-                    <span>{{ __('order.please_select_your_response') }}</span>
                 </div>
+            @endif
+        </div>
+    </div>
 
-                <form method="POST" action="{{ route('employee.orders.response.store', $activeOrder) }}">
-                    @csrf
-
-                    <div class="bottom-action-inner">
-                        <button type="submit" name="response" value="yes" class="bottom-btn yes">
-                            <i class="fa-solid fa-circle-check"></i>
-                            <span>{{ __('order.yes') }}</span>
-                        </button>
-
-                        <button type="submit" name="response" value="maybe" class="bottom-btn maybe">
-                            <i class="fa-solid fa-circle-question"></i>
-                            <span>{{ __('order.possibly') }}</span>
-                        </button>
-
-                        <button type="submit" name="response" value="no" class="bottom-btn no">
-                            <i class="fa-solid fa-circle-xmark"></i>
-                            <span>{{ __('order.no') }}</span>
-                        </button>
+    <div class="toast-container-custom">
+        @if (session('success'))
+            <div class="toast-custom success" id="statusToast">
+                <div class="toast-progress"></div>
+                <div class="toast-body-custom">
+                    <div class="toast-icon">
+                        <i class="fa-solid fa-check"></i>
                     </div>
-                </form>
+                    <div class="toast-text">{{ session('success') }}</div>
+                    <button type="button" class="toast-close" onclick="closeToast()">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="toast-custom error" id="statusToast">
+                <div class="toast-progress"></div>
+                <div class="toast-body-custom">
+                    <div class="toast-icon">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <div class="toast-text">{{ session('error') }}</div>
+                    <button type="button" class="toast-close" onclick="closeToast()">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
             </div>
         @endif
     </div>
-</div>
 
-<div class="toast-container-custom">
-    @if(session('success'))
-        <div class="toast-custom success" id="statusToast">
-            <div class="toast-progress"></div>
-            <div class="toast-body-custom">
-                <div class="toast-icon">
-                    <i class="fa-solid fa-check"></i>
-                </div>
-                <div class="toast-text">{{ session('success') }}</div>
-                <button type="button" class="toast-close" onclick="closeToast()">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-        </div>
-    @endif
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    @if(session('error'))
-        <div class="toast-custom error" id="statusToast">
-            <div class="toast-progress"></div>
-            <div class="toast-body-custom">
-                <div class="toast-icon">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                </div>
-                <div class="toast-text">{{ session('error') }}</div>
-                <button type="button" class="toast-close" onclick="closeToast()">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-        </div>
-    @endif
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-<script>
-    function closeToast() {
-        const toast = document.getElementById('statusToast');
-        if (toast) {
-            toast.remove();
+    <script>
+        function closeToast() {
+            const toast = document.getElementById('statusToast');
+            if (toast) {
+                toast.remove();
+            }
         }
-    }
 
-    document.addEventListener('DOMContentLoaded', function () {
-        const toast = document.getElementById('statusToast');
-        if (toast) {
-            setTimeout(() => {
-                closeToast();
-            }, 3200);
-        }
-    });
-</script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toast = document.getElementById('statusToast');
+            if (toast) {
+                setTimeout(() => {
+                    closeToast();
+                }, 3200);
+            }
+        });
+    </script>
 </body>
+
 </html>
