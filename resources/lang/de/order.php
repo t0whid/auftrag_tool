@@ -50,4 +50,11 @@ return [
     'schedule_and_status' => 'Termin & Status',
     'cost_fields' => 'Kostenfelder',
     'custom_fields' => 'Freifelder',
+    'no_location_text' => 'Kein Ort angegeben',
+    'basic_information_subtitle' => 'Hauptinhalt und grundlegende Auftragsdetails.',
+    'schedule_and_status_subtitle' => 'Termine, Ersteller und aktueller Aktivstatus.',
+    'cost_fields_subtitle' => 'Konfigurierte Preis- und Kostenfelder.',
+    'custom_fields_subtitle' => 'Zusätzliche frei definierbare Werte vom Admin.',
+    'created_at' => 'Erstellt am',
+    'updated_at' => 'Aktualisiert am',
 ];

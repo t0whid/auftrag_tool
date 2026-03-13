@@ -50,4 +50,11 @@ return [
     'schedule_and_status' => 'Schedule & Status',
     'cost_fields' => 'Cost Fields',
     'custom_fields' => 'Custom Fields',
+    'no_location_text' => 'No location specified',
+    'basic_information_subtitle' => 'Main order content and setup details.',
+    'schedule_and_status_subtitle' => 'Dates, creator and current activation state.',
+    'cost_fields_subtitle' => 'Configured pricing and cost related fields.',
+    'custom_fields_subtitle' => 'Additional customizable values defined by admin.',
+    'created_at' => 'Created At',
+    'updated_at' => 'Updated At',
 ];
