@@ -48,7 +48,7 @@
 @push('styles')
 <style>
     .employee-form-shell {
-        max-width: 980px;
+        max-width: 100%;
         margin: 0 auto;
     }
 
