@@ -28,7 +28,10 @@ class LoginController extends Controller
 
         $remember = $request->boolean('remember');
 
-        if (! Auth::attempt($credentials, $remember)) {
+        if (! Auth::attempt([
+            'username' => $credentials['username'],
+            'password' => $credentials['password'],
+        ], $remember)) {
             return back()
                 ->withErrors([
                     'username' => __('auth.failed'),

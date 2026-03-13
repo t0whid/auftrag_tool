@@ -15,7 +15,7 @@ class EmployeeController extends Controller
     {
         $employees = User::where('role', 'employee')
             ->latest()
-            ->paginate(10);
+            ->get();
 
         return view('admin.employees.index', compact('employees'));
     }
@@ -41,12 +41,12 @@ class EmployeeController extends Controller
             'email' => $validated['email'] ?? null,
             'password' => $validated['password'],
             'role' => 'employee',
-            'status' => $validated['status'],
+            'status' => (bool) $validated['status'],
         ]);
 
         return redirect()
             ->route('admin.employees.index')
-            ->with('success', 'Employee created successfully.');
+            ->with('success', __('admin.employee_created'));
     }
 
     public function edit(User $employee): View
@@ -81,7 +81,7 @@ class EmployeeController extends Controller
         $employee->name = $validated['name'];
         $employee->username = $validated['username'];
         $employee->email = $validated['email'] ?? null;
-        $employee->status = $validated['status'];
+        $employee->status = (bool) $validated['status'];
 
         if (! empty($validated['password'])) {
             $employee->password = $validated['password'];
@@ -91,7 +91,7 @@ class EmployeeController extends Controller
 
         return redirect()
             ->route('admin.employees.index')
-            ->with('success', 'Employee updated successfully.');
+            ->with('success', __('admin.employee_updated'));
     }
 
     public function destroy(User $employee): RedirectResponse
@@ -102,6 +102,6 @@ class EmployeeController extends Controller
 
         return redirect()
             ->route('admin.employees.index')
-            ->with('success', 'Employee deleted successfully.');
+            ->with('success', __('admin.employee_deleted'));
     }
 }

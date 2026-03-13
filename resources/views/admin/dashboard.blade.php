@@ -1,55 +1,60 @@
-@extends('layouts.app')
+@extends('layouts.admin')
+
+@php
+    $pageTitle = __('admin.dashboard_heading');
+    $pageHeading = __('admin.dashboard_heading');
+    $pageSubheading = __('admin.dashboard_subheading');
+@endphp
 
 @section('content')
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h1 class="section-title mb-1">Admin Dashboard</h1>
-            <p class="muted mb-0">Manage employees and system access.</p>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card-soft stat-card">
+                <div class="stat-icon">
+                    <i class="bi bi-people"></i>
+                </div>
+                <div class="stat-label">{{ __('admin.total_employees') }}</div>
+                <div class="stat-value">{{ $employeeCount }}</div>
+            </div>
         </div>
 
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <button class="btn btn-outline-danger rounded-pill">
-                <i class="bi bi-box-arrow-right me-1"></i>
-                {{ __('auth.logout') }}
-            </button>
-        </form>
+        <div class="col-md-4">
+            <div class="card-soft stat-card">
+                <div class="stat-icon">
+                    <i class="bi bi-person-check"></i>
+                </div>
+                <div class="stat-label">{{ __('admin.active_employees') }}</div>
+                <div class="stat-value">{{ $activeEmployeeCount }}</div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card-soft stat-card">
+                <div class="stat-icon">
+                    <i class="bi bi-person-x"></i>
+                </div>
+                <div class="stat-label">{{ __('admin.inactive_employees') }}</div>
+                <div class="stat-value">{{ $inactiveEmployeeCount }}</div>
+            </div>
+        </div>
     </div>
 
-    <div class="row g-3 mb-4">
-        <div class="col-12">
-            <div class="card-soft p-4">
-                <div class="fw-bold fs-5">Employees</div>
-                <div class="muted mb-2">Overview of employee accounts.</div>
-
-                <div class="row text-center g-3 mt-1">
-                    <div class="col-4">
-                        <div class="border rounded-4 p-3">
-                            <div class="fs-4 fw-bold">{{ $employeeCount }}</div>
-                            <div class="small text-secondary">Total</div>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="border rounded-4 p-3">
-                            <div class="fs-4 fw-bold">{{ $activeEmployeeCount }}</div>
-                            <div class="small text-secondary">Active</div>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="border rounded-4 p-3">
-                            <div class="fs-4 fw-bold">{{ $inactiveEmployeeCount }}</div>
-                            <div class="small text-secondary">Inactive</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mt-4">
-                    <a href="{{ route('admin.employees.index') }}" class="btn btn-soft-primary">
-                        <i class="bi bi-people me-1"></i>
-                        Manage Employees
-                    </a>
-                </div>
+    <div class="card-soft mt-4">
+        <div class="panel-header d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+            <div>
+                <h3 class="panel-title">{{ __('admin.employees_heading') }}</h3>
+                <p class="panel-subtitle">{{ __('admin.employees_subheading') }}</p>
             </div>
+
+            <a href="{{ route('admin.employees.index') }}" class="btn btn-soft-primary">
+                <i class="bi bi-arrow-right-circle me-1"></i>
+                {{ __('admin.nav_employees') }}
+            </a>
+        </div>
+        <div class="panel-body pt-3">
+            <p class="mb-0 text-secondary">
+                {{ __('admin.dashboard_subheading') }}
+            </p>
         </div>
     </div>
 @endsection

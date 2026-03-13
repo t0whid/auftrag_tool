@@ -1,17 +1,26 @@
-@extends('layouts.app')
+@extends('layouts.admin')
+
+@php
+    $pageTitle = __('admin.edit_employee_heading');
+    $pageHeading = __('admin.edit_employee_heading');
+    $pageSubheading = __('admin.edit_employee_subheading');
+@endphp
 
 @section('content')
-    <div class="mb-4">
-        <h1 class="section-title mb-1">Edit Employee</h1>
-        <p class="muted mb-0">Update employee details and access.</p>
-    </div>
+    <div class="card-soft">
+        <div class="panel-body">
+            <form method="POST" action="{{ route('admin.employees.update', $employee) }}">
+                @csrf
+                @method('PUT')
+                @include('admin.employees._form')
 
-    <div class="card-soft p-4">
-        <form method="POST" action="{{ route('admin.employees.update', $employee) }}">
-            @csrf
-            @method('PUT')
-            @include('admin.employees._form')
-            <button type="submit" class="btn btn-soft-primary">Update Employee</button>
-        </form>
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-soft-primary">
+                        <i class="bi bi-save me-1"></i>
+                        {{ __('admin.update_employee') }}
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 @endsection

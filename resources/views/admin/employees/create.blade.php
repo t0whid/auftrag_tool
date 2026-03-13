@@ -1,16 +1,25 @@
-@extends('layouts.app')
+@extends('layouts.admin')
+
+@php
+    $pageTitle = __('admin.create_employee_heading');
+    $pageHeading = __('admin.create_employee_heading');
+    $pageSubheading = __('admin.create_employee_subheading');
+@endphp
 
 @section('content')
-    <div class="mb-4">
-        <h1 class="section-title mb-1">Add Employee</h1>
-        <p class="muted mb-0">Create a new employee account.</p>
-    </div>
+    <div class="card-soft">
+        <div class="panel-body">
+            <form method="POST" action="{{ route('admin.employees.store') }}">
+                @csrf
+                @include('admin.employees._form')
 
-    <div class="card-soft p-4">
-        <form method="POST" action="{{ route('admin.employees.store') }}">
-            @csrf
-            @include('admin.employees._form')
-            <button type="submit" class="btn btn-soft-primary">Create Employee</button>
-        </form>
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-soft-primary">
+                        <i class="bi bi-check-circle me-1"></i>
+                        {{ __('admin.create_employee') }}
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 @endsection

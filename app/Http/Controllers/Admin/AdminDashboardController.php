@@ -11,8 +11,12 @@ class AdminDashboardController extends Controller
     public function index(): View
     {
         $employeeCount = User::where('role', 'employee')->count();
-        $activeEmployeeCount = User::where('role', 'employee')->where('status', true)->count();
-        $inactiveEmployeeCount = User::where('role', 'employee')->where('status', false)->count();
+        $activeEmployeeCount = User::where('role', 'employee')
+            ->where('status', true)
+            ->count();
+        $inactiveEmployeeCount = User::where('role', 'employee')
+            ->where('status', false)
+            ->count();
 
         return view('admin.dashboard', compact(
             'employeeCount',
