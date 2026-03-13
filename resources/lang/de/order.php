@@ -63,4 +63,19 @@ return [
     'only_one_active' => 'Es kann immer nur ein Auftrag gleichzeitig aktiv sein.',
     'order_status' => 'Auftragsstatus',
     'active_order' => 'Aktiver Auftrag',
+
+    // employee dashboard / response page
+    'new_order' => 'Neuer Auftrag',
+    'date' => 'Datum',
+    'hour' => 'Stunde',
+    'your_current_response' => 'Deine aktuelle Rückmeldung',
+    'please_select_your_response' => 'Bitte wähle deine Rückmeldung:',
+    'yes' => 'Ja, bin dabei',
+    'possibly' => 'Eventuell',
+    'no' => 'Nein, bin raus',
+    'logged_in_as' => 'Angemeldet als',
+    'logout' => 'Abmelden',
+    'no_active_order_available' => 'Kein aktiver Auftrag verfügbar',
+    'please_check_back_later' => 'Bitte später erneut prüfen.',
+    'no_response_yet' => 'Noch keine Rückmeldung',
 ];

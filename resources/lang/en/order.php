@@ -63,4 +63,19 @@ return [
     'only_one_active' => 'Only one order can stay active at a time.',
     'order_status' => 'Order Status',
     'active_order' => 'Active Order',
+
+    // employee dashboard / response page
+    'new_order' => 'New Order',
+    'date' => 'Date',
+    'hour' => 'Hour',
+    'your_current_response' => 'Your current response',
+    'please_select_your_response' => 'Please select your response:',
+    'yes' => 'Yes, I am in',
+    'possibly' => 'Possibly',
+    'no' => 'No, I am out',
+    'logged_in_as' => 'Logged in as',
+    'logout' => 'Logout',
+    'no_active_order_available' => 'No active order available',
+    'please_check_back_later' => 'Please check back later.',
+    'no_response_yet' => 'No response yet',
 ];
