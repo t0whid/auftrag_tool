@@ -75,7 +75,7 @@
                                         {{ $employee->updated_at?->format('d M Y, h:i A') }}
                                     </td>
 
-                                    <td class="text-center">
+                                    <td class="table-center">
                                         <div class="action-group">
                                             <a href="{{ route('admin.employees.edit', $employee) }}"
                                                class="btn btn-sm btn-action-edit">
@@ -123,7 +123,7 @@
             autoWidth: false,
             language: {
                 search: "{{ app()->getLocale() === 'de' ? 'Suche:' : 'Search:' }}",
-                lengthMenu: "{{ app()->getLocale() === 'de' ? '_MENU_ Einträge anzeigen' : 'Show _MENU_ entries' }}",
+                lengthMenu: "{{ app()->getLocale() === 'de' ? 'Show _MENU_ Einträge' : 'Show _MENU_ entries' }}",
                 info: "{{ app()->getLocale() === 'de' ? '_START_ bis _END_ von _TOTAL_ Einträgen' : 'Showing _START_ to _END_ of _TOTAL_ entries' }}",
                 infoEmpty: "{{ app()->getLocale() === 'de' ? '0 bis 0 von 0 Einträgen' : 'Showing 0 to 0 of 0 entries' }}",
                 zeroRecords: "{{ app()->getLocale() === 'de' ? 'Keine passenden Einträge gefunden' : 'No matching records found' }}",
