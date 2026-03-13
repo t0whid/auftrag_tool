@@ -11,31 +11,31 @@
     <style>
         :root {
             --bg: #eef2f7;
-            --panel: rgba(255, 255, 255, 0.72);
-            --panel-solid: #ffffff;
+            --panel: rgba(255, 255, 255, 0.82);
+            --panel-strong: #ffffff;
             --stroke: #d9e2ee;
-            --stroke-soft: #e7edf5;
+            --stroke-soft: #e8eef5;
 
             --text: #173052;
-            --muted: #7a8aa1;
+            --muted: #7b8ba1;
 
             --brand: #41a9e8;
             --brand-dark: #23558a;
 
             --success: #35c99b;
-            --success-deep: #16a57a;
+            --success-dark: #14996f;
 
             --warning: #f2c244;
-            --warning-deep: #c79200;
+            --warning-dark: #9a6a00;
 
             --danger: #f66d6d;
-            --danger-deep: #de4545;
+            --danger-dark: #d54747;
 
-            --shadow: 0 14px 35px rgba(24, 55, 92, 0.08);
-            --shadow-soft: 0 8px 22px rgba(24, 55, 92, 0.06);
+            --shadow: 0 18px 40px rgba(18, 49, 84, 0.08);
+            --shadow-soft: 0 10px 24px rgba(18, 49, 84, 0.06);
 
-            --radius-xl: 28px;
-            --radius-lg: 22px;
+            --radius-xl: 30px;
+            --radius-lg: 24px;
             --radius-md: 18px;
             --radius-sm: 14px;
         }
@@ -44,70 +44,63 @@
             box-sizing: border-box;
         }
 
-        body {
+        html, body {
             margin: 0;
-            font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-            background:
-                radial-gradient(circle at top left, #f7fbff 0%, #eef3f9 42%, #e8edf5 100%);
-            color: var(--text);
+            padding: 0;
+        }
+
+        body {
             min-height: 100vh;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top left, #f8fbff 0%, #eef3f9 40%, #e8edf5 100%);
         }
 
         a {
             text-decoration: none;
         }
 
-        .dashboard-shell {
-            max-width: 760px;
-            margin: 0 auto;
+        .page-wrap {
+            width: 100%;
             min-height: 100vh;
-            background: rgba(245, 248, 252, 0.82);
-            border-left: 1px solid rgba(217, 226, 238, 0.9);
-            border-right: 1px solid rgba(217, 226, 238, 0.9);
-            box-shadow: 0 0 0 1px rgba(255,255,255,0.5), 0 30px 70px rgba(25, 45, 75, 0.08);
+            padding: 26px 26px 140px;
+        }
+
+        .dashboard-shell {
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto;
+            background: rgba(245, 248, 252, 0.72);
+            border: 1px solid rgba(217, 226, 238, 0.88);
+            border-radius: 34px;
             overflow: hidden;
+            box-shadow: 0 25px 70px rgba(25, 45, 75, 0.08);
+            backdrop-filter: blur(8px);
         }
 
         .topbar {
-            padding: 24px 34px;
+            padding: 20px 34px;
             background: rgba(255,255,255,0.72);
-            backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--stroke);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 16px;
+            gap: 18px;
+            flex-wrap: wrap;
         }
 
         .brand-wrap {
             display: flex;
             align-items: center;
-            gap: 14px;
+            min-height: 52px;
         }
 
-        .brand-icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-            display: grid;
-            place-items: center;
-            background: linear-gradient(135deg, #48b6f0, #2989d8);
-            color: #fff;
-            font-size: 18px;
-            box-shadow: 0 10px 18px rgba(65, 169, 232, 0.28);
-        }
-
-        .brand-text {
-            font-size: 2rem;
-            line-height: 1;
-            font-weight: 800;
-            letter-spacing: 1px;
-            color: #173052;
-        }
-
-        .brand-text span {
-            color: #5e7da4;
-            font-weight: 500;
+        .brand-logo {
+            height: 38px;
+            width: auto;
+            object-fit: contain;
+            display: block;
         }
 
         .topbar-right {
@@ -115,7 +108,6 @@
             align-items: center;
             gap: 14px;
             flex-wrap: wrap;
-            justify-content: flex-end;
         }
 
         .lang-switcher {
@@ -124,7 +116,7 @@
             gap: 6px;
             padding: 6px;
             border-radius: 999px;
-            background: rgba(255,255,255,0.95);
+            background: rgba(255,255,255,0.96);
             border: 1px solid var(--stroke);
             box-shadow: var(--shadow-soft);
         }
@@ -138,7 +130,7 @@
             align-items: center;
             justify-content: center;
             font-size: .9rem;
-            font-weight: 700;
+            font-weight: 800;
             color: var(--muted);
             transition: .2s ease;
         }
@@ -149,17 +141,28 @@
             box-shadow: 0 8px 18px rgba(45, 137, 212, 0.22);
         }
 
-        .admin-chip {
+        .user-dropdown .btn {
+            border: 1px solid var(--stroke);
+            background: rgba(255,255,255,0.96);
+            border-radius: 999px;
+            padding: 7px 10px 7px 16px;
+            color: var(--text);
+            font-weight: 700;
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            font-weight: 700;
-            color: var(--text);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .user-dropdown .btn:focus,
+        .user-dropdown .btn:active {
+            border-color: #bfd2e7;
+            box-shadow: 0 0 0 .2rem rgba(65, 169, 232, 0.12);
         }
 
         .avatar-circle {
-            width: 44px;
-            height: 44px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
             display: grid;
             place-items: center;
@@ -171,34 +174,75 @@
             border: 3px solid rgba(255,255,255,0.95);
         }
 
+        .dropdown-menu-modern {
+            min-width: 260px;
+            border: 1px solid var(--stroke);
+            border-radius: 20px;
+            box-shadow: 0 22px 50px rgba(18, 49, 84, 0.12);
+            padding: 12px;
+        }
+
+        .dropdown-user-head {
+            padding: 10px 12px 12px;
+            border-bottom: 1px solid var(--stroke-soft);
+            margin-bottom: 8px;
+        }
+
+        .dropdown-user-name {
+            font-weight: 800;
+            color: var(--text);
+            line-height: 1.2;
+        }
+
+        .dropdown-user-email {
+            color: var(--muted);
+            font-size: .94rem;
+            word-break: break-word;
+            margin-top: 4px;
+        }
+
+        .dropdown-menu-modern .dropdown-item {
+            border-radius: 14px;
+            padding: 11px 12px;
+            font-weight: 600;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dropdown-menu-modern .dropdown-item:hover {
+            background: #f4f8fc;
+        }
+
         .page-body {
-            padding: 34px 34px 145px;
+            padding: 34px;
         }
 
         .page-heading {
+            margin: 0 0 26px;
             font-size: clamp(2rem, 3vw, 3rem);
-            line-height: 1.1;
-            margin: 0 0 24px;
+            line-height: 1.08;
             font-weight: 800;
             letter-spacing: -0.02em;
             color: #173052;
         }
 
         .card-soft {
-            background: rgba(255,255,255,0.72);
+            background: rgba(255,255,255,0.78);
             border: 1px solid rgba(217, 226, 238, 0.72);
             border-radius: var(--radius-xl);
             box-shadow: var(--shadow);
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(10px);
         }
 
         .order-hero {
-            padding: 28px 30px;
+            padding: 30px 32px;
             margin-bottom: 18px;
         }
 
         .order-title {
-            font-size: clamp(1.7rem, 2.3vw, 2.2rem);
+            font-size: clamp(1.75rem, 2vw, 2.25rem);
             font-weight: 800;
             margin: 0 0 12px;
             color: #163052;
@@ -209,6 +253,7 @@
             gap: 8px;
             color: var(--muted);
             font-size: 1.05rem;
+            line-height: 1.65;
         }
 
         .order-lines strong {
@@ -219,13 +264,14 @@
 
         .grid-cards {
             display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 16px;
-            margin-bottom: 26px;
+            grid-template-columns: repeat(12, minmax(0, 1fr));
+            gap: 18px;
+            margin-bottom: 22px;
         }
 
         .info-card {
-            background: rgba(255,255,255,0.78);
+            grid-column: span 6;
+            background: rgba(255,255,255,0.84);
             border: 1px solid var(--stroke-soft);
             border-radius: var(--radius-lg);
             box-shadow: var(--shadow-soft);
@@ -241,10 +287,10 @@
         }
 
         .info-icon {
-            width: 48px;
-            height: 48px;
-            min-width: 48px;
-            border-radius: 14px;
+            width: 50px;
+            height: 50px;
+            min-width: 50px;
+            border-radius: 16px;
             display: grid;
             place-items: center;
             background: linear-gradient(135deg, rgba(65,169,232,0.15), rgba(65,169,232,0.08));
@@ -268,7 +314,7 @@
             color: var(--text);
             font-weight: 700;
             font-size: 1.18rem;
-            line-height: 1.2;
+            line-height: 1.25;
             word-break: break-word;
         }
 
@@ -281,12 +327,12 @@
         .current-response {
             margin-bottom: 22px;
             padding: 16px 20px;
-            border-radius: 20px;
+            border-radius: 22px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 14px;
-            background: rgba(255,255,255,0.72);
+            background: rgba(255,255,255,0.74);
             border: 1px solid var(--stroke);
             box-shadow: var(--shadow-soft);
         }
@@ -298,7 +344,7 @@
         }
 
         .current-response .left .time {
-            font-size: .9rem;
+            font-size: .92rem;
             color: var(--muted);
         }
 
@@ -310,33 +356,41 @@
             border-radius: 999px;
             font-weight: 800;
             font-size: .95rem;
+            white-space: nowrap;
         }
 
         .state-pill.yes {
             background: rgba(53, 201, 155, 0.16);
-            color: var(--success-deep);
+            color: var(--success-dark);
         }
 
         .state-pill.maybe {
             background: rgba(242, 194, 68, 0.18);
-            color: #926200;
+            color: var(--warning-dark);
         }
 
         .state-pill.no {
             background: rgba(246, 109, 109, 0.18);
-            color: var(--danger-deep);
+            color: var(--danger-dark);
         }
 
         .response-panel {
             padding: 26px 28px;
         }
 
-        .response-title {
-            margin: 0 0 22px;
-            font-size: 1.12rem;
+        .response-title-inline {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 0 0 18px;
+            font-size: 1.08rem;
             color: var(--text);
             font-weight: 800;
-            text-align: center;
+        }
+
+        .response-title-inline i {
+            color: var(--brand);
         }
 
         .response-grid {
@@ -362,19 +416,19 @@
         }
 
         .response-btn .circle {
-            width: 82px;
-            height: 82px;
+            width: 84px;
+            height: 84px;
             border-radius: 50%;
             margin: 0 auto 12px;
             display: grid;
             place-items: center;
             color: #fff;
-            font-size: 2.2rem;
+            font-size: 2.15rem;
             box-shadow: 0 12px 24px rgba(0,0,0,0.10);
         }
 
         .response-btn .label {
-            font-size: 1.05rem;
+            font-size: 1.08rem;
             font-weight: 800;
             letter-spacing: -0.01em;
         }
@@ -392,11 +446,11 @@
         }
 
         .response-btn.yes .label {
-            color: var(--success-deep);
+            color: var(--success-dark);
         }
 
         .response-btn.maybe .label {
-            color: #936400;
+            color: var(--warning-dark);
         }
 
         .response-btn.no .label {
@@ -418,41 +472,29 @@
             box-shadow: inset 0 0 0 2px rgba(246, 109, 109, 0.22);
         }
 
-        .account-strip {
-            margin-top: 20px;
-            padding: 18px 24px;
-            border-radius: 22px;
-            background: rgba(255,255,255,0.54);
-            border: 1px solid var(--stroke-soft);
-            color: var(--muted);
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-
-        .account-strip a {
-            color: #2e73ba;
-            font-weight: 700;
-        }
-
-        .alert-floating {
-            border: 0;
-            border-radius: 18px;
-            box-shadow: var(--shadow-soft);
-            padding: 14px 18px;
-            margin-bottom: 18px;
-        }
-
         .bottom-action-bar {
             position: sticky;
             bottom: 0;
             z-index: 20;
-            padding: 18px 22px 26px;
-            background: linear-gradient(to top, rgba(255,255,255,0.95), rgba(255,255,255,0.78), rgba(255,255,255,0));
+            padding: 18px 26px 26px;
+            background: linear-gradient(to top, rgba(255,255,255,0.96), rgba(255,255,255,0.82), rgba(255,255,255,0));
             backdrop-filter: blur(8px);
+            border-top: 1px solid rgba(217, 226, 238, 0.45);
+        }
+
+        .bottom-action-header {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 0 0 14px;
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--text);
+        }
+
+        .bottom-action-header i {
+            color: var(--brand);
         }
 
         .bottom-action-inner {
@@ -472,7 +514,7 @@
             justify-content: center;
             gap: 10px;
             box-shadow: var(--shadow-soft);
-            transition: transform .2s ease, opacity .2s ease;
+            transition: transform .2s ease;
         }
 
         .bottom-btn:hover {
@@ -495,15 +537,15 @@
         }
 
         .empty-state {
-            padding: 54px 28px;
+            padding: 60px 30px;
             text-align: center;
         }
 
         .empty-icon {
-            width: 84px;
-            height: 84px;
+            width: 88px;
+            height: 88px;
             margin: 0 auto 18px;
-            border-radius: 24px;
+            border-radius: 26px;
             display: grid;
             place-items: center;
             font-size: 2rem;
@@ -511,23 +553,111 @@
             background: linear-gradient(135deg, rgba(65,169,232,0.14), rgba(65,169,232,0.06));
         }
 
-        @media (max-width: 767.98px) {
-            .dashboard-shell {
-                max-width: 100%;
-                border-left: 0;
-                border-right: 0;
-                box-shadow: none;
+        .toast-container-custom {
+            position: fixed;
+            top: 22px;
+            right: 22px;
+            z-index: 9999;
+        }
+
+        .toast-custom {
+            min-width: 300px;
+            border: 0;
+            border-radius: 18px;
+            box-shadow: 0 18px 40px rgba(18, 49, 84, 0.14);
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .toast-custom.success .toast-progress {
+            background: linear-gradient(90deg, #63ddb7, #38c799);
+        }
+
+        .toast-custom.error .toast-progress {
+            background: linear-gradient(90deg, #ff9a9a, #f45f5f);
+        }
+
+        .toast-progress {
+            height: 4px;
+            width: 100%;
+        }
+
+        .toast-body-custom {
+            padding: 14px 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .toast-icon {
+            width: 36px;
+            height: 36px;
+            min-width: 36px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            color: #fff;
+        }
+
+        .toast-custom.success .toast-icon {
+            background: linear-gradient(135deg, #63ddb7, #38c799);
+        }
+
+        .toast-custom.error .toast-icon {
+            background: linear-gradient(135deg, #ff9a9a, #f45f5f);
+        }
+
+        .toast-text {
+            flex: 1;
+            font-size: .96rem;
+            font-weight: 600;
+            color: var(--text);
+            line-height: 1.45;
+            padding-top: 4px;
+        }
+
+        .toast-close {
+            border: 0;
+            background: transparent;
+            color: #8ca0b8;
+            padding: 2px 4px;
+            line-height: 1;
+        }
+
+        @media (max-width: 991.98px) {
+            .page-wrap {
+                padding: 18px 18px 135px;
             }
 
             .topbar,
-            .page-body {
+            .page-body,
+            .bottom-action-bar {
                 padding-left: 18px;
                 padding-right: 18px;
             }
 
+            .response-grid,
+            .bottom-action-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .info-card {
+                grid-column: span 12;
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            .dashboard-shell {
+                border-radius: 24px;
+            }
+
             .topbar {
-                align-items: flex-start;
-                flex-direction: column;
+                padding-top: 16px;
+                padding-bottom: 16px;
+            }
+
+            .brand-logo {
+                height: 32px;
             }
 
             .topbar-right {
@@ -535,23 +665,14 @@
                 justify-content: space-between;
             }
 
-            .brand-text {
-                font-size: 1.6rem;
-            }
-
             .page-heading {
                 font-size: 2rem;
+                margin-bottom: 20px;
             }
 
             .order-hero,
             .response-panel {
                 padding: 20px;
-            }
-
-            .grid-cards,
-            .response-grid,
-            .bottom-action-inner {
-                grid-template-columns: 1fr;
             }
 
             .current-response {
@@ -560,42 +681,55 @@
             }
 
             .response-btn .circle {
-                width: 72px;
-                height: 72px;
+                width: 74px;
+                height: 74px;
                 font-size: 2rem;
+            }
+
+            .toast-container-custom {
+                top: 14px;
+                right: 14px;
+                left: 14px;
+            }
+
+            .toast-custom {
+                min-width: 100%;
+            }
+
+            .response-title-inline,
+            .bottom-action-header {
+                display: inline-flex;
             }
         }
     </style>
 </head>
 <body>
 
-    @php
-        $userName = auth()->user()->name ?? 'Admin';
-        $userEmail = auth()->user()->email ?? 'alexander@mediaav.eu';
-        $avatarLetter = strtoupper(substr($userName, 0, 1));
+@php
+    $userName = auth()->user()->name ?? 'Employee';
+    $userEmail = auth()->user()->email ?? 'employee@gmail.com';
 
-        $currentResponseClass = match($myResponse->response ?? null) {
-            'yes' => 'yes',
-            'maybe' => 'maybe',
-            'no' => 'no',
-            default => '',
-        };
+    $currentResponseClass = match($myResponse->response ?? null) {
+        'yes' => 'yes',
+        'maybe' => 'maybe',
+        'no' => 'no',
+        default => '',
+    };
 
-        $currentResponseText = match($myResponse->response ?? null) {
-            'yes' => __('order.yes'),
-            'maybe' => __('order.possibly'),
-            'no' => __('order.no'),
-            default => __('order.no_response_yet'),
-        };
-    @endphp
+    $currentResponseText = match($myResponse->response ?? null) {
+        'yes' => __('order.yes'),
+        'maybe' => __('order.possibly'),
+        'no' => __('order.no'),
+        default => __('order.no_response_yet'),
+    };
+@endphp
 
+<div class="page-wrap">
     <div class="dashboard-shell">
+
         <header class="topbar">
             <div class="brand-wrap">
-                <div class="brand-icon">
-                    <i class="fa-solid fa-check"></i>
-                </div>
-                <div class="brand-text">MEDIA<span>AV</span></div>
+                <img src="{{ asset('assets/images/logo.png') }}" alt="MEDIAAV" class="brand-logo">
             </div>
 
             <div class="topbar-right">
@@ -610,27 +744,36 @@
                     </a>
                 </div>
 
-                <div class="admin-chip">
-                    <span>{{ $userName }}</span>
-                    <div class="avatar-circle">{{ $avatarLetter }}</div>
+                <div class="dropdown user-dropdown">
+                    <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <div class="avatar-circle">E</div>
+                    </button>
+
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-modern">
+                        <li>
+                            <div class="dropdown-user-head">
+                                <div class="dropdown-user-name">{{ $userName }}</div>
+                                <div class="dropdown-user-email">{{ $userEmail }}</div>
+                            </div>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="mailto:{{ $userEmail }}">
+                                <i class="fa-regular fa-envelope"></i>
+                                <span>{{ $userEmail }}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ route('logout') }}">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                                <span>{{ __('order.logout') }}</span>
+                            </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </header>
 
         <main class="page-body">
-
-            @if(session('success'))
-                <div class="alert alert-success alert-floating">
-                    <i class="fa-solid fa-circle-check me-2"></i>{{ session('success') }}
-                </div>
-            @endif
-
-            @if(session('error'))
-                <div class="alert alert-danger alert-floating">
-                    <i class="fa-solid fa-circle-exclamation me-2"></i>{{ session('error') }}
-                </div>
-            @endif
-
             <h1 class="page-heading">{{ __('order.new_order') }}</h1>
 
             @if($activeOrder)
@@ -777,10 +920,13 @@
                 @endif
 
                 <section class="card-soft response-panel">
-                    <h3 class="response-title">{{ __('order.please_select_your_response') }}</h3>
+                    <div class="response-title-inline">
+                        <i class="fa-regular fa-hand-pointer"></i>
+                        <span>{{ __('order.please_select_your_response') }}</span>
+                    </div>
 
                     @error('response')
-                        <div class="text-danger small text-center mb-3">{{ $message }}</div>
+                        <div class="text-danger small mb-3">{{ $message }}</div>
                     @enderror
 
                     <form method="POST" action="{{ route('employee.orders.response.store', $activeOrder) }}">
@@ -819,13 +965,6 @@
                         </div>
                     </form>
                 </section>
-
-                <div class="account-strip">
-                    <span>{{ __('order.logged_in_as') }}:</span>
-                    <a href="mailto:{{ $userEmail }}">{{ $userEmail }}</a>
-                    <span>|</span>
-                    <a href="{{ route('logout') }}">{{ __('order.logout') }}</a>
-                </div>
             @else
                 <section class="card-soft empty-state">
                     <div class="empty-icon">
@@ -839,6 +978,11 @@
 
         @if($activeOrder)
             <div class="bottom-action-bar">
+                <div class="bottom-action-header">
+                    <i class="fa-regular fa-hand-pointer"></i>
+                    <span>{{ __('order.please_select_your_response') }}</span>
+                </div>
+
                 <form method="POST" action="{{ route('employee.orders.response.store', $activeOrder) }}">
                     @csrf
 
@@ -862,6 +1006,58 @@
             </div>
         @endif
     </div>
+</div>
 
+<div class="toast-container-custom">
+    @if(session('success'))
+        <div class="toast-custom success" id="statusToast">
+            <div class="toast-progress"></div>
+            <div class="toast-body-custom">
+                <div class="toast-icon">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <div class="toast-text">{{ session('success') }}</div>
+                <button type="button" class="toast-close" onclick="closeToast()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="toast-custom error" id="statusToast">
+            <div class="toast-progress"></div>
+            <div class="toast-body-custom">
+                <div class="toast-icon">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                </div>
+                <div class="toast-text">{{ session('error') }}</div>
+                <button type="button" class="toast-close" onclick="closeToast()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+        </div>
+    @endif
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    function closeToast() {
+        const toast = document.getElementById('statusToast');
+        if (toast) {
+            toast.remove();
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const toast = document.getElementById('statusToast');
+        if (toast) {
+            setTimeout(() => {
+                closeToast();
+            }, 3200);
+        }
+    });
+</script>
 </body>
 </html>
