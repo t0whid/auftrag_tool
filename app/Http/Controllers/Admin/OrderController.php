@@ -26,13 +26,15 @@ class OrderController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validated = $this->validateOrder($request);
+        $validated['travel_cost_unit'] = $validated['travel_cost_unit'] ?: 'km';
 
-        if ($validated['is_active']) {
-            Order::where('is_active', true)->update(['is_active' => false]);
+        if ((bool) $validated['is_active']) {
+            $this->clearActiveOrders();
         }
 
         Order::create([
             ...$validated,
+            'is_active' => (bool) $validated['is_active'],
             'created_by' => Auth::id(),
         ]);
 
@@ -40,6 +42,7 @@ class OrderController extends Controller
             ->route('admin.orders.index')
             ->with('success', __('order.order_created'));
     }
+
     public function show(Order $order): View
     {
         return view('admin.orders.show', compact('order'));
@@ -53,14 +56,16 @@ class OrderController extends Controller
     public function update(Request $request, Order $order): RedirectResponse
     {
         $validated = $this->validateOrder($request);
+        $validated['travel_cost_unit'] = $validated['travel_cost_unit'] ?: 'km';
 
-        if ($validated['is_active']) {
-            Order::where('id', '!=', $order->id)
-                ->where('is_active', true)
-                ->update(['is_active' => false]);
+        if ((bool) $validated['is_active']) {
+            $this->clearActiveOrders($order->id);
         }
 
-        $order->update($validated);
+        $order->update([
+            ...$validated,
+            'is_active' => (bool) $validated['is_active'],
+        ]);
 
         return redirect()
             ->route('admin.orders.index')
@@ -98,5 +103,13 @@ class OrderController extends Controller
 
             'is_active' => ['required', 'boolean'],
         ]);
+    }
+
+    protected function clearActiveOrders(?int $exceptId = null): void
+    {
+        Order::query()
+            ->when($exceptId, fn ($query) => $query->where('id', '!=', $exceptId))
+            ->where('is_active', true)
+            ->update(['is_active' => false]);
     }
 }

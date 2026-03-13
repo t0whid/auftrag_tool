@@ -57,4 +57,10 @@ return [
     'custom_fields_subtitle' => 'Additional customizable values defined by admin.',
     'created_at' => 'Created At',
     'updated_at' => 'Updated At',
+    'create_order' => 'Create Order',
+    'create_order_subtitle' => 'Create a new order with full job details and pricing setup.',
+    'update_order' => 'Update Order',
+    'only_one_active' => 'Only one order can stay active at a time.',
+    'order_status' => 'Order Status',
+    'active_order' => 'Active Order',
 ];

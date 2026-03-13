@@ -57,4 +57,10 @@ return [
     'custom_fields_subtitle' => 'Zusätzliche frei definierbare Werte vom Admin.',
     'created_at' => 'Erstellt am',
     'updated_at' => 'Aktualisiert am',
+    'create_order' => 'Auftrag erstellen',
+    'create_order_subtitle' => 'Einen neuen Auftrag mit vollständigen Details und Kostenfeldern erstellen.',
+    'update_order' => 'Auftrag aktualisieren',
+    'only_one_active' => 'Es kann immer nur ein Auftrag gleichzeitig aktiv sein.',
+    'order_status' => 'Auftragsstatus',
+    'active_order' => 'Aktiver Auftrag',
 ];
