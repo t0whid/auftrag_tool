@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,6 +15,7 @@
 
     @stack('styles')
 </head>
+
 <body>
     @php
         $adminUser = auth()->user();
@@ -49,15 +51,20 @@
 
             <nav class="sidebar-menu">
                 <a href="{{ route('admin.dashboard') }}"
-                   class="sidebar-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                    class="sidebar-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                     <i class="bi bi-grid-1x2-fill"></i>
                     <span class="sidebar-label">{{ __('admin.nav_dashboard') }}</span>
                 </a>
 
                 <a href="{{ route('admin.employees.index') }}"
-                   class="sidebar-link {{ request()->routeIs('admin.employees.*') ? 'active' : '' }}">
+                    class="sidebar-link {{ request()->routeIs('admin.employees.*') ? 'active' : '' }}">
                     <i class="bi bi-people-fill"></i>
                     <span class="sidebar-label">{{ __('admin.nav_employees') }}</span>
+                </a>
+                <a href="{{ route('admin.orders.index') }}"
+                    class="sidebar-link {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
+                    <i class="bi bi-clipboard2-check-fill"></i>
+                    <span class="sidebar-label">{{ __('order.nav_orders') }}</span>
                 </a>
             </nav>
 
@@ -109,9 +116,9 @@
 
                     <div class="lang-switcher">
                         <a href="{{ route('lang.switch', ['locale' => 'de']) }}"
-                           class="{{ app()->getLocale() === 'de' ? 'active' : '' }}">DE</a>
+                            class="{{ app()->getLocale() === 'de' ? 'active' : '' }}">DE</a>
                         <a href="{{ route('lang.switch', ['locale' => 'en']) }}"
-                           class="{{ app()->getLocale() === 'en' ? 'active' : '' }}">EN</a>
+                            class="{{ app()->getLocale() === 'en' ? 'active' : '' }}">EN</a>
                     </div>
                 </div>
             </div>
@@ -145,24 +152,24 @@
             hideMethod: "fadeOut"
         };
 
-        @if(session('success'))
+        @if (session('success'))
             toastr.success(@json(session('success')));
         @endif
 
-        @if(session('error'))
+        @if (session('error'))
             toastr.error(@json(session('error')));
         @endif
 
-        @if(session('warning'))
+        @if (session('warning'))
             toastr.warning(@json(session('warning')));
         @endif
 
-        @if(session('info'))
+        @if (session('info'))
             toastr.info(@json(session('info')));
         @endif
 
-        @if($errors->any())
-            @foreach($errors->all() as $error)
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
                 toastr.error(@json($error));
             @endforeach
         @endif
@@ -170,4 +177,5 @@
 
     @stack('scripts')
 </body>
+
 </html>

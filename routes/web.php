@@ -1,11 +1,12 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\EmployeeController;
-use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Employee\EmployeeDashboardController;
-use App\Http\Controllers\LanguageController;
-use Illuminate\Support\Facades\Route;
 
 Route::get('/lang/{locale}', [LanguageController::class, 'switch'])->name('lang.switch');
 
@@ -23,6 +24,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('employees', EmployeeController::class)->parameters([
         'employees' => 'employee'
     ]);
+    Route::resource('orders', OrderController::class);
 });
 
 Route::middleware(['auth', 'employee'])->prefix('employee')->name('employee.')->group(function () {
