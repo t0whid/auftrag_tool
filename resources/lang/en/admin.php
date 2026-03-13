@@ -46,4 +46,5 @@ return [
     'back' => 'Back',
     'personal_information' => 'Personal Information',
     'security_information' => 'Security Information',
+    'admin_role' => 'Administrator',
 ];

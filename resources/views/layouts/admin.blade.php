@@ -14,6 +14,10 @@
     @stack('styles')
 </head>
 <body>
+    @php
+        $adminUser = auth()->user();
+    @endphp
+
     <div class="admin-app">
         <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
@@ -29,7 +33,17 @@
                         <div class="brand-subtitle">{{ __('admin.panel_subtitle') }}</div>
                     </div>
                 </div>
+            </div>
 
+            <div class="sidebar-user-card">
+                <div class="sidebar-user-avatar">
+                    {{ strtoupper(substr($adminUser->name ?? 'A', 0, 1)) }}
+                </div>
+
+                <div class="sidebar-user-info">
+                    <div class="sidebar-user-name">{{ $adminUser->name ?? 'Admin' }}</div>
+                    <div class="sidebar-user-role">{{ __('admin.admin_role') }}</div>
+                </div>
             </div>
 
             <nav class="sidebar-menu">
@@ -45,6 +59,16 @@
                     <span class="sidebar-label">{{ __('admin.nav_employees') }}</span>
                 </a>
             </nav>
+
+            <div class="sidebar-footer">
+                <form method="POST" action="{{ route('logout') }}" class="w-100">
+                    @csrf
+                    <button type="submit" class="sidebar-logout-btn w-100">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span class="sidebar-label">{{ __('auth.logout') }}</span>
+                    </button>
+                </form>
+            </div>
         </aside>
 
         <main class="admin-main" id="adminMain">
@@ -55,26 +79,39 @@
                     </button>
 
                     <div class="topbar-heading-wrap">
+                        <div class="topbar-breadcrumb">{{ __('admin.panel_subtitle') }}</div>
                         <h2 class="topbar-title">{{ $pageHeading ?? __('admin.default_heading') }}</h2>
                         <div class="topbar-subtitle">{{ $pageSubheading ?? __('admin.default_subheading') }}</div>
                     </div>
                 </div>
 
                 <div class="topbar-actions">
+                    <div class="topbar-datetime-chip">
+                        <div class="topbar-datetime-icon">
+                            <i class="bi bi-calendar3"></i>
+                        </div>
+                        <div class="topbar-datetime-meta">
+                            <div class="topbar-date" id="liveDate">--</div>
+                            <div class="topbar-time" id="liveTime">--</div>
+                        </div>
+                    </div>
+
+                    <div class="topbar-admin-chip">
+                        <div class="topbar-admin-avatar">
+                            {{ strtoupper(substr($adminUser->name ?? 'A', 0, 1)) }}
+                        </div>
+                        <div class="topbar-admin-meta">
+                            <div class="topbar-admin-name">{{ $adminUser->name ?? 'Admin' }}</div>
+                            <div class="topbar-admin-role">{{ __('admin.admin_role') }}</div>
+                        </div>
+                    </div>
+
                     <div class="lang-switcher">
                         <a href="{{ route('lang.switch', ['locale' => 'de']) }}"
                            class="{{ app()->getLocale() === 'de' ? 'active' : '' }}">DE</a>
                         <a href="{{ route('lang.switch', ['locale' => 'en']) }}"
                            class="{{ app()->getLocale() === 'en' ? 'active' : '' }}">EN</a>
                     </div>
-
-                    <form method="POST" action="{{ route('logout') }}" class="mb-0">
-                        @csrf
-                        <button type="submit" class="btn btn-soft-light">
-                            <i class="bi bi-box-arrow-right me-1"></i>
-                            {{ __('auth.logout') }}
-                        </button>
-                    </form>
                 </div>
             </div>
 

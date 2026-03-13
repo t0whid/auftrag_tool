@@ -46,4 +46,5 @@ return [
     'back' => 'Zurück',
     'personal_information' => 'Persönliche Informationen',
     'security_information' => 'Sicherheitsinformationen',
+    'admin_role' => 'Administrator',
 ];
