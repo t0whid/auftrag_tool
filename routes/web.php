@@ -3,7 +3,7 @@
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Employee\EmployeeDashboardController;
 use App\Http\Controllers\LanguageController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,7 +26,5 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 });
 
 Route::middleware(['auth', 'employee'])->prefix('employee')->name('employee.')->group(function () {
-    Route::get('/dashboard', function () {
-        return 'Employee dashboard coming in Phase 2B';
-    })->name('dashboard');
+   Route::get('/dashboard', [EmployeeDashboardController::class, 'index'])->name('dashboard');
 });
