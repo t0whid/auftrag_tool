@@ -69,16 +69,31 @@
                                     <td class="table-center">
                                         <div class="action-group">
                                             <a href="{{ route('admin.admin-users.edit', $admin) }}"
-                                                class="btn btn-sm btn-action-edit">
-                                                <i class="bi bi-pencil-square me-1"></i>
-                                                {{ __('order.edit') }}
+                                                class="btn btn-sm btn-action-edit"
+                                                title="{{ __('order.edit') }}">
+                                                <i class="bi bi-pencil-square"></i>
                                             </a>
 
                                             <a href="{{ route('admin.admin-users.password.form', $admin) }}"
-                                                class="btn btn-sm btn-soft-warning rounded-pill px-3">
-                                                <i class="bi bi-key me-1"></i>
-                                                {{ __('admin.change_password') }}
+                                                class="btn btn-sm btn-soft-warning rounded-pill px-3"
+                                                title="{{ __('admin.change_password') }}">
+                                                <i class="bi bi-key"></i>
                                             </a>
+
+                                            @if($admin->role !== 'super_admin' && auth()->id() !== $admin->id)
+                                                <form method="POST"
+                                                      action="{{ route('admin.admin-users.destroy', $admin) }}"
+                                                      class="d-inline"
+                                                      onsubmit="return confirm('{{ __('admin.confirm_delete_admin') }}')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                            class="btn btn-sm btn-action-delete"
+                                                            title="{{ __('order.delete') }}">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </form>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>

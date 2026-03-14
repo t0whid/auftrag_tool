@@ -1,9 +1,9 @@
 @extends('layouts.admin')
 
 @php
-    $pageTitle = __('admin.my_password');
-    $pageHeading = __('admin.my_password');
-    $pageSubheading = __('admin.change_your_password');
+    $pageTitle = __('admin.change_password');
+    $pageHeading = __('admin.change_password');
+    $pageSubheading = $admin->name;
 @endphp
 
 @section('content')
@@ -14,8 +14,8 @@
                     <i class="bi bi-key-fill"></i>
                 </div>
                 <div>
-                    <h3 class="order-page-title">{{ __('admin.my_password') }}</h3>
-                    <p class="order-page-subtitle">{{ __('admin.change_your_password') }}</p>
+                    <h3 class="order-page-title">{{ __('admin.change_password') }}</h3>
+                    <p class="order-page-subtitle">{{ $admin->name }}</p>
                 </div>
             </div>
         </div>
@@ -23,7 +23,7 @@
         <div class="order-page-divider"></div>
 
         <div class="panel-body">
-            <form method="POST" action="{{ route('admin.my-password.update') }}">
+            <form method="POST" action="{{ route('admin.admin-users.password.update', $admin) }}">
                 @csrf
                 @method('PUT')
 
@@ -33,27 +33,16 @@
                             <div class="premium-form-card">
                                 <div class="premium-form-head">
                                     <div class="premium-form-icon">
-                                        <i class="bi bi-key"></i>
+                                        <i class="bi bi-shield-lock-fill"></i>
                                     </div>
                                     <div>
-                                        <h3 class="premium-form-title">{{ __('admin.my_password') }}</h3>
-                                        <p class="premium-form-subtitle">{{ __('admin.change_your_password') }}</p>
+                                        <h3 class="premium-form-title">{{ __('admin.change_password') }}</h3>
+                                        <p class="premium-form-subtitle">{{ $admin->name }}</p>
                                     </div>
                                 </div>
 
                                 <div class="row g-4 mt-1">
-                                    <div class="col-lg-4">
-                                        <label class="form-label fw-semibold">{{ __('admin.current_password') }}</label>
-                                        <input type="password"
-                                               name="current_password"
-                                               class="form-control premium-input @error('current_password') is-invalid @enderror"
-                                               required>
-                                        @error('current_password')
-                                            <div class="invalid-feedback d-block">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-6">
                                         <label class="form-label fw-semibold">{{ __('admin.new_password') }}</label>
                                         <input type="password"
                                                name="password"
@@ -64,7 +53,7 @@
                                         @enderror
                                     </div>
 
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-6">
                                         <label class="form-label fw-semibold">{{ __('admin.confirm_password') }}</label>
                                         <input type="password"
                                                name="password_confirmation"
@@ -78,7 +67,7 @@
                 </div>
 
                 <div class="order-form-actions">
-                    <a href="{{ route('admin.dashboard') }}" class="btn btn-soft-dark order-action-btn">
+                    <a href="{{ route('admin.admin-users.index') }}" class="btn btn-soft-dark order-action-btn">
                         <i class="bi bi-arrow-left me-1"></i>
                         {{ __('order.back') }}
                     </a>

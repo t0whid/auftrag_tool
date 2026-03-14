@@ -74,4 +74,8 @@ return [
     'role' => 'Role',
     'super_admin' => 'Super Admin',
     'admin_role' => 'Administrator',
+    'admin_deleted' => 'Admin deleted successfully.',
+    'confirm_delete_admin' => 'Delete this admin?',
+    'super_admin_delete_not_allowed' => 'Super admin cannot be deleted.',
+    'cannot_delete_yourself' => 'You cannot delete your own account.',
 ];

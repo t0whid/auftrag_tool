@@ -74,4 +74,8 @@ return [
     'role' => 'Rolle',
     'super_admin' => 'Super Admin',
     'admin_role' => 'Administrator',
+    'admin_deleted' => 'Admin erfolgreich gelöscht.',
+'confirm_delete_admin' => 'Diesen Admin löschen?',
+'super_admin_delete_not_allowed' => 'Super Admin kann nicht gelöscht werden.',
+'cannot_delete_yourself' => 'Du kannst dein eigenes Konto nicht löschen.',
 ];

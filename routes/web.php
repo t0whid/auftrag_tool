@@ -66,6 +66,8 @@ Route::middleware(['auth', 'super_admin'])->prefix('admin')->name('admin.')->gro
 
     Route::get('/admins/{admin_user}/password', [AdminUserController::class, 'passwordForm'])->name('admin-users.password.form');
     Route::put('/admins/{admin_user}/password', [AdminUserController::class, 'updatePassword'])->name('admin-users.password.update');
+
+    Route::delete('/admins/{admin_user}', [AdminUserController::class, 'destroy'])->name('admin-users.destroy');
 });
 
 /*

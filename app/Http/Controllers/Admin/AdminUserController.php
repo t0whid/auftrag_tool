@@ -120,6 +120,29 @@ class AdminUserController extends Controller
             ->with('success', __('admin.admin_password_updated'));
     }
 
+    public function destroy(User $admin_user): RedirectResponse
+    {
+        abort_unless(in_array($admin_user->role, ['super_admin', 'admin']), 404);
+
+        if ($admin_user->role === 'super_admin') {
+            return redirect()
+                ->route('admin.admin-users.index')
+                ->with('error', __('admin.super_admin_delete_not_allowed'));
+        }
+
+        if (auth()->id() === $admin_user->id) {
+            return redirect()
+                ->route('admin.admin-users.index')
+                ->with('error', __('admin.cannot_delete_yourself'));
+        }
+
+        $admin_user->delete();
+
+        return redirect()
+            ->route('admin.admin-users.index')
+            ->with('success', __('admin.admin_deleted'));
+    }
+
     public function myPasswordForm(): View
     {
         return view('admin.admin-users.my-password');
