@@ -77,23 +77,6 @@
                                             <div class="invalid-feedback d-block">{{ $message }}</div>
                                         @enderror
                                     </div>
-
-                                    <div class="col-lg-6">
-                                        <label class="form-label fw-semibold">{{ __('admin.status') }}</label>
-                                        <select name="status"
-                                                class="form-select premium-input @error('status') is-invalid @enderror"
-                                                required>
-                                            <option value="1" {{ old('status', $admin->status ? '1' : '0') == '1' ? 'selected' : '' }}>
-                                                {{ __('admin.active') }}
-                                            </option>
-                                            <option value="0" {{ old('status', $admin->status ? '1' : '0') == '0' ? 'selected' : '' }}>
-                                                {{ __('admin.inactive') }}
-                                            </option>
-                                        </select>
-                                        @error('status')
-                                            <div class="invalid-feedback d-block">{{ $message }}</div>
-                                        @enderror
-                                    </div>
                                 </div>
                             </div>
                         </div>

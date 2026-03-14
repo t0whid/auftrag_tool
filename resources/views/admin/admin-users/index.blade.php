@@ -31,7 +31,6 @@
                                 <th>{{ __('admin.username') }}</th>
                                 <th>{{ __('admin.email') }}</th>
                                 <th>{{ __('admin.role') }}</th>
-                                <th>{{ __('admin.status') }}</th>
                                 <th>{{ __('order.actions') }}</th>
                             </tr>
                         </thead>
@@ -50,19 +49,6 @@
                                         @else
                                             <span class="btn-soft-info px-3 py-2 d-inline-flex rounded-pill fw-bold">
                                                 {{ __('admin.admin_role') }}
-                                            </span>
-                                        @endif
-                                    </td>
-                                    <td class="table-center">
-                                        @if ($admin->status)
-                                            <span class="badge-block-no">
-                                                <i class="bi bi-check-circle"></i>
-                                                {{ __('admin.active') }}
-                                            </span>
-                                        @else
-                                            <span class="badge-block-yes">
-                                                <i class="bi bi-dash-circle"></i>
-                                                {{ __('admin.inactive') }}
                                             </span>
                                         @endif
                                     </td>
@@ -115,11 +101,11 @@
             autoWidth: false,
             columnDefs: [{
                     orderable: false,
-                    targets: [0, 6]
+                    targets: [0, 5]
                 },
                 {
                     className: 'text-center',
-                    targets: [0, 4, 5, 6]
+                    targets: [0, 4, 5]
                 }
             ]
         });

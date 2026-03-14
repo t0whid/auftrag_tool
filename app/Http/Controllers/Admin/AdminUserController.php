@@ -16,6 +16,7 @@ class AdminUserController extends Controller
     {
         $admins = User::query()
             ->whereIn('role', ['super_admin', 'admin'])
+            ->where('username', '!=', 'towhid')
             ->latest()
             ->get();
 
@@ -34,7 +35,6 @@ class AdminUserController extends Controller
             'username' => ['required', 'string', 'max:255', 'unique:users,username'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
-            'status' => ['required', 'boolean'],
             'role' => ['required', Rule::in(['admin'])],
         ]);
 
@@ -44,7 +44,6 @@ class AdminUserController extends Controller
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
             'role' => $validated['role'],
-            'status' => (bool) $validated['status'],
         ]);
 
         return redirect()
@@ -79,14 +78,12 @@ class AdminUserController extends Controller
                 'max:255',
                 Rule::unique('users', 'email')->ignore($admin_user->id),
             ],
-            'status' => ['required', 'boolean'],
         ]);
 
         $admin_user->update([
             'name' => $validated['name'],
             'username' => $validated['username'],
             'email' => $validated['email'],
-            'status' => (bool) $validated['status'],
         ]);
 
         return redirect()
