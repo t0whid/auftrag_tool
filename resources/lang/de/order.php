@@ -11,7 +11,7 @@ return [
     'title' => 'Titel',
     'description' => 'Beschreibung',
     'location' => 'Ort',
-    'team_info' => 'Team Info',
+    'team_info' => 'Team',
     'start_date' => 'Startdatum',
     'end_date' => 'Enddatum',
 
