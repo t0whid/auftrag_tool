@@ -14,10 +14,55 @@
                 <p class="panel-subtitle">{{ __('order.order_responses_subheading') }}</p>
             </div>
 
-            <a href="{{ route('admin.orders.index') }}" class="btn btn-soft-light">
+            <a href="{{ route('admin.orders.index') }}" class="btn btn-soft-dark">
                 <i class="bi bi-clipboard2-check me-1"></i>
                 {{ __('order.orders_heading') }}
             </a>
+        </div>
+        <div class="response-filter-bar mb-3">
+            <form method="GET" class="row g-2 align-items-end">
+
+                <div class="col-md-3">
+                    <label class="form-label small fw-semibold">Order</label>
+                    <select name="order" class="form-select">
+                        <option value="">All Orders</option>
+                        @foreach ($orderList as $order)
+                            <option value="{{ $order->id }}" {{ $orderFilter == $order->id ? 'selected' : '' }}>
+                                {{ $order->title }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label small fw-semibold">Response</label>
+                    <select name="response" class="form-select">
+                        <option value="">All</option>
+                        <option value="yes" {{ $responseFilter == 'yes' ? 'selected' : '' }}>Yes</option>
+                        <option value="maybe" {{ $responseFilter == 'maybe' ? 'selected' : '' }}>Maybe</option>
+                        <option value="no" {{ $responseFilter == 'no' ? 'selected' : '' }}>No</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3 d-flex gap-2">
+                    <button class="btn btn-soft-primary w-100">
+                        <i class="bi bi-funnel"></i>
+                        Filter
+                    </button>
+
+                    <a href="{{ route('admin.order-responses.index') }}" class="btn btn-soft-danger w-100">
+                        Reset
+                    </a>
+                </div>
+
+                <div class="col-md-3 text-end">
+                    <a href="{{ route('admin.order-responses.export') }}" class="btn btn-soft-success">
+                        <i class="bi bi-download"></i>
+                        Export CSV
+                    </a>
+                </div>
+
+            </form>
         </div>
 
         <div class="panel-body">
@@ -44,7 +89,7 @@
 
                                     <td>
                                         <div class="fw-semibold text-dark">{{ $order->title }}</div>
-                                        @if($order->is_active)
+                                        @if ($order->is_active)
                                             <div class="small text-primary fw-semibold mt-1">
                                                 <i class="bi bi-stars me-1"></i>{{ __('order.current_order') }}
                                             </div>
@@ -118,7 +163,7 @@
                                     <td class="table-center">
                                         <div class="action-group action-group-compact">
                                             <a href="{{ route('admin.order-responses.show', $order) }}"
-                                                class="btn btn-sm btn-soft-light rounded-pill px-3 action-btn-compact">
+                                                class="btn btn-sm btn-soft-success rounded-pill px-3 action-btn-compact">
                                                 <i class="bi bi-eye me-1"></i>
                                                 {{ __('order.responses') }}
                                             </a>
@@ -141,105 +186,112 @@
 @endsection
 
 @push('styles')
-<style>
-    .response-summary-wrap {
-        min-width: 246px;
-    }
-
-    .response-pill-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-        margin-bottom: 8px;
-    }
-
-    .response-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 6px 10px;
-        border-radius: 999px;
-        font-size: .79rem;
-        font-weight: 800;
-        white-space: nowrap;
-    }
-
-    .response-pill-yes {
-        background: #dcfce7;
-        color: #166534;
-    }
-
-    .response-pill-maybe {
-        background: #fef3c7;
-        color: #92400e;
-    }
-
-    .response-pill-no {
-        background: #fee2e2;
-        color: #b91c1c;
-    }
-
-    .response-total-text {
-        font-size: .9rem;
-        font-weight: 700;
-        color: #5f7087;
-    }
-
-    .last-response-date {
-        font-weight: 700;
-        color: #163253;
-        white-space: nowrap;
-    }
-
-    .last-response-time {
-        margin-top: 4px;
-        font-size: .83rem;
-        color: #6b7a90;
-        white-space: nowrap;
-    }
-
-    .action-group-compact {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        align-items: center;
-    }
-
-    .action-btn-compact {
-        min-width: 132px;
-        justify-content: center;
-    }
-
-    @media (max-width: 767.98px) {
+    <style>
         .response-summary-wrap {
-            min-width: 180px;
+            min-width: 246px;
+        }
+
+        .response-pill-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 8px;
+        }
+
+        .response-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: .79rem;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .response-pill-yes {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .response-pill-maybe {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .response-pill-no {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .response-total-text {
+            font-size: .9rem;
+            font-weight: 700;
+            color: #5f7087;
+        }
+
+        .last-response-date {
+            font-weight: 700;
+            color: #163253;
+            white-space: nowrap;
+        }
+
+        .last-response-time {
+            margin-top: 4px;
+            font-size: .83rem;
+            color: #6b7a90;
+            white-space: nowrap;
+        }
+
+        .action-group-compact {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
         }
 
         .action-btn-compact {
-            min-width: 110px;
+            min-width: 132px;
+            justify-content: center;
         }
-    }
-</style>
+
+        @media (max-width: 767.98px) {
+            .response-summary-wrap {
+                min-width: 180px;
+            }
+
+            .action-btn-compact {
+                min-width: 110px;
+            }
+        }
+
+        .response-filter-bar {
+            padding: 16px;
+            border-radius: 12px;
+            background: #f7f9fc;
+            border: 1px solid #e5edf6;
+        }
+    </style>
 @endpush
 
 @push('scripts')
-<script>
-    $(document).ready(function() {
-        $('#orderResponsesTable').DataTable({
-            pageLength: 10,
-            ordering: true,
-            autoWidth: false,
-            order: [],
-            columnDefs: [{
-                    orderable: false,
-                    targets: [0, 6, 8]
-                },
-                {
-                    className: 'text-center',
-                    targets: [0, 3, 5, 7, 8]
-                }
-            ]
+    <script>
+        $(document).ready(function() {
+            $('#orderResponsesTable').DataTable({
+                pageLength: 10,
+                ordering: true,
+                autoWidth: false,
+                order: [],
+                columnDefs: [{
+                        orderable: false,
+                        targets: [0, 6, 8]
+                    },
+                    {
+                        className: 'text-center',
+                        targets: [0, 3, 5, 7, 8]
+                    }
+                ]
+            });
         });
-    });
-</script>
+    </script>
 @endpush

@@ -25,7 +25,7 @@
                 </div>
 
                 <div class="response-hero-right">
-                    @if($order->is_active)
+                    @if ($order->is_active)
                         <span class="order-status-badge order-status-active">
                             <i class="bi bi-check-circle-fill"></i>
                             {{ __('order.active') }}
@@ -64,7 +64,7 @@
             </div>
 
             <div class="response-hero-actions">
-                <a href="{{ route('admin.order-responses.index') }}" class="btn btn-soft-light response-btn">
+                <a href="{{ route('admin.order-responses.index') }}" class="btn btn-soft-dark response-btn">
                     <i class="bi bi-arrow-left me-1"></i>
                     {{ __('order.back_to_response_list') }}
                 </a>
@@ -125,7 +125,7 @@
                     <p class="panel-subtitle">{{ __('order.employee_responses_subtitle') }}</p>
                 </div>
 
-                @if($stats['latest_response_at'])
+                @if ($stats['latest_response_at'])
                     <div class="last-response-chip">
                         <i class="bi bi-clock-history"></i>
                         <span>
@@ -137,12 +137,13 @@
             </div>
 
             <div class="panel-body">
-                @if($responses->count())
+                @if ($responses->count())
                     <div class="table-shell">
                         <div class="table-responsive">
                             <table class="table table-modern align-middle mb-0" id="orderResponseDetailsTable">
                                 <thead>
                                     <tr>
+                                        <th>{{ __('order.sl') }}</th>
                                         <th>{{ __('order.employee_name') }}</th>
                                         <th>{{ __('order.employee_email') }}</th>
                                         <th>{{ __('order.selected_response') }}</th>
@@ -150,14 +151,15 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($responses as $response)
+                                    @foreach ($responses as $index => $response)
                                         <tr>
+                                            <td class="table-center fw-bold">{{ $index + 1 }}</td>
                                             <td>
                                                 <div class="fw-semibold">{{ $response->user?->name ?? '—' }}</div>
                                             </td>
                                             <td>{{ $response->user?->email ?? '—' }}</td>
                                             <td class="table-center">
-                                                @if($response->response === 'yes')
+                                                @if ($response->response === 'yes')
                                                     <span class="response-badge response-badge-yes">
                                                         <i class="bi bi-check-circle-fill"></i>
                                                         {{ __('order.yes') }}
@@ -202,284 +204,285 @@
 @endsection
 
 @push('styles')
-<style>
-    .order-response-shell {
-        display: grid;
-        gap: 22px;
-    }
+    <style>
+        .order-response-shell {
+            display: grid;
+            gap: 22px;
+        }
 
-    .response-hero-card {
-        position: relative;
-        overflow: hidden;
-        padding: 26px;
-        background:
-            radial-gradient(circle at top right, rgba(47, 128, 237, 0.10), transparent 24%),
-            linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
-        border: 1px solid #e5edf6;
-    }
-
-    .response-hero-top {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 18px;
-        flex-wrap: wrap;
-    }
-
-    .response-hero-left {
-        display: flex;
-        align-items: flex-start;
-        gap: 16px;
-        min-width: 0;
-    }
-
-    .response-hero-icon {
-        width: 68px;
-        height: 68px;
-        border-radius: 22px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(180deg, #eef6ff 0%, #dfeeff 100%);
-        color: #2f80ed;
-        font-size: 1.7rem;
-        box-shadow: inset 0 1px 0 rgba(255,255,255,0.8);
-        flex-shrink: 0;
-    }
-
-    .response-hero-label {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        font-size: .78rem;
-        font-weight: 800;
-        color: #5f84c7;
-        text-transform: uppercase;
-        letter-spacing: .08em;
-        margin-bottom: 6px;
-    }
-
-    .response-hero-title {
-        margin: 0;
-        font-size: 1.85rem;
-        line-height: 1.15;
-        font-weight: 900;
-        color: #163253;
-        letter-spacing: -.02em;
-    }
-
-    .response-hero-subtitle {
-        margin: 8px 0 0;
-        color: #6b7a90;
-        font-size: 1rem;
-    }
-
-    .response-hero-meta {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 18px;
-    }
-
-    .response-meta-chip {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 14px;
-        border-radius: 999px;
-        background: #f8fbff;
-        border: 1px solid #e4edf6;
-        color: #46607d;
-        font-weight: 700;
-        font-size: .9rem;
-    }
-
-    .response-meta-chip i {
-        color: #2f80ed;
-    }
-
-    .response-hero-actions {
-        margin-top: 22px;
-        display: flex;
-        gap: 12px;
-        flex-wrap: wrap;
-    }
-
-    .response-btn {
-        min-width: 180px;
-    }
-
-    .order-status-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 14px;
-        border-radius: 999px;
-        font-weight: 800;
-        font-size: .9rem;
-        white-space: nowrap;
-    }
-
-    .order-status-active {
-        background: #dcfce7;
-        color: #166534;
-    }
-
-    .order-status-inactive {
-        background: #fee2e2;
-        color: #b91c1c;
-    }
-
-    .stat-response-card {
-        padding: 22px;
-        height: 100%;
-        border: 1px solid #e7eef6;
-        background: linear-gradient(180deg, #ffffff 0%, #fcfdff 100%);
-    }
-
-    .stat-response-icon {
-        width: 54px;
-        height: 54px;
-        border-radius: 18px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.25rem;
-        margin-bottom: 14px;
-    }
-
-    .stat-response-label {
-        color: #6b7a90;
-        font-weight: 700;
-        margin-bottom: 8px;
-    }
-
-    .stat-response-value {
-        font-size: 1.9rem;
-        font-weight: 900;
-        line-height: 1;
-        color: #163253;
-    }
-
-    .stat-response-total .stat-response-icon {
-        background: #eaf3ff;
-        color: #2f80ed;
-    }
-
-    .stat-response-yes .stat-response-icon {
-        background: #dcfce7;
-        color: #166534;
-    }
-
-    .stat-response-maybe .stat-response-icon {
-        background: #fef3c7;
-        color: #92400e;
-    }
-
-    .stat-response-no .stat-response-icon {
-        background: #fee2e2;
-        color: #b91c1c;
-    }
-
-    .response-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 7px;
-        padding: 9px 12px;
-        border-radius: 999px;
-        font-weight: 800;
-        font-size: .88rem;
-    }
-
-    .response-badge-yes {
-        background: #dcfce7;
-        color: #166534;
-    }
-
-    .response-badge-maybe {
-        background: #fef3c7;
-        color: #92400e;
-    }
-
-    .response-badge-no {
-        background: #fee2e2;
-        color: #b91c1c;
-    }
-
-    .last-response-chip {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 14px;
-        border-radius: 999px;
-        background: #f8fbff;
-        border: 1px solid #e4edf6;
-        color: #46607d;
-        font-weight: 700;
-        font-size: .9rem;
-    }
-
-    .last-response-chip i {
-        color: #2f80ed;
-    }
-
-    .empty-response-state {
-        text-align: center;
-        padding: 32px 18px;
-    }
-
-    .empty-response-icon {
-        width: 74px;
-        height: 74px;
-        margin: 0 auto 14px;
-        border-radius: 22px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.8rem;
-        background: #eef6ff;
-        color: #2f80ed;
-    }
-
-    @media (max-width: 767.98px) {
         .response-hero-card {
-            padding: 18px;
+            position: relative;
+            overflow: hidden;
+            padding: 26px;
+            background:
+                radial-gradient(circle at top right, rgba(47, 128, 237, 0.10), transparent 24%),
+                linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+            border: 1px solid #e5edf6;
         }
 
         .response-hero-top {
-            flex-direction: column;
-            align-items: stretch;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .response-hero-left {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            min-width: 0;
+        }
+
+        .response-hero-icon {
+            width: 68px;
+            height: 68px;
+            border-radius: 22px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(180deg, #eef6ff 0%, #dfeeff 100%);
+            color: #2f80ed;
+            font-size: 1.7rem;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            flex-shrink: 0;
+        }
+
+        .response-hero-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: .78rem;
+            font-weight: 800;
+            color: #5f84c7;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            margin-bottom: 6px;
         }
 
         .response-hero-title {
-            font-size: 1.35rem;
+            margin: 0;
+            font-size: 1.85rem;
+            line-height: 1.15;
+            font-weight: 900;
+            color: #163253;
+            letter-spacing: -.02em;
+        }
+
+        .response-hero-subtitle {
+            margin: 8px 0 0;
+            color: #6b7a90;
+            font-size: 1rem;
+        }
+
+        .response-hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .response-meta-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: #f8fbff;
+            border: 1px solid #e4edf6;
+            color: #46607d;
+            font-weight: 700;
+            font-size: .9rem;
+        }
+
+        .response-meta-chip i {
+            color: #2f80ed;
         }
 
         .response-hero-actions {
-            flex-direction: column;
+            margin-top: 22px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
         .response-btn {
-            width: 100%;
+            min-width: 180px;
         }
-    }
-</style>
+
+        .order-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            font-weight: 800;
+            font-size: .9rem;
+            white-space: nowrap;
+        }
+
+        .order-status-active {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .order-status-inactive {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .stat-response-card {
+            padding: 22px;
+            height: 100%;
+            border: 1px solid #e7eef6;
+            background: linear-gradient(180deg, #ffffff 0%, #fcfdff 100%);
+        }
+
+        .stat-response-icon {
+            width: 54px;
+            height: 54px;
+            border-radius: 18px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            margin-bottom: 14px;
+        }
+
+        .stat-response-label {
+            color: #6b7a90;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .stat-response-value {
+            font-size: 1.9rem;
+            font-weight: 900;
+            line-height: 1;
+            color: #163253;
+        }
+
+        .stat-response-total .stat-response-icon {
+            background: #eaf3ff;
+            color: #2f80ed;
+        }
+
+        .stat-response-yes .stat-response-icon {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .stat-response-maybe .stat-response-icon {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .stat-response-no .stat-response-icon {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .response-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 9px 12px;
+            border-radius: 999px;
+            font-weight: 800;
+            font-size: .88rem;
+        }
+
+        .response-badge-yes {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .response-badge-maybe {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .response-badge-no {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .last-response-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: #f8fbff;
+            border: 1px solid #e4edf6;
+            color: #46607d;
+            font-weight: 700;
+            font-size: .9rem;
+        }
+
+        .last-response-chip i {
+            color: #2f80ed;
+        }
+
+        .empty-response-state {
+            text-align: center;
+            padding: 32px 18px;
+        }
+
+        .empty-response-icon {
+            width: 74px;
+            height: 74px;
+            margin: 0 auto 14px;
+            border-radius: 22px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            background: #eef6ff;
+            color: #2f80ed;
+        }
+
+        @media (max-width: 767.98px) {
+            .response-hero-card {
+                padding: 18px;
+            }
+
+            .response-hero-top {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .response-hero-title {
+                font-size: 1.35rem;
+            }
+
+            .response-hero-actions {
+                flex-direction: column;
+            }
+
+            .response-btn {
+                width: 100%;
+            }
+        }
+    </style>
 @endpush
 
 @push('scripts')
-<script>
-    $(document).ready(function() {
-        $('#orderResponseDetailsTable').DataTable({
-            pageLength: 10,
-            ordering: true,
-            autoWidth: false,
-            order: [[3, 'desc']],
-            columnDefs: [{
+    <script>
+        $(document).ready(function() {
+            $('#orderResponseDetailsTable').DataTable({
+                pageLength: 10,
+                ordering: true,
+                autoWidth: false,
+                order: [
+                    [3, 'desc']
+                ],
+                columnDefs: [{
                     className: 'text-center',
                     targets: [2, 3]
-                }
-            ]
+                }]
+            });
         });
-    });
-</script>
+    </script>
 @endpush

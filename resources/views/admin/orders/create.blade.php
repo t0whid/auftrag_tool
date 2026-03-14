@@ -29,7 +29,7 @@
                 @include('admin.orders._form')
 
                 <div class="order-form-actions">
-                    <a href="{{ route('admin.orders.index') }}" class="btn btn-soft-light order-action-btn">
+                    <a href="{{ route('admin.orders.index') }}" class="btn btn-soft-success order-action-btn">
                         <i class="bi bi-arrow-left me-1"></i>
                         {{ __('order.back') }}
                     </a>

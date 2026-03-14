@@ -15,7 +15,7 @@
             </div>
 
             <div class="d-flex flex-wrap gap-2">
-                <a href="{{ route('admin.order-responses.index') }}" class="btn btn-soft-light">
+                <a href="{{ route('admin.order-responses.index') }}" class="btn btn-soft-success">
                     <i class="bi bi-chat-left-text me-1"></i>
                     {{ __('order.nav_order_responses') }}
                 </a>
@@ -66,13 +66,13 @@
                                     <td class="table-center">
                                         <div class="action-group">
                                             <a href="{{ route('admin.orders.show', $order) }}"
-                                                class="btn btn-sm btn-soft-light rounded-pill px-3">
+                                                class="btn btn-sm btn-soft-success rounded-pill px-3">
                                                 <i class="bi bi-eye me-1"></i>
                                                 {{ __('order.view') }}
                                             </a>
 
                                             <a href="{{ route('admin.order-responses.show', $order) }}"
-                                                class="btn btn-sm btn-soft-light rounded-pill px-3">
+                                                class="btn btn-sm btn-soft-success rounded-pill px-3">
                                                 <i class="bi bi-chat-left-text me-1"></i>
                                                 {{ __('order.view_responses') }}
                                             </a>

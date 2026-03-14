@@ -33,7 +33,7 @@
                     ])
 
                     <div class="employee-form-actions">
-                        <a href="{{ route('admin.employees.index') }}" class="btn btn-soft-secondary">
+                        <a href="{{ route('admin.employees.index') }}" class="btn btn-soft-dark">
                             <i class="bi bi-arrow-left me-1"></i>
                             {{ __('admin.back') }}
                         </a>

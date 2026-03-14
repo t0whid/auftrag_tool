@@ -244,19 +244,7 @@
             gap: 12px;
         }
 
-        .btn-soft-light {
-            background: #fff;
-            color: var(--blue-dark);
-            border: 1px solid var(--border);
-            border-radius: 999px;
-            padding: 12px 18px;
-            font-weight: 700;
-        }
 
-        .btn-soft-light:hover {
-            background: #f8fbff;
-            color: var(--blue-dark);
-        }
 
         #toast-container > .toast {
             border-radius: 16px;

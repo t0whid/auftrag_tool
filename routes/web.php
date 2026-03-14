@@ -29,6 +29,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     ]);
     Route::resource('orders', OrderController::class);
     Route::get('/order-responses', [AdminOrderResponseController::class, 'index'])->name('order-responses.index');
+    Route::get('/order-responses/export', [AdminOrderResponseController::class, 'exportCsv'])->name('order-responses.export');
     Route::get('/order-responses/{order}', [AdminOrderResponseController::class, 'show'])->name('order-responses.show');
 });
 

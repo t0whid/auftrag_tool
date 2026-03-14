@@ -64,12 +64,12 @@
             </div>
 
             <div class="order-hero-actions">
-                <a href="{{ route('admin.orders.index') }}" class="btn btn-soft-light order-btn">
+                <a href="{{ route('admin.orders.index') }}" class="btn btn-soft-dark order-btn">
                     <i class="bi bi-arrow-left me-1"></i>
                     {{ __('order.back') }}
                 </a>
 
-                <a href="{{ route('admin.order-responses.show', $order) }}" class="btn btn-soft-light order-btn">
+                <a href="{{ route('admin.order-responses.show', $order) }}" class="btn btn-soft-success order-btn">
                     <i class="bi bi-chat-left-text me-1"></i>
                     {{ __('order.view_responses') }}
                 </a>
