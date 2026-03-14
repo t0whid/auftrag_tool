@@ -13,7 +13,7 @@ class LoginController extends Controller
     public function showLoginForm(): View|RedirectResponse
     {
         if (Auth::check()) {
-            return $this->redirectByRole(Auth::user()->role);
+            return $this->redirectByRole((string) Auth::user()->role);
         }
 
         return view('auth.login');
@@ -56,7 +56,7 @@ class LoginController extends Controller
                 ->onlyInput('username');
         }
 
-        return $this->redirectByRole($user->role);
+        return $this->redirectByRole((string) $user->role);
     }
 
     public function logout(Request $request): RedirectResponse
