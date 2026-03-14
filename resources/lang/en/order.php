@@ -104,4 +104,7 @@ return [
     'back_to_response_list' => 'Back to Response List',
     'no_responses_yet' => 'No responses yet',
     'no_responses_yet_subtitle' => 'No employee has submitted a response for this order yet.',
+    'responses' => 'Responses',
+    'sl' => 'SL',
+    
 ];

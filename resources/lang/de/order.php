@@ -104,4 +104,6 @@ return [
     'back_to_response_list' => 'Zurück zur Rückmeldungsübersicht',
     'no_responses_yet' => 'Noch keine Rückmeldungen',
     'no_responses_yet_subtitle' => 'Für diesen Auftrag wurde noch keine Rückmeldung abgegeben.',
+    'responses' => 'Antworten',
+    'sl' => 'Nr.',
 ];
