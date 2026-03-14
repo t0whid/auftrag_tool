@@ -427,24 +427,31 @@ body {
     gap: 6px;
     padding: 6px;
     border-radius: 999px;
-    background: #f6f9fd;
-    border: 1px solid var(--border-soft);
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid var(--stroke);
+    box-shadow: var(--shadow-soft);
 }
 
 .lang-switcher a {
-    text-decoration: none;
-    color: #163253;
-    font-weight: 700;
-    padding: 8px 12px;
+    min-width: 42px;
+    height: 36px;
+    padding: 0 14px;
     border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .9rem;
+    font-weight: 800;
+    color: var(--muted);
     transition: .2s ease;
-    font-size: .92rem;
 }
 
 .lang-switcher a.active {
-    background: var(--primary-soft);
-    color: var(--primary);
+    background: linear-gradient(135deg, #42b0eb, #2d89d4);
+    color: #fff;
+    box-shadow: 0 8px 18px rgba(45, 137, 212, 0.22);
 }
+
 .btn-soft-primary {
     background: var(--primary);
     color: #fff;
