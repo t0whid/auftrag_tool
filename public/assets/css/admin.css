@@ -1115,3 +1115,70 @@ table.dataTable thead>tr>th.sorting_desc:before {
         width: 100%;
     }
 }
+
+.sidebar-settings-group {
+    margin-bottom: 8px;
+}
+
+.sidebar-collapse-btn {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    text-align: left;
+}
+
+.sidebar-collapse-btn .sidebar-caret {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform .2s ease;
+    color: rgba(255, 255, 255, 0.72);
+}
+
+.sidebar-collapse-btn[aria-expanded="true"] .sidebar-caret {
+    transform: rotate(180deg);
+}
+
+.sidebar-submenu-wrap {
+    padding-left: 8px;
+    padding-right: 4px;
+}
+
+.sidebar-submenu {
+    margin-top: 6px;
+    margin-left: 18px;
+    padding-left: 14px;
+    border-left: 1px solid rgba(255, 255, 255, 0.10);
+    display: grid;
+    gap: 6px;
+}
+
+.sidebar-sublink {
+    min-height: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.80);
+    font-weight: 700;
+    padding: 10px 12px;
+    transition: .2s ease;
+}
+
+.sidebar-sublink i {
+    font-size: .95rem;
+    min-width: 18px;
+    text-align: center;
+}
+
+.sidebar-sublink:hover,
+.sidebar-sublink.active {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+}
+
+.admin-sidebar.collapsed .sidebar-caret,
+.admin-sidebar.collapsed .sidebar-submenu-wrap {
+    display: none;
+}

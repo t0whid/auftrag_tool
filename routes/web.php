@@ -47,6 +47,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/order-responses/{order}', [AdminOrderResponseController::class, 'show'])
         ->name('order-responses.show');
 
+    Route::get('/profile', [AdminUserController::class, 'profileEdit'])->name('profile.edit');
+    Route::put('/profile', [AdminUserController::class, 'profileUpdate'])->name('profile.update');
     Route::get('/my-password', [AdminUserController::class, 'myPasswordForm'])->name('my-password.form');
     Route::put('/my-password', [AdminUserController::class, 'updateMyPassword'])->name('my-password.update');
 });

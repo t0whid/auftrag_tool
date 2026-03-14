@@ -78,4 +78,9 @@ return [
     'confirm_delete_admin' => 'Delete this admin?',
     'super_admin_delete_not_allowed' => 'Super admin cannot be deleted.',
     'cannot_delete_yourself' => 'You cannot delete your own account.',
+    'settings' => 'Settings',
+    'update_profile' => 'Update Profile',
+    'update_password' => 'Update Password',
+    'update_profile_subheading' => 'Manage your account information.',
+    'profile_updated' => 'Profile updated successfully.',
 ];

@@ -79,11 +79,38 @@
                     </a>
                 @endif
 
-                <a href="{{ route('admin.my-password.form') }}"
-                    class="sidebar-link {{ request()->routeIs('admin.my-password.*') ? 'active' : '' }}">
-                    <i class="bi bi-key-fill"></i>
-                    <span class="sidebar-label">{{ __('admin.my_password') }}</span>
-                </a>
+                @php
+                    $settingsOpen = request()->routeIs('admin.profile.*') || request()->routeIs('admin.my-password.*');
+                @endphp
+
+                <div class="sidebar-settings-group">
+                    <button type="button"
+                        class="sidebar-link sidebar-collapse-btn {{ $settingsOpen ? 'active' : '' }}"
+                        data-bs-toggle="collapse" data-bs-target="#settingsSubmenu"
+                        aria-expanded="{{ $settingsOpen ? 'true' : 'false' }}" aria-controls="settingsSubmenu">
+                        <i class="bi bi-gear-fill"></i>
+                        <span class="sidebar-label">{{ __('admin.settings') }}</span>
+                        <span class="sidebar-caret ms-auto">
+                            <i class="bi bi-chevron-down"></i>
+                        </span>
+                    </button>
+
+                    <div class="collapse sidebar-submenu-wrap {{ $settingsOpen ? 'show' : '' }}" id="settingsSubmenu">
+                        <div class="sidebar-submenu">
+                            <a href="{{ route('admin.profile.edit') }}"
+                                class="sidebar-sublink {{ request()->routeIs('admin.profile.*') ? 'active' : '' }}">
+                                <i class="bi bi-person-circle"></i>
+                                <span>{{ __('admin.update_profile') }}</span>
+                            </a>
+
+                            <a href="{{ route('admin.my-password.form') }}"
+                                class="sidebar-sublink {{ request()->routeIs('admin.my-password.*') ? 'active' : '' }}">
+                                <i class="bi bi-key-fill"></i>
+                                <span>{{ __('admin.update_password') }}</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </nav>
 
             <div class="sidebar-footer">

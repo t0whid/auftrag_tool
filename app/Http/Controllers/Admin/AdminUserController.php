@@ -162,4 +162,36 @@ class AdminUserController extends Controller
             ->route('admin.dashboard')
             ->with('success', __('admin.my_password_updated'));
     }
+
+    public function profileEdit(): View
+    {
+        return view('admin.profile.edit');
+    }
+
+    public function profielUpdate(Request $request): RedirectResponse
+    {
+        $user = auth()->user();
+
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'username' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('users', 'username')->ignore($user->id),
+            ],
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('users', 'email')->ignore($user->id),
+            ],
+        ]);
+
+        $user->update($validated);
+
+        return redirect()
+            ->route('admin.profile.edit')
+            ->with('success', __('admin.profile_updated'));
+    }
 }
