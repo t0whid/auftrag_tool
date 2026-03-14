@@ -8,7 +8,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <style>
         :root {
             --bg: #eef2f7;
@@ -66,7 +66,7 @@
         .page-wrap {
             width: 100%;
             min-height: 100vh;
-            padding: 26px 26px 140px;
+            padding: 15px;
         }
 
         .dashboard-shell {
@@ -99,7 +99,7 @@
         }
 
         .brand-logo {
-            height: 38px;
+            height: 46px;
             width: auto;
             object-fit: contain;
             display: block;
@@ -384,7 +384,7 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
             margin: 0 0 18px;
             font-size: 1.08rem;
             color: var(--text);
@@ -433,6 +433,7 @@
             font-size: 1.08rem;
             font-weight: 800;
             letter-spacing: -0.01em;
+            line-height: 1.2;
         }
 
         .response-btn.yes .circle {
@@ -474,70 +475,6 @@
             box-shadow: inset 0 0 0 2px rgba(246, 109, 109, 0.22);
         }
 
-        .bottom-action-bar {
-            position: sticky;
-            bottom: 0;
-            z-index: 20;
-            padding: 18px 26px 26px;
-            background: linear-gradient(to top, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0));
-            backdrop-filter: blur(8px);
-            border-top: 1px solid rgba(217, 226, 238, 0.45);
-        }
-
-        .bottom-action-header {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin: 0 0 14px;
-            font-size: 1rem;
-            font-weight: 800;
-            color: var(--text);
-        }
-
-        .bottom-action-header i {
-            color: var(--brand);
-        }
-
-        .bottom-action-inner {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 12px;
-        }
-
-        .bottom-btn {
-            border: 0;
-            border-radius: 999px;
-            min-height: 60px;
-            font-weight: 800;
-            font-size: 1rem;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: var(--shadow-soft);
-            transition: transform .2s ease;
-        }
-
-        .bottom-btn:hover {
-            transform: translateY(-1px);
-        }
-
-        .bottom-btn.yes {
-            background: linear-gradient(135deg, #58d9b0, #32c396);
-            color: #fff;
-        }
-
-        .bottom-btn.maybe {
-            background: linear-gradient(135deg, #f9dd86, #f2c347);
-            color: #20314f;
-        }
-
-        .bottom-btn.no {
-            background: linear-gradient(135deg, #ff9a9a, #f46d6d);
-            color: #1f2f4c;
-        }
-
         .empty-state {
             padding: 60px 30px;
             text-align: center;
@@ -555,102 +492,133 @@
             background: linear-gradient(135deg, rgba(65, 169, 232, 0.14), rgba(65, 169, 232, 0.06));
         }
 
-        .toast-container-custom {
-            position: fixed;
-            top: 22px;
-            right: 22px;
-            z-index: 9999;
+        #toast-container {
+            top: 18px !important;
+            right: 18px !important;
+            z-index: 99999 !important;
         }
 
-        .toast-custom {
-            min-width: 300px;
-            border: 0;
+        #toast-container>.toast {
+            width: 360px;
             border-radius: 18px;
-            box-shadow: 0 18px 40px rgba(18, 49, 84, 0.14);
-            overflow: hidden;
-            background: #fff;
+            box-shadow: 0 18px 40px rgba(15, 23, 42, 0.16);
+            opacity: 1;
+            padding: 16px 16px 16px 58px;
+            font-size: .95rem;
+            font-weight: 600;
+            background-size: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
         }
 
-        .toast-custom.success .toast-progress {
-            background: linear-gradient(90deg, #63ddb7, #38c799);
+        #toast-container>.toast-success {
+            background-color: #16a34a;
         }
 
-        .toast-custom.error .toast-progress {
-            background: linear-gradient(90deg, #ff9a9a, #f45f5f);
+        #toast-container>.toast-error {
+            background-color: #dc2626;
+        }
+
+        #toast-container>.toast-warning {
+            background-color: #d97706;
+        }
+
+        #toast-container>.toast-info {
+            background-color: #2563eb;
+        }
+
+        #toast-container>.toast:hover {
+            box-shadow: 0 22px 46px rgba(15, 23, 42, 0.2);
+        }
+
+        .toast-title {
+            font-weight: 800;
+            font-size: .95rem;
+            margin-bottom: 3px;
+        }
+
+        .toast-message {
+            font-size: .92rem;
+            line-height: 1.45;
+        }
+
+        .toast-close-button {
+            opacity: 1 !important;
+            color: #fff !important;
+            font-size: 20px !important;
+            text-shadow: none !important;
+            right: 10px !important;
+            top: 8px !important;
         }
 
         .toast-progress {
-            height: 4px;
-            width: 100%;
+            opacity: .22;
+            height: 3px;
         }
 
-        .toast-body-custom {
-            padding: 14px 16px;
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
+        @media (max-width: 576px) {
+            #toast-container {
+                left: 12px !important;
+                right: 12px !important;
+                top: 12px !important;
+            }
+
+            #toast-container>.toast {
+                width: 100%;
+            }
         }
 
-        .toast-icon {
-            width: 36px;
-            height: 36px;
-            min-width: 36px;
-            border-radius: 12px;
-            display: grid;
-            place-items: center;
-            color: #fff;
-        }
-
-        .toast-custom.success .toast-icon {
-            background: linear-gradient(135deg, #63ddb7, #38c799);
-        }
-
-        .toast-custom.error .toast-icon {
-            background: linear-gradient(135deg, #ff9a9a, #f45f5f);
-        }
-
-        .toast-text {
-            flex: 1;
-            font-size: .96rem;
-            font-weight: 600;
-            color: var(--text);
-            line-height: 1.45;
-            padding-top: 4px;
-        }
-
-        .toast-close {
+        .sidebar-logout-btn {
             border: 0;
             background: transparent;
-            color: #8ca0b8;
-            padding: 2px 4px;
-            line-height: 1;
+            color: inherit;
+            font: inherit;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0;
+            text-align: left;
         }
 
         @media (max-width: 991.98px) {
             .page-wrap {
-                padding: 18px 18px 135px;
+                padding: 0px;
             }
 
             .topbar,
-            .page-body,
-            .bottom-action-bar {
+            .page-body {
                 padding-left: 18px;
                 padding-right: 18px;
-            }
-
-            .response-grid,
-            .bottom-action-inner {
-                grid-template-columns: 1fr;
             }
 
             .info-card {
                 grid-column: span 12;
             }
+
+            .response-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 12px;
+            }
+
+            .response-btn {
+                padding: 14px 8px 16px;
+                border-radius: 18px;
+            }
+
+            .response-btn .circle {
+                width: 64px;
+                height: 64px;
+                font-size: 1.6rem;
+                margin-bottom: 10px;
+            }
+
+            .response-btn .label {
+                font-size: .92rem;
+            }
         }
 
         @media (max-width: 767.98px) {
             .dashboard-shell {
-                border-radius: 24px;
+                border-radius: 0px;
             }
 
             .topbar {
@@ -659,7 +627,7 @@
             }
 
             .brand-logo {
-                height: 32px;
+                height: 40px;
             }
 
             .topbar-right {
@@ -682,25 +650,38 @@
                 align-items: flex-start;
             }
 
-            .response-btn .circle {
-                width: 74px;
-                height: 74px;
-                font-size: 2rem;
+            .response-title-inline {
+                display: inline-flex;
+                flex-wrap: nowrap;
+                font-size: 1rem;
             }
 
-            .toast-container-custom {
-                top: 14px;
-                right: 14px;
-                left: 14px;
+            .response-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 10px;
             }
+
+            .response-btn {
+                padding: 12px 6px 14px;
+                border-radius: 16px;
+            }
+
+            .response-btn .circle {
+                width: 54px;
+                height: 54px;
+                font-size: 1.35rem;
+                margin-bottom: 8px;
+            }
+
+            .response-btn .label {
+                font-size: .82rem;
+                line-height: 1.15;
+            }
+
+
 
             .toast-custom {
                 min-width: 100%;
-            }
-
-            .response-title-inline,
-            .bottom-action-header {
-                display: inline-flex;
             }
         }
     </style>
@@ -767,12 +748,11 @@
                                 </a>
                             </li>
                             <li>
-                               
-                                <form method="POST" action="{{ route('logout') }}" class="dropdown-item">
+                                <form method="POST" action="{{ route('logout') }}" class="dropdown-item m-0">
                                     @csrf
                                     <button type="submit" class="sidebar-logout-btn w-100">
-                                        <i class="bi bi-box-arrow-right"></i>
-                                        <span class="sidebar-label">{{ __('order.logout') }}</span>
+                                        <i class="fa-solid fa-right-from-bracket"></i>
+                                        <span>{{ __('order.logout') }}</span>
                                     </button>
                                 </form>
                             </li>
@@ -978,89 +958,52 @@
                     </section>
                 @endif
             </main>
-
-            @if ($activeOrder)
-                <div class="bottom-action-bar">
-                    <div class="bottom-action-header">
-                        <i class="fa-regular fa-hand-pointer"></i>
-                        <span>{{ __('order.please_select_your_response') }}</span>
-                    </div>
-
-                    <form method="POST" action="{{ route('employee.orders.response.store', $activeOrder) }}">
-                        @csrf
-
-                        <div class="bottom-action-inner">
-                            <button type="submit" name="response" value="yes" class="bottom-btn yes">
-                                <i class="fa-solid fa-circle-check"></i>
-                                <span>{{ __('order.yes') }}</span>
-                            </button>
-
-                            <button type="submit" name="response" value="maybe" class="bottom-btn maybe">
-                                <i class="fa-solid fa-circle-question"></i>
-                                <span>{{ __('order.possibly') }}</span>
-                            </button>
-
-                            <button type="submit" name="response" value="no" class="bottom-btn no">
-                                <i class="fa-solid fa-circle-xmark"></i>
-                                <span>{{ __('order.no') }}</span>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            @endif
         </div>
     </div>
 
-    <div class="toast-container-custom">
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        toastr.options = {
+            closeButton: true,
+            progressBar: true,
+            positionClass: "toast-top-right",
+            timeOut: 3600,
+            extendedTimeOut: 1200,
+            preventDuplicates: true,
+            newestOnTop: true,
+            showDuration: 350,
+            hideDuration: 250,
+            showMethod: "slideDown",
+            hideMethod: "fadeOut",
+            showEasing: "swing",
+            hideEasing: "linear"
+        };
+
         @if (session('success'))
-            <div class="toast-custom success" id="statusToast">
-                <div class="toast-progress"></div>
-                <div class="toast-body-custom">
-                    <div class="toast-icon">
-                        <i class="fa-solid fa-check"></i>
-                    </div>
-                    <div class="toast-text">{{ session('success') }}</div>
-                    <button type="button" class="toast-close" onclick="closeToast()">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-            </div>
+            toastr.success(@json(session('success')), 'Success');
         @endif
 
         @if (session('error'))
-            <div class="toast-custom error" id="statusToast">
-                <div class="toast-progress"></div>
-                <div class="toast-body-custom">
-                    <div class="toast-icon">
-                        <i class="fa-solid fa-triangle-exclamation"></i>
-                    </div>
-                    <div class="toast-text">{{ session('error') }}</div>
-                    <button type="button" class="toast-close" onclick="closeToast()">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-            </div>
+            toastr.error(@json(session('error')), 'Error');
         @endif
-    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        @if (session('warning'))
+            toastr.warning(@json(session('warning')), 'Warning');
+        @endif
 
-    <script>
-        function closeToast() {
-            const toast = document.getElementById('statusToast');
-            if (toast) {
-                toast.remove();
-            }
-        }
+        @if (session('info'))
+            toastr.info(@json(session('info')), 'Info');
+        @endif
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const toast = document.getElementById('statusToast');
-            if (toast) {
-                setTimeout(() => {
-                    closeToast();
-                }, 3200);
-            }
-        });
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+                toastr.error(@json($error), 'Error');
+            @endforeach
+        @endif
     </script>
 </body>
 
