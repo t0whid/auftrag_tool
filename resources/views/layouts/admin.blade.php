@@ -66,6 +66,11 @@
                     <i class="bi bi-clipboard2-check-fill"></i>
                     <span class="sidebar-label">{{ __('order.nav_orders') }}</span>
                 </a>
+                <a href="{{ route('admin.order-responses.index') }}"
+                    class="sidebar-link {{ request()->routeIs('admin.order-responses.*') ? 'active' : '' }}">
+                    <i class="bi bi-chat-left-text-fill"></i>
+                    <span class="sidebar-label">{{ __('order.nav_order_responses') }}</span>
+                </a>
             </nav>
 
             <div class="sidebar-footer">

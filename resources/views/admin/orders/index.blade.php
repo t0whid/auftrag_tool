@@ -14,10 +14,17 @@
                 <p class="panel-subtitle">{{ __('order.orders_subheading') }}</p>
             </div>
 
-            <a href="{{ route('admin.orders.create') }}" class="btn btn-soft-primary">
-                <i class="bi bi-plus-lg me-1"></i>
-                {{ __('order.add_order') }}
-            </a>
+            <div class="d-flex flex-wrap gap-2">
+                <a href="{{ route('admin.order-responses.index') }}" class="btn btn-soft-light">
+                    <i class="bi bi-chat-left-text me-1"></i>
+                    {{ __('order.nav_order_responses') }}
+                </a>
+
+                <a href="{{ route('admin.orders.create') }}" class="btn btn-soft-primary">
+                    <i class="bi bi-plus-lg me-1"></i>
+                    {{ __('order.add_order') }}
+                </a>
+            </div>
         </div>
 
         <div class="panel-body">
@@ -63,6 +70,13 @@
                                                 <i class="bi bi-eye me-1"></i>
                                                 {{ __('order.view') }}
                                             </a>
+
+                                            <a href="{{ route('admin.order-responses.show', $order) }}"
+                                                class="btn btn-sm btn-soft-light rounded-pill px-3">
+                                                <i class="bi bi-chat-left-text me-1"></i>
+                                                {{ __('order.view_responses') }}
+                                            </a>
+
                                             <a href="{{ route('admin.orders.edit', $order) }}"
                                                 class="btn btn-sm btn-action-edit">
                                                 <i class="bi bi-pencil-square me-1"></i>

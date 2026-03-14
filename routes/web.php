@@ -6,6 +6,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\OrderResponseController as AdminOrderResponseController;
+
 use App\Http\Controllers\Employee\EmployeeDashboardController;
 use App\Http\Controllers\Employee\OrderResponseController;
 
@@ -26,6 +28,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         'employees' => 'employee'
     ]);
     Route::resource('orders', OrderController::class);
+    Route::get('/order-responses', [AdminOrderResponseController::class, 'index'])->name('order-responses.index');
+    Route::get('/order-responses/{order}', [AdminOrderResponseController::class, 'show'])->name('order-responses.show');
 });
 
 Route::middleware(['auth', 'employee'])->prefix('employee')->name('employee.')->group(function () {
