@@ -16,7 +16,7 @@ class AdminMiddleware
             return redirect()->route('login');
         }
 
-        if ($user->role !== 'admin') {
+        if (! in_array($user->role, ['super_admin', 'admin'])) {
             abort(403);
         }
 

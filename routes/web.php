@@ -4,10 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\OrderResponseController as AdminOrderResponseController;
-use App\Http\Controllers\Employee\EmployeeDashboardController;
 use App\Http\Controllers\Employee\OrderResponseController;
 
 Route::get('/lang/{locale}', [LanguageController::class, 'switch'])->name('lang.switch');
@@ -26,7 +26,7 @@ Route::middleware('auth')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| Admin
+| Admin + Super Admin
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -46,6 +46,26 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     Route::get('/order-responses/{order}', [AdminOrderResponseController::class, 'show'])
         ->name('order-responses.show');
+
+    Route::get('/my-password', [AdminUserController::class, 'myPasswordForm'])->name('my-password.form');
+    Route::put('/my-password', [AdminUserController::class, 'updateMyPassword'])->name('my-password.update');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Super Admin Only
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'super_admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/admins', [AdminUserController::class, 'index'])->name('admin-users.index');
+    Route::get('/admins/create', [AdminUserController::class, 'create'])->name('admin-users.create');
+    Route::post('/admins', [AdminUserController::class, 'store'])->name('admin-users.store');
+
+    Route::get('/admins/{admin_user}/edit', [AdminUserController::class, 'edit'])->name('admin-users.edit');
+    Route::put('/admins/{admin_user}', [AdminUserController::class, 'update'])->name('admin-users.update');
+
+    Route::get('/admins/{admin_user}/password', [AdminUserController::class, 'passwordForm'])->name('admin-users.password.form');
+    Route::put('/admins/{admin_user}/password', [AdminUserController::class, 'updatePassword'])->name('admin-users.password.update');
 });
 
 /*

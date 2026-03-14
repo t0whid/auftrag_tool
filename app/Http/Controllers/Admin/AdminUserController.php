@@ -15,7 +15,7 @@ class AdminUserController extends Controller
     public function index(): View
     {
         $admins = User::query()
-            ->where('role', 'admin')
+            ->whereIn('role', ['super_admin', 'admin'])
             ->latest()
             ->get();
 
@@ -35,6 +35,7 @@ class AdminUserController extends Controller
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
             'status' => ['required', 'boolean'],
+            'role' => ['required', Rule::in(['admin'])],
         ]);
 
         User::create([
@@ -42,7 +43,7 @@ class AdminUserController extends Controller
             'username' => $validated['username'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
-            'role' => 'admin',
+            'role' => $validated['role'],
             'status' => (bool) $validated['status'],
         ]);
 
@@ -53,7 +54,7 @@ class AdminUserController extends Controller
 
     public function edit(User $admin_user): View
     {
-        abort_unless($admin_user->role === 'admin', 404);
+        abort_unless(in_array($admin_user->role, ['super_admin', 'admin']), 404);
 
         return view('admin.admin-users.edit', [
             'admin' => $admin_user,
@@ -62,7 +63,7 @@ class AdminUserController extends Controller
 
     public function update(Request $request, User $admin_user): RedirectResponse
     {
-        abort_unless($admin_user->role === 'admin', 404);
+        abort_unless(in_array($admin_user->role, ['super_admin', 'admin']), 404);
 
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -95,7 +96,7 @@ class AdminUserController extends Controller
 
     public function passwordForm(User $admin_user): View
     {
-        abort_unless($admin_user->role === 'admin', 404);
+        abort_unless(in_array($admin_user->role, ['super_admin', 'admin']), 404);
 
         return view('admin.admin-users.password', [
             'admin' => $admin_user,
@@ -104,7 +105,7 @@ class AdminUserController extends Controller
 
     public function updatePassword(Request $request, User $admin_user): RedirectResponse
     {
-        abort_unless($admin_user->role === 'admin', 404);
+        abort_unless(in_array($admin_user->role, ['super_admin', 'admin']), 404);
 
         $validated = $request->validate([
             'password' => ['required', 'string', 'min:6', 'confirmed'],
@@ -117,5 +118,28 @@ class AdminUserController extends Controller
         return redirect()
             ->route('admin.admin-users.index')
             ->with('success', __('admin.admin_password_updated'));
+    }
+
+    public function myPasswordForm(): View
+    {
+        return view('admin.admin-users.my-password');
+    }
+
+    public function updateMyPassword(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'current_password' => ['required', 'current_password'],
+            'password' => ['required', 'string', 'min:6', 'confirmed'],
+        ]);
+
+        $user = auth()->user();
+
+        $user->update([
+            'password' => Hash::make($validated['password']),
+        ]);
+
+        return redirect()
+            ->route('admin.dashboard')
+            ->with('success', __('admin.my_password_updated'));
     }
 }

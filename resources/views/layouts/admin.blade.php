@@ -71,6 +71,19 @@
                     <i class="bi bi-chat-left-text-fill"></i>
                     <span class="sidebar-label">{{ __('order.nav_order_responses') }}</span>
                 </a>
+                @if (auth()->user()?->role === 'super_admin')
+                    <a href="{{ route('admin.admin-users.index') }}"
+                        class="sidebar-link {{ request()->routeIs('admin.admin-users.*') ? 'active' : '' }}">
+                        <i class="bi bi-shield-lock-fill"></i>
+                        <span class="sidebar-label">{{ __('admin.nav_admins') }}</span>
+                    </a>
+                @endif
+
+                <a href="{{ route('admin.my-password.form') }}"
+                    class="sidebar-link {{ request()->routeIs('admin.my-password.*') ? 'active' : '' }}">
+                    <i class="bi bi-key-fill"></i>
+                    <span class="sidebar-label">{{ __('admin.my_password') }}</span>
+                </a>
             </nav>
 
             <div class="sidebar-footer">

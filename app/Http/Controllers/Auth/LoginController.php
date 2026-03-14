@@ -28,7 +28,7 @@ class LoginController extends Controller
             return view('auth.login');
         }
 
-        if ($user->role === 'admin') {
+        if (in_array($user->role, ['super_admin', 'admin'])) {
             return redirect()->route('admin.dashboard');
         }
 
@@ -102,7 +102,7 @@ class LoginController extends Controller
     protected function redirectByRole(string $role): RedirectResponse
     {
         return match ($role) {
-            'admin' => redirect()->route('admin.dashboard'),
+            'super_admin', 'admin' => redirect()->route('admin.dashboard'),
             'employee' => redirect()->route('login'),
             default => redirect()->route('login'),
         };
