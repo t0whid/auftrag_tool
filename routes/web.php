@@ -14,14 +14,11 @@ Route::get('/lang/{locale}', [LanguageController::class, 'switch'])->name('lang.
 
 /*
 |--------------------------------------------------------------------------
-| Public / Auth Entry
+| Root / Login
 |--------------------------------------------------------------------------
 */
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
-
-Route::middleware('guest')->group(function () {
-    Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
-});
+Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -41,11 +38,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     Route::resource('orders', OrderController::class);
 
-    Route::get('/order-responses', [AdminOrderResponseController::class, 'index'])
-        ->name('order-responses.index');
-
     Route::get('/order-responses/export', [AdminOrderResponseController::class, 'exportCsv'])
         ->name('order-responses.export');
+
+    Route::get('/order-responses', [AdminOrderResponseController::class, 'index'])
+        ->name('order-responses.index');
 
     Route::get('/order-responses/{order}', [AdminOrderResponseController::class, 'show'])
         ->name('order-responses.show');
@@ -53,12 +50,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
 /*
 |--------------------------------------------------------------------------
-| Employee
+| Employee Actions Only
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth', 'employee'])->prefix('employee')->name('employee.')->group(function () {
-    Route::get('/dashboard', [EmployeeDashboardController::class, 'index'])->name('dashboard');
-
+Route::middleware(['auth', 'employee'])->name('employee.')->group(function () {
     Route::post('/orders/{order}/response', [OrderResponseController::class, 'store'])
         ->name('orders.response.store');
 });
