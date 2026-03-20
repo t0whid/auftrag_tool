@@ -161,17 +161,18 @@
                                     </td>
 
                                     <td class="table-center">
-                                        <div class="action-group action-group-compact">
+                                        <div class="action-group icon-action-group">
                                             <a href="{{ route('admin.order-responses.show', $order) }}"
-                                                class="btn btn-sm btn-soft-success rounded-pill px-3 action-btn-compact">
-                                                <i class="bi bi-eye me-1"></i>
-                                                {{ __('order.responses') }}
+                                                class="btn btn-sm btn-icon-action btn-icon-response"
+                                                title="{{ __('order.responses') }}"
+                                                aria-label="{{ __('order.responses') }}">
+                                                <i class="bi bi-chat-square-text"></i>
                                             </a>
 
                                             <a href="{{ route('admin.orders.show', $order) }}"
-                                                class="btn btn-sm btn-action-edit action-btn-compact">
-                                                <i class="bi bi-clipboard-data me-1"></i>
-                                                {{ __('order.view') }}
+                                                class="btn btn-sm btn-icon-action btn-icon-view"
+                                                title="{{ __('order.view') }}" aria-label="{{ __('order.view') }}">
+                                                <i class="bi bi-eye"></i>
                                             </a>
                                         </div>
                                     </td>
@@ -187,6 +188,53 @@
 
 @push('styles')
     <style>
+        .icon-action-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn-icon-action {
+            width: 38px;
+            height: 38px;
+            padding: 0;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid transparent;
+            transition: all .18s ease;
+        }
+
+        .btn-icon-action i {
+            font-size: 0.95rem;
+            line-height: 1;
+        }
+
+        .btn-icon-view {
+            background: #eaf8ef;
+            color: #18794e;
+            border-color: #ccebd7;
+        }
+
+        .btn-icon-view:hover {
+            background: #def3e6;
+            color: #125c3b;
+        }
+
+        .btn-icon-response {
+            background: #eef4ff;
+            color: #2563eb;
+            border-color: #d7e5ff;
+        }
+
+        .btn-icon-response:hover {
+            background: #e3edff;
+            color: #1d4ed8;
+        }
+
         .response-summary-wrap {
             min-width: 246px;
         }

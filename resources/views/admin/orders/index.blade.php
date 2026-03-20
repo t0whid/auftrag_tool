@@ -39,7 +39,7 @@
                                 <th>{{ __('order.start_date') }}</th>
                                 <th>{{ __('order.end_date') }}</th>
                                 <th>{{ __('order.created_by') }}</th>
-                                <th>{{ __('order.is_active') }}</th>
+                                <th>{{ __('order.status') }}</th>
                                 <th>{{ __('order.actions') }}</th>
                             </tr>
                         </thead>
@@ -68,45 +68,46 @@
                                             @if ($order->is_active)
                                                 <span class="badge-block-no">
                                                     <i class="bi bi-check-circle"></i>
-                                                    {{ __('order.active') }}
+                                                    {{-- {{ __('order.active') }} --}}
                                                 </span>
                                             @else
                                                 <span class="badge-block-yes">
                                                     <i class="bi bi-dash-circle"></i>
-                                                    {{ __('order.inactive') }}
+                                                    {{-- {{ __('order.inactive') }} --}}
                                                 </span>
                                             @endif
                                         </form>
                                     </td>
 
                                     <td class="table-center">
-                                        <div class="action-group">
+                                        <div class="action-group icon-action-group">
                                             <a href="{{ route('admin.orders.show', $order) }}"
-                                                class="btn btn-sm btn-soft-success rounded-pill px-3">
-                                                <i class="bi bi-eye me-1"></i>
-                                                {{ __('order.view') }}
+                                                class="btn btn-sm btn-icon-action btn-icon-view"
+                                                title="{{ __('order.view') }}" aria-label="{{ __('order.view') }}">
+                                                <i class="bi bi-eye"></i>
                                             </a>
 
                                             <a href="{{ route('admin.order-responses.show', $order) }}"
-                                                class="btn btn-sm btn-soft-success rounded-pill px-3">
-                                                <i class="bi bi-chat-left-text me-1"></i>
-                                                {{ __('order.view_responses') }}
+                                                class="btn btn-sm btn-icon-action btn-icon-response"
+                                                title="{{ __('order.view_responses') }}"
+                                                aria-label="{{ __('order.view_responses') }}">
+                                                <i class="bi bi-chat-square-text"></i>
                                             </a>
 
                                             <a href="{{ route('admin.orders.edit', $order) }}"
-                                                class="btn btn-sm btn-action-edit">
-                                                <i class="bi bi-pencil-square me-1"></i>
-                                                {{ __('order.edit') }}
+                                                class="btn btn-sm btn-icon-action btn-icon-edit"
+                                                title="{{ __('order.edit') }}" aria-label="{{ __('order.edit') }}">
+                                                <i class="bi bi-pencil-square"></i>
                                             </a>
 
                                             <form method="POST" action="{{ route('admin.orders.destroy', $order) }}"
                                                 class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-action-delete"
+                                                <button type="submit" class="btn btn-sm btn-icon-action btn-icon-delete"
+                                                    title="{{ __('order.delete') }}" aria-label="{{ __('order.delete') }}"
                                                     onclick="return confirm('{{ __('order.confirm_delete_order') }}')">
-                                                    <i class="bi bi-trash me-1"></i>
-                                                    {{ __('order.delete') }}
+                                                    <i class="bi bi-trash"></i>
                                                 </button>
                                             </form>
                                         </div>
@@ -143,6 +144,75 @@
         .order-status-switch:checked {
             background-color: #2f80ed;
             border-color: #2f80ed;
+        }
+
+        .icon-action-group {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn-icon-action {
+            width: 38px;
+            height: 38px;
+            padding: 0;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid transparent;
+            transition: all .18s ease;
+        }
+
+        .btn-icon-action i {
+            font-size: 0.95rem;
+            line-height: 1;
+        }
+
+        .btn-icon-view {
+            background: #eaf8ef;
+            color: #18794e;
+            border-color: #ccebd7;
+        }
+
+        .btn-icon-view:hover {
+            background: #def3e6;
+            color: #125c3b;
+        }
+
+        .btn-icon-response {
+            background: #eef4ff;
+            color: #2563eb;
+            border-color: #d7e5ff;
+        }
+
+        .btn-icon-response:hover {
+            background: #e3edff;
+            color: #1d4ed8;
+        }
+
+        .btn-icon-edit {
+            background: #fff8e8;
+            color: #a16207;
+            border-color: #fde7b0;
+        }
+
+        .btn-icon-edit:hover {
+            background: #fef2cc;
+            color: #854d0e;
+        }
+
+        .btn-icon-delete {
+            background: #fff5f5;
+            color: #dc2626;
+            border-color: #ffd6d6;
+        }
+
+        .btn-icon-delete:hover {
+            background: #ffe9e9;
+            color: #b91c1c;
         }
     </style>
 @endpush
