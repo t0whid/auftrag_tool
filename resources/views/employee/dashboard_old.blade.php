@@ -17,7 +17,7 @@
     @php
         $userName = auth()->user()->name ?? 'Employee';
         $userEmail = auth()->user()->email ?? 'employee@gmail.com';
-        $userUsername = auth()->user()->username ?? 'user';
+
         $currentResponseClass = match ($myResponse->response ?? null) {
             'yes' => 'yes',
             'maybe' => 'maybe',
@@ -56,9 +56,7 @@
                     <div class="dropdown user-dropdown">
                         <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            <div class="avatar-circle">
-                                {{ strtoupper(mb_substr($userUsername, 0, 1)) }}
-                            </div>
+                            <div class="avatar-circle">E</div>
                         </button>
 
                         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-modern">
@@ -88,15 +86,17 @@
                 </div>
             </header>
 
-            @yield('content')
-
+            <main class="page-body">
+                @yield('content')
+            </main>
         </div>
     </div>
+
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
     <script>
         toastr.options = {
             closeButton: true,
