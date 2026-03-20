@@ -13,7 +13,7 @@ class OrderController extends Controller
 {
     public function index(): View
     {
-        $orders = Order::latest()->get();
+        $orders = Order::with('creator')->latest()->get();
 
         return view('admin.orders.index', compact('orders'));
     }
@@ -28,10 +28,6 @@ class OrderController extends Controller
         $validated = $this->validateOrder($request);
         $validated['travel_cost_unit'] = $validated['travel_cost_unit'] ?: 'km';
 
-        if ((bool) $validated['is_active']) {
-            $this->clearActiveOrders();
-        }
-
         Order::create([
             ...$validated,
             'is_active' => (bool) $validated['is_active'],
@@ -45,6 +41,8 @@ class OrderController extends Controller
 
     public function show(Order $order): View
     {
+        $order->load('creator');
+
         return view('admin.orders.show', compact('order'));
     }
 
@@ -57,10 +55,6 @@ class OrderController extends Controller
     {
         $validated = $this->validateOrder($request);
         $validated['travel_cost_unit'] = $validated['travel_cost_unit'] ?: 'km';
-
-        if ((bool) $validated['is_active']) {
-            $this->clearActiveOrders($order->id);
-        }
 
         $order->update([
             ...$validated,
@@ -103,13 +97,5 @@ class OrderController extends Controller
 
             'is_active' => ['required', 'boolean'],
         ]);
-    }
-
-    protected function clearActiveOrders(?int $exceptId = null): void
-    {
-        Order::query()
-            ->when($exceptId, fn ($query) => $query->where('id', '!=', $exceptId))
-            ->where('is_active', true)
-            ->update(['is_active' => false]);
     }
 }

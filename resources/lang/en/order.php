@@ -106,5 +106,6 @@ return [
     'no_responses_yet_subtitle' => 'No employee has submitted a response for this order yet.',
     'responses' => 'Responses',
     'sl' => 'SL',
+    'mark_order_as_active' => 'This order will be visible as active to employees.',
     
 ];

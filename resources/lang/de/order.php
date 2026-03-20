@@ -106,4 +106,5 @@ return [
     'no_responses_yet_subtitle' => 'Für diesen Auftrag wurde noch keine Rückmeldung abgegeben.',
     'responses' => 'Antworten',
     'sl' => 'Nr.',
+    'mark_order_as_active' => 'Dieser Auftrag wird für Mitarbeiter als aktiv sichtbar sein.',
 ];
