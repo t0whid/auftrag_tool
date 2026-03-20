@@ -672,3 +672,217 @@ a {
         min-width: 100%;
     }
 }
+
+.employee-orders-subtitle {
+    margin: 0;
+    color: var(--muted);
+    font-size: 1rem;
+}
+
+.employee-order-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.employee-order-card-link {
+    display: block;
+    color: inherit;
+}
+
+.employee-order-card {
+    height: 100%;
+    background: rgba(255, 255, 255, 0.82);
+    border: 1px solid rgba(217, 226, 238, 0.78);
+    border-radius: 26px;
+    box-shadow: var(--shadow-soft);
+    padding: 20px;
+    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+    backdrop-filter: blur(10px);
+}
+
+.employee-order-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 34px rgba(18, 49, 84, 0.10);
+    border-color: #cfe0f1;
+}
+
+.employee-order-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.employee-order-card-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 16px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, rgba(65, 169, 232, 0.15), rgba(65, 169, 232, 0.08));
+    color: var(--brand);
+    font-size: 1.15rem;
+}
+
+.employee-order-card-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: rgba(53, 201, 155, 0.12);
+    color: var(--success-dark);
+    font-size: .85rem;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.employee-order-card-title {
+    margin: 0 0 14px;
+    font-size: 1.15rem;
+    font-weight: 800;
+    line-height: 1.3;
+    color: var(--text);
+}
+
+.employee-order-card-meta {
+    display: grid;
+    gap: 10px;
+}
+
+.employee-order-meta-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    color: var(--muted);
+    font-size: .96rem;
+    line-height: 1.45;
+}
+
+.employee-order-meta-item i {
+    width: 18px;
+    min-width: 18px;
+    margin-top: 2px;
+    color: var(--brand);
+}
+
+.employee-order-card-footer {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--stroke-soft);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    color: #214a76;
+    font-weight: 800;
+}
+
+.employee-order-open-text {
+    font-size: .95rem;
+}
+
+.load-more-wrap {
+    margin-top: 22px;
+    display: flex;
+    justify-content: center;
+}
+
+.load-more-btn {
+    min-width: 180px;
+    height: 50px;
+    border: 0;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #42b0eb, #2d89d4);
+    color: #fff;
+    font-size: .96rem;
+    font-weight: 800;
+    box-shadow: 0 12px 24px rgba(45, 137, 212, 0.22);
+    transition: .2s ease;
+}
+
+.load-more-btn:hover {
+    transform: translateY(-1px);
+}
+
+.load-more-btn.is-loading,
+.load-more-btn:disabled {
+    opacity: .75;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.employee-order-back-wrap {
+    margin-bottom: 18px;
+}
+
+.employee-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.84);
+    border: 1px solid var(--stroke);
+    color: var(--text);
+    font-weight: 700;
+    box-shadow: var(--shadow-soft);
+}
+
+.employee-back-btn:hover {
+    color: var(--brand-dark);
+}
+
+@media (max-width: 991.98px) {
+    .employee-order-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .employee-order-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .employee-order-card {
+        padding: 16px;
+        border-radius: 20px;
+    }
+
+    .employee-order-card-top {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .employee-order-card-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+    }
+
+    .employee-order-card-title {
+        font-size: 1rem;
+        margin-bottom: 12px;
+    }
+
+    .employee-order-meta-item {
+        font-size: .88rem;
+    }
+
+    .employee-order-card-status {
+        font-size: .78rem;
+        padding: 7px 10px;
+    }
+
+    .employee-order-card-footer {
+        font-size: .88rem;
+    }
+
+    .load-more-btn {
+        width: 100%;
+    }
+}

@@ -110,5 +110,10 @@ return [
     'order_activated' => 'Order activated successfully.',
     'order_deactivated' => 'Order deactivated successfully.',
     'status' => 'Status',
-
+    'please_check_active_orders' => 'Please check the active orders below.',
+    'view_details' => 'View details',
+    'back_to_orders' => 'Back to orders',
+    'load_more' => 'Load more',
+    'loading' => 'Loading',
+    'something_went_wrong' => 'Something went wrong.',
 ];

@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Order;
-use App\Models\OrderResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,17 +31,7 @@ class LoginController extends Controller
         }
 
         if ($user->role === 'employee') {
-            $activeOrder = Order::where('is_active', true)->latest()->first();
-
-            $myResponse = null;
-
-            if ($activeOrder) {
-                $myResponse = OrderResponse::where('order_id', $activeOrder->id)
-                    ->where('user_id', $user->id)
-                    ->first();
-            }
-
-            return view('employee.dashboard', compact('activeOrder', 'myResponse'));
+            return redirect()->route('employee.dashboard');
         }
 
         return view('auth.login');
@@ -103,7 +91,7 @@ class LoginController extends Controller
     {
         return match ($role) {
             'super_admin', 'admin' => redirect()->route('admin.dashboard'),
-            'employee' => redirect()->route('login'),
+            'employee' => redirect()->route('employee.dashboard'),
             default => redirect()->route('login'),
         };
     }

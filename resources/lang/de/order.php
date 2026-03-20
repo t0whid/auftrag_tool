@@ -110,4 +110,10 @@ return [
     'order_activated' => 'Auftrag wurde erfolgreich aktiviert.',
     'order_deactivated' => 'Auftrag wurde erfolgreich deaktiviert.',
     'status' => 'Status',
+    'please_check_active_orders' => 'Bitte prüfen Sie die aktiven Aufträge unten.',
+    'view_details' => 'Details ansehen',
+    'back_to_orders' => 'Zurück zu den Aufträgen',
+    'load_more' => 'Mehr laden',
+    'loading' => 'Wird geladen',
+    'something_went_wrong' => 'Etwas ist schiefgelaufen.',
 ];

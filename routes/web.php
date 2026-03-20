@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\OrderResponseController as AdminOrderResponseController;
 use App\Http\Controllers\Employee\OrderResponseController;
+use App\Http\Controllers\Employee\EmployeeDashboardController;
 
 Route::get('/lang/{locale}', [LanguageController::class, 'switch'])->name('lang.switch');
 
@@ -77,6 +78,8 @@ Route::middleware(['auth', 'super_admin'])->prefix('admin')->name('admin.')->gro
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'employee'])->name('employee.')->group(function () {
-    Route::post('/orders/{order}/response', [OrderResponseController::class, 'store'])
-        ->name('orders.response.store');
+
+    Route::get('/dashboard', [EmployeeDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/orders/{order}', [EmployeeDashboardController::class, 'show'])->name('orders.show');
+    Route::post('/orders/{order}/response', [OrderResponseController::class, 'store'])->name('orders.response.store');
 });
