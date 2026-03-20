@@ -33,6 +33,7 @@
                     <table class="table table-modern align-middle mb-0" id="ordersTable">
                         <thead>
                             <tr>
+                                <th>{{ __('order.sl') }}</th>
                                 <th>{{ __('order.title') }}</th>
                                 <th>{{ __('order.location') }}</th>
                                 <th>{{ __('order.start_date') }}</th>
@@ -43,26 +44,41 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($orders as $order)
+                            @foreach ($orders as $index => $order)
                                 <tr>
+                                    <td class="table-center fw-bold">{{ $index + 1 }}</td>
                                     <td class="fw-semibold">{{ $order->title }}</td>
                                     <td>{{ $order->location ?: '—' }}</td>
                                     <td class="table-center">{{ $order->start_date?->format('d M Y') }}</td>
                                     <td class="table-center">{{ $order->end_date?->format('d M Y') }}</td>
                                     <td>{{ $order->creator?->name ?? '—' }}</td>
+
                                     <td class="table-center">
-                                        @if ($order->is_active)
-                                            <span class="badge-block-no">
-                                                <i class="bi bi-check-circle"></i>
-                                                {{ __('order.active') }}
-                                            </span>
-                                        @else
-                                            <span class="badge-block-yes">
-                                                <i class="bi bi-dash-circle"></i>
-                                                {{ __('order.inactive') }}
-                                            </span>
-                                        @endif
+                                        <form method="POST" action="{{ route('admin.orders.toggle-status', $order) }}"
+                                            class="d-inline-flex align-items-center gap-2 order-status-toggle-form">
+                                            @csrf
+                                            @method('PATCH')
+
+                                            <div class="form-check form-switch m-0 order-status-switch-wrap">
+                                                <input class="form-check-input order-status-switch" type="checkbox"
+                                                    role="switch" id="order_status_{{ $order->id }}"
+                                                    {{ $order->is_active ? 'checked' : '' }} onchange="this.form.submit()">
+                                            </div>
+
+                                            @if ($order->is_active)
+                                                <span class="badge-block-no">
+                                                    <i class="bi bi-check-circle"></i>
+                                                    {{ __('order.active') }}
+                                                </span>
+                                            @else
+                                                <span class="badge-block-yes">
+                                                    <i class="bi bi-dash-circle"></i>
+                                                    {{ __('order.inactive') }}
+                                                </span>
+                                            @endif
+                                        </form>
                                     </td>
+
                                     <td class="table-center">
                                         <div class="action-group">
                                             <a href="{{ route('admin.orders.show', $order) }}"
@@ -104,6 +120,32 @@
         </div>
     </div>
 @endsection
+
+@push('styles')
+    <style>
+        .order-status-toggle-form {
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .order-status-switch-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .order-status-switch {
+            width: 3rem;
+            height: 1.6rem;
+            cursor: pointer;
+        }
+
+        .order-status-switch:checked {
+            background-color: #2f80ed;
+            border-color: #2f80ed;
+        }
+    </style>
+@endpush
 
 @push('scripts')
     <script>

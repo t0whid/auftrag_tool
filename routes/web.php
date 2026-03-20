@@ -37,15 +37,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     ]);
 
     Route::resource('orders', OrderController::class);
+    Route::patch('/orders/{order}/toggle-status', [OrderController::class, 'toggleStatus'])->name('orders.toggle-status');
 
-    Route::get('/order-responses/export', [AdminOrderResponseController::class, 'exportCsv'])
-        ->name('order-responses.export');
+    Route::get('/order-responses/export', [AdminOrderResponseController::class, 'exportCsv'])->name('order-responses.export');
 
     Route::get('/order-responses', [AdminOrderResponseController::class, 'index'])
         ->name('order-responses.index');
 
-    Route::get('/order-responses/{order}', [AdminOrderResponseController::class, 'show'])
-        ->name('order-responses.show');
+    Route::get('/order-responses/{order}', [AdminOrderResponseController::class, 'show'])->name('order-responses.show');
 
     Route::get('/profile', [AdminUserController::class, 'profileEdit'])->name('profile.edit');
     Route::put('/profile', [AdminUserController::class, 'profileUpdate'])->name('profile.update');

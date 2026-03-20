@@ -75,6 +75,19 @@ class OrderController extends Controller
             ->with('success', __('order.order_deleted'));
     }
 
+    public function toggleStatus(Order $order): RedirectResponse
+    {
+        $order->update([
+            'is_active' => ! $order->is_active,
+        ]);
+
+        return redirect()
+            ->route('admin.orders.index')
+            ->with('success', $order->is_active
+                ? __('order.order_activated')
+                : __('order.order_deactivated'));
+    }
+
     protected function validateOrder(Request $request): array
     {
         return $request->validate([

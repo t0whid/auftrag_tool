@@ -107,4 +107,6 @@ return [
     'responses' => 'Antworten',
     'sl' => 'Nr.',
     'mark_order_as_active' => 'Dieser Auftrag wird für Mitarbeiter als aktiv sichtbar sein.',
+    'order_activated' => 'Auftrag wurde erfolgreich aktiviert.',
+    'order_deactivated' => 'Auftrag wurde erfolgreich deaktiviert.',
 ];

@@ -107,5 +107,7 @@ return [
     'responses' => 'Responses',
     'sl' => 'SL',
     'mark_order_as_active' => 'This order will be visible as active to employees.',
-    
+    'order_activated' => 'Order activated successfully.',
+    'order_deactivated' => 'Order deactivated successfully.',
+
 ];
