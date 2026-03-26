@@ -226,8 +226,7 @@
                     </div>
                     <div>
                         <h3 class="premium-form-title">Attachments</h3>
-                        <p class="premium-form-subtitle">Upload multiple images or PDF files. You can review and remove
-                            files before saving.</p>
+                        <p class="premium-form-subtitle">Upload multiple images or PDF files. You can review and remove files before saving.</p>
                     </div>
                 </div>
 
@@ -250,20 +249,27 @@
                                 </div>
                             </div>
 
-                            <button type="button" class="btn btn-soft-primary attachment-upload-btn"
-                                id="attachmentBrowseBtn">
+                            <button type="button" class="btn btn-soft-primary attachment-upload-btn" id="attachmentBrowseBtn">
                                 <i class="bi bi-plus-lg me-1"></i>
                                 Browse Files
                             </button>
                         </div>
 
-                        <input type="file" id="attachmentInput" class="d-none"
-                            accept=".jpg,.jpeg,.png,.webp,.pdf,image/*,application/pdf" multiple>
+                        <input
+                            type="file"
+                            id="attachmentInput"
+                            class="d-none"
+                            accept=".jpg,.jpeg,.png,.webp,.pdf,image/*,application/pdf"
+                            multiple
+                        >
 
-                        {{-- real input that will be submitted --}}
-                        <input type="file" name="attachments[]" id="attachmentInputMirror"
+                        <input
+                            type="file"
+                            name="attachments[]"
+                            id="attachmentInputMirror"
                             class="d-none @error('attachments') is-invalid @enderror @error('attachments.*') is-invalid @enderror"
-                            multiple>
+                            multiple
+                        >
 
                         @error('attachments')
                             <div class="invalid-feedback d-block mt-2">{{ $message }}</div>
@@ -296,32 +302,41 @@
                                 <div class="row g-3">
                                     @foreach ($order->attachments as $attachment)
                                         <div class="col-md-6 col-xl-4">
-                                            <a href="{{ asset($attachment->file_path) }}" target="_blank"
-                                                class="existing-attachment-card">
-                                                <div class="existing-attachment-icon">
-                                                    @if ($attachment->is_image)
-                                                        <i class="bi bi-image"></i>
-                                                    @elseif($attachment->is_pdf)
-                                                        <i class="bi bi-file-earmark-pdf"></i>
-                                                    @else
-                                                        <i class="bi bi-file-earmark"></i>
-                                                    @endif
-                                                </div>
-
-                                                <div class="existing-attachment-content">
-                                                    <div class="existing-attachment-name">{{ $attachment->file_name }}
+                                            <div class="existing-attachment-card-wrap">
+                                                <a href="{{ asset($attachment->file_path) }}" target="_blank"
+                                                    class="existing-attachment-card">
+                                                    <div class="existing-attachment-icon">
+                                                        @if ($attachment->is_image)
+                                                            <i class="bi bi-image"></i>
+                                                        @elseif($attachment->is_pdf)
+                                                            <i class="bi bi-file-earmark-pdf"></i>
+                                                        @else
+                                                            <i class="bi bi-file-earmark"></i>
+                                                        @endif
                                                     </div>
-                                                    <div class="existing-attachment-meta">
-                                                        {{ strtoupper(pathinfo($attachment->file_name, PATHINFO_EXTENSION)) }}
-                                                        ·
-                                                        {{ number_format(($attachment->file_size ?? 0) / 1024, 1) }} KB
-                                                    </div>
-                                                </div>
 
-                                                <div class="existing-attachment-arrow">
-                                                    <i class="bi bi-box-arrow-up-right"></i>
-                                                </div>
-                                            </a>
+                                                    <div class="existing-attachment-content">
+                                                        <div class="existing-attachment-name">{{ $attachment->file_name }}</div>
+                                                        <div class="existing-attachment-meta">
+                                                            {{ strtoupper(pathinfo($attachment->file_name, PATHINFO_EXTENSION)) }}
+                                                            ·
+                                                            {{ number_format(($attachment->file_size ?? 0) / 1024, 1) }} KB
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="existing-attachment-arrow">
+                                                        <i class="bi bi-box-arrow-up-right"></i>
+                                                    </div>
+                                                </a>
+
+                                                <button
+                                                    type="button"
+                                                    class="existing-attachment-delete-btn js-attachment-delete"
+                                                    title="Remove file"
+                                                    data-action="{{ route('admin.orders.attachments.destroy', [$order, $attachment]) }}">
+                                                    <i class="bi bi-x-lg"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                     @endforeach
                                 </div>
@@ -334,6 +349,11 @@
 
     </div>
 </div>
+
+<form id="attachmentDeleteHiddenForm" method="POST" class="d-none">
+    @csrf
+    @method('DELETE')
+</form>
 
 @once
     @push('styles')
@@ -461,84 +481,6 @@
                 border-color: #2f80ed;
             }
 
-            .existing-attachments-wrap {
-                margin-top: 8px;
-            }
-
-            .existing-attachments-title {
-                font-weight: 800;
-                color: #163253;
-                margin-bottom: 14px;
-            }
-
-            .existing-attachment-card {
-                display: flex;
-                align-items: center;
-                gap: 14px;
-                padding: 14px 16px;
-                border-radius: 18px;
-                background: #f8fbff;
-                border: 1px solid #e7eef6;
-                text-decoration: none;
-                transition: all .18s ease;
-                height: 100%;
-            }
-
-            .existing-attachment-card:hover {
-                background: #f2f8ff;
-                border-color: #d7e6f8;
-                transform: translateY(-1px);
-            }
-
-            .existing-attachment-icon {
-                width: 44px;
-                height: 44px;
-                border-radius: 14px;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                background: #eaf3ff;
-                color: #2f80ed;
-                font-size: 1.05rem;
-                flex-shrink: 0;
-            }
-
-            .existing-attachment-content {
-                min-width: 0;
-                flex: 1;
-            }
-
-            .existing-attachment-name {
-                font-weight: 700;
-                color: #163253;
-                word-break: break-word;
-            }
-
-            .existing-attachment-meta {
-                margin-top: 4px;
-                font-size: .85rem;
-                color: #6b7a90;
-            }
-
-            .existing-attachment-arrow {
-                color: #7e95b2;
-                flex-shrink: 0;
-            }
-
-            @media (max-width: 767.98px) {
-                .premium-form-card {
-                    padding: 18px;
-                }
-
-                .active-order-box {
-                    align-items: flex-start;
-                }
-
-                .active-order-right {
-                    width: 100%;
-                }
-            }
-
             .attachment-upload-box {
                 display: flex;
                 align-items: center;
@@ -550,6 +492,7 @@
                 background: linear-gradient(180deg, #f8fbff 0%, #f4f9ff 100%);
                 transition: all .18s ease;
                 flex-wrap: wrap;
+                cursor: pointer;
             }
 
             .attachment-upload-box:hover {
@@ -692,7 +635,112 @@
                 color: #b91c1c;
             }
 
+            .existing-attachments-wrap {
+                margin-top: 8px;
+            }
+
+            .existing-attachments-title {
+                font-weight: 800;
+                color: #163253;
+                margin-bottom: 14px;
+            }
+
+            .existing-attachment-card-wrap {
+                position: relative;
+                height: 100%;
+            }
+
+            .existing-attachment-card {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                padding: 14px 16px;
+                padding-right: 52px;
+                border-radius: 18px;
+                background: #f8fbff;
+                border: 1px solid #e7eef6;
+                text-decoration: none;
+                transition: all .18s ease;
+                height: 100%;
+            }
+
+            .existing-attachment-card:hover {
+                background: #f2f8ff;
+                border-color: #d7e6f8;
+                transform: translateY(-1px);
+            }
+
+            .existing-attachment-icon {
+                width: 44px;
+                height: 44px;
+                border-radius: 14px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                background: #eaf3ff;
+                color: #2f80ed;
+                font-size: 1.05rem;
+                flex-shrink: 0;
+            }
+
+            .existing-attachment-content {
+                min-width: 0;
+                flex: 1;
+            }
+
+            .existing-attachment-name {
+                font-weight: 700;
+                color: #163253;
+                word-break: break-word;
+            }
+
+            .existing-attachment-meta {
+                margin-top: 4px;
+                font-size: .85rem;
+                color: #6b7a90;
+            }
+
+            .existing-attachment-arrow {
+                color: #7e95b2;
+                flex-shrink: 0;
+            }
+
+            .existing-attachment-delete-btn {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                z-index: 3;
+                width: 32px;
+                height: 32px;
+                border: 0;
+                border-radius: 10px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                background: #fff1f1;
+                color: #dc2626;
+                transition: all .18s ease;
+                box-shadow: 0 4px 12px rgba(220, 38, 38, 0.10);
+            }
+
+            .existing-attachment-delete-btn:hover {
+                background: #ffe4e4;
+                color: #b91c1c;
+            }
+
             @media (max-width: 767.98px) {
+                .premium-form-card {
+                    padding: 18px;
+                }
+
+                .active-order-box {
+                    align-items: flex-start;
+                }
+
+                .active-order-right {
+                    width: 100%;
+                }
+
                 .attachment-upload-box {
                     align-items: flex-start;
                 }
@@ -703,9 +751,12 @@
             }
         </style>
     @endpush
+@endonce
+
+@once
     @push('scripts')
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('DOMContentLoaded', function () {
                 const browseBtn = document.getElementById('attachmentBrowseBtn');
                 const fileInput = document.getElementById('attachmentInput');
                 const mirrorInput = document.getElementById('attachmentInputMirror');
@@ -713,134 +764,149 @@
                 const selectedFilesList = document.getElementById('selectedFilesList');
                 const selectedFilesCount = document.getElementById('selectedFilesCount');
                 const uploadBox = document.getElementById('attachmentUploadBox');
+                const hiddenDeleteForm = document.getElementById('attachmentDeleteHiddenForm');
 
-                if (!browseBtn || !fileInput || !mirrorInput || !selectedFilesWrap || !selectedFilesList || !
-                    selectedFilesCount) {
-                    return;
-                }
+                if (browseBtn && fileInput && mirrorInput && selectedFilesWrap && selectedFilesList && selectedFilesCount) {
+                    let selectedFiles = [];
 
-                let selectedFiles = [];
+                    browseBtn.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        fileInput.click();
+                    });
 
-                browseBtn.addEventListener('click', function() {
-                    fileInput.click();
-                });
+                    uploadBox.addEventListener('click', function (e) {
+                        if (e.target.closest('button')) return;
+                        fileInput.click();
+                    });
 
-                uploadBox.addEventListener('click', function(e) {
-                    if (e.target.closest('button')) return;
-                    fileInput.click();
-                });
+                    fileInput.addEventListener('change', function (event) {
+                        const newFiles = Array.from(event.target.files || []);
 
-                fileInput.addEventListener('change', function(event) {
-                    const newFiles = Array.from(event.target.files || []);
-
-                    if (!newFiles.length) {
-                        return;
-                    }
-
-                    newFiles.forEach(file => {
-                        const exists = selectedFiles.some(existing =>
-                            existing.name === file.name &&
-                            existing.size === file.size &&
-                            existing.lastModified === file.lastModified
-                        );
-
-                        if (!exists) {
-                            selectedFiles.push(file);
+                        if (!newFiles.length) {
+                            return;
                         }
+
+                        newFiles.forEach(file => {
+                            const exists = selectedFiles.some(existing =>
+                                existing.name === file.name &&
+                                existing.size === file.size &&
+                                existing.lastModified === file.lastModified
+                            );
+
+                            if (!exists) {
+                                selectedFiles.push(file);
+                            }
+                        });
+
+                        syncMirrorInput();
+                        renderSelectedFiles();
+                        fileInput.value = '';
                     });
 
-                    syncMirrorInput();
-                    renderSelectedFiles();
+                    function syncMirrorInput() {
+                        const dt = new DataTransfer();
 
-                    fileInput.value = '';
-                });
+                        selectedFiles.forEach(file => dt.items.add(file));
 
-                function syncMirrorInput() {
-                    const dt = new DataTransfer();
-
-                    selectedFiles.forEach(file => dt.items.add(file));
-
-                    mirrorInput.files = dt.files;
-                }
-
-                function renderSelectedFiles() {
-                    selectedFilesList.innerHTML = '';
-
-                    if (!selectedFiles.length) {
-                        selectedFilesWrap.style.display = 'none';
-                        selectedFilesCount.textContent = '0 files';
-                        return;
+                        mirrorInput.files = dt.files;
                     }
 
-                    selectedFilesWrap.style.display = '';
-                    selectedFilesCount.textContent = selectedFiles.length + (selectedFiles.length === 1 ? ' file' :
-                        ' files');
+                    function renderSelectedFiles() {
+                        selectedFilesList.innerHTML = '';
 
-                    selectedFiles.forEach((file, index) => {
-                        const col = document.createElement('div');
-                        col.className = 'col-md-6 col-xl-4';
+                        if (!selectedFiles.length) {
+                            selectedFilesWrap.style.display = 'none';
+                            selectedFilesCount.textContent = '0 files';
+                            return;
+                        }
 
-                        const ext = getExtension(file.name);
-                        const sizeText = formatFileSize(file.size);
-                        const iconClass = getFileIcon(file);
+                        selectedFilesWrap.style.display = '';
+                        selectedFilesCount.textContent = selectedFiles.length + (selectedFiles.length === 1 ? ' file' : ' files');
 
-                        col.innerHTML = `
-                            <div class="selected-file-card">
-                                <div class="selected-file-icon">
-                                    <i class="bi ${iconClass}"></i>
+                        selectedFiles.forEach((file, index) => {
+                            const col = document.createElement('div');
+                            col.className = 'col-md-6 col-xl-4';
+
+                            const ext = getExtension(file.name);
+                            const sizeText = formatFileSize(file.size);
+                            const iconClass = getFileIcon(file);
+
+                            col.innerHTML = `
+                                <div class="selected-file-card">
+                                    <div class="selected-file-icon">
+                                        <i class="bi ${iconClass}"></i>
+                                    </div>
+
+                                    <div class="selected-file-content">
+                                        <div class="selected-file-name">${escapeHtml(file.name)}</div>
+                                        <div class="selected-file-meta">${(ext.toUpperCase() || 'FILE')} · ${sizeText}</div>
+                                    </div>
+
+                                    <button type="button" class="selected-file-remove" data-index="${index}" title="Remove">
+                                        <i class="bi bi-x-lg"></i>
+                                    </button>
                                 </div>
+                            `;
 
-                                <div class="selected-file-content">
-                                    <div class="selected-file-name">${escapeHtml(file.name)}</div>
-                                    <div class="selected-file-meta">${ext.toUpperCase() || 'FILE'} · ${sizeText}</div>
-                                </div>
+                            selectedFilesList.appendChild(col);
+                        });
 
-                                <button type="button" class="selected-file-remove" data-index="${index}" title="Remove">
-                                    <i class="bi bi-x-lg"></i>
-                                </button>
-                            </div>
-                        `;
+                        selectedFilesList.querySelectorAll('.selected-file-remove').forEach(button => {
+                            button.addEventListener('click', function () {
+                                const index = Number(this.getAttribute('data-index'));
+                                selectedFiles.splice(index, 1);
+                                syncMirrorInput();
+                                renderSelectedFiles();
+                            });
+                        });
+                    }
 
-                        selectedFilesList.appendChild(col);
-                    });
+                    function getExtension(fileName) {
+                        const parts = fileName.split('.');
+                        return parts.length > 1 ? parts.pop() : '';
+                    }
 
-                    selectedFilesList.querySelectorAll('.selected-file-remove').forEach(button => {
-                        button.addEventListener('click', function() {
-                            const index = Number(this.getAttribute('data-index'));
-                            selectedFiles.splice(index, 1);
-                            syncMirrorInput();
-                            renderSelectedFiles();
+                    function getFileIcon(file) {
+                        if (file.type.startsWith('image/')) {
+                            return 'bi-image';
+                        }
+
+                        if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
+                            return 'bi-file-earmark-pdf';
+                        }
+
+                        return 'bi-file-earmark';
+                    }
+
+                    function formatFileSize(bytes) {
+                        if (bytes < 1024) return bytes + ' B';
+                        if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+                        return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+                    }
+
+                    function escapeHtml(text) {
+                        const div = document.createElement('div');
+                        div.textContent = text;
+                        return div.innerHTML;
+                    }
+                }
+
+                if (hiddenDeleteForm) {
+                    document.querySelectorAll('.js-attachment-delete').forEach(button => {
+                        button.addEventListener('click', function (e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            const action = this.getAttribute('data-action');
+                            if (!action) return;
+
+                            if (confirm('Are you sure you want to remove this file?')) {
+                                hiddenDeleteForm.setAttribute('action', action);
+                                hiddenDeleteForm.submit();
+                            }
                         });
                     });
-                }
-
-                function getExtension(fileName) {
-                    const parts = fileName.split('.');
-                    return parts.length > 1 ? parts.pop() : '';
-                }
-
-                function getFileIcon(file) {
-                    if (file.type.startsWith('image/')) {
-                        return 'bi-image';
-                    }
-
-                    if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
-                        return 'bi-file-earmark-pdf';
-                    }
-
-                    return 'bi-file-earmark';
-                }
-
-                function formatFileSize(bytes) {
-                    if (bytes < 1024) return bytes + ' B';
-                    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-                    return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
-                }
-
-                function escapeHtml(text) {
-                    const div = document.createElement('div');
-                    div.textContent = text;
-                    return div.innerHTML;
                 }
             });
         </script>

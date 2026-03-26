@@ -39,6 +39,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     Route::resource('orders', OrderController::class);
     Route::patch('/orders/{order}/toggle-status', [OrderController::class, 'toggleStatus'])->name('orders.toggle-status');
+    Route::delete('/orders/{order}/attachments/{attachment}', [OrderController::class, 'destroyAttachment'])->name('orders.attachments.destroy');
 
     Route::get('/order-responses/export', [AdminOrderResponseController::class, 'exportCsv'])->name('order-responses.export');
 

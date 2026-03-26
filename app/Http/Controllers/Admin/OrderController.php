@@ -301,4 +301,32 @@ class OrderController extends Controller
 
         @rmdir($directory);
     }
+
+    public function destroyAttachment(Order $order, \App\Models\OrderAttachment $attachment): RedirectResponse
+    {
+        if ((int) $attachment->order_id !== (int) $order->id) {
+            abort(404);
+        }
+
+        $absolutePath = public_path($attachment->file_path);
+
+        if (is_file($absolutePath)) {
+            @unlink($absolutePath);
+        }
+
+        $attachment->delete();
+
+        $folder = public_path($this->getOrderUploadFolderRelative($order->id, $order->title));
+
+        if (is_dir($folder)) {
+            $items = array_diff(scandir($folder) ?: [], ['.', '..']);
+            if (empty($items)) {
+                @rmdir($folder);
+            }
+        }
+
+        return redirect()
+            ->back()
+            ->with('success', 'Attachment removed successfully.');
+    }
 }
