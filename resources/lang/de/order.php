@@ -116,4 +116,7 @@ return [
     'load_more' => 'Mehr laden',
     'loading' => 'Wird geladen',
     'something_went_wrong' => 'Etwas ist schiefgelaufen.',
+    'attachments' => 'Anhänge',
+    'file' => 'Datei',
+    'files' => 'Dateien',
 ];

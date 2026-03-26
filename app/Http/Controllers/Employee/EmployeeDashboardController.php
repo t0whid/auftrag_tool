@@ -15,8 +15,8 @@ class EmployeeDashboardController extends Controller
     {
         $activeOrders = Order::query()
             ->where('is_active', true)
-            ->orderByDesc('start_date')
-            ->orderByDesc('id')
+            ->withCount('attachments')
+            ->orderByDesc('created_at')
             ->paginate(10);
 
         if (request()->ajax()) {
@@ -36,6 +36,8 @@ class EmployeeDashboardController extends Controller
     public function show(Order $order): View
     {
         abort_unless($order->is_active, 404);
+
+        $order->load('attachments');
 
         $myResponse = OrderResponse::query()
             ->where('order_id', $order->id)

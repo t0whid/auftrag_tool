@@ -38,6 +38,16 @@
                         <span>{{ $order->team_info }}</span>
                     </div>
                 @endif
+
+                @if (($order->attachments_count ?? 0) > 0)
+                    <div class="employee-order-meta-item">
+                        <i class="fa-solid fa-paperclip"></i>
+                        <span>
+                            {{ $order->attachments_count }}
+                            {{ $order->attachments_count > 1 ? __('order.files') : __('order.file') }}
+                        </span>
+                    </div>
+                @endif
             </div>
 
             <div class="employee-order-card-footer">

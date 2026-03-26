@@ -130,6 +130,51 @@
                 @endif
             </section>
 
+            @if ($order->attachments->count())
+                <section class="card-soft response-panel attachment-panel">
+                    <div class="response-title-inline">
+                        <i class="fa-solid fa-paperclip"></i>
+                        <span>{{ __('order.attachments') }}</span>
+                    </div>
+
+                    <div class="employee-attachments-grid mt-3">
+                        @foreach ($order->attachments as $attachment)
+                            @php
+                                $ext = strtolower(pathinfo($attachment->file_name, PATHINFO_EXTENSION));
+                                $isImage = in_array($ext, ['jpg', 'jpeg', 'png', 'webp']);
+                                $isPdf = $ext === 'pdf';
+                            @endphp
+
+                            <a href="{{ asset($attachment->file_path) }}" target="_blank" class="employee-attachment-card">
+                                <div class="employee-attachment-icon {{ $isPdf ? 'pdf' : 'image' }}">
+                                    @if ($isImage)
+                                        <i class="fa-regular fa-image"></i>
+                                    @elseif($isPdf)
+                                        <i class="fa-regular fa-file-pdf"></i>
+                                    @else
+                                        <i class="fa-regular fa-file"></i>
+                                    @endif
+                                </div>
+
+                                <div class="employee-attachment-content">
+                                    <div class="employee-attachment-name">{{ $attachment->file_name }}</div>
+                                    <div class="employee-attachment-meta">
+                                        {{ strtoupper($ext) ?: __('order.file') }}
+                                        @if (!empty($attachment->file_size))
+                                            · {{ number_format($attachment->file_size / 1024, 1) }} KB
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="employee-attachment-open">
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
+                </section>
+            @endif
+
             @if ($myResponse)
                 @php
                     $currentResponseClass = match ($myResponse->response ?? null) {
@@ -213,3 +258,76 @@
         </div>
     </div>
 @endsection
+
+@push('styles')
+    <style>
+        .attachment-panel {
+            margin-top: 18px;
+        }
+
+        .employee-attachments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 14px;
+        }
+
+        .employee-attachment-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px;
+            border-radius: 16px;
+            background: #f8fbff;
+            border: 1px solid #e7eef6;
+            text-decoration: none;
+            transition: all .18s ease;
+        }
+
+        .employee-attachment-card:hover {
+            background: #f2f8ff;
+            border-color: #d6e4f3;
+            transform: translateY(-1px);
+        }
+
+        .employee-attachment-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1rem;
+            background: #eaf3ff;
+            color: #2f80ed;
+        }
+
+        .employee-attachment-icon.pdf {
+            background: #fff1f1;
+            color: #dc2626;
+        }
+
+        .employee-attachment-content {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .employee-attachment-name {
+            font-weight: 700;
+            color: #163253;
+            word-break: break-word;
+            line-height: 1.4;
+        }
+
+        .employee-attachment-meta {
+            margin-top: 4px;
+            font-size: .84rem;
+            color: #6b7a90;
+        }
+
+        .employee-attachment-open {
+            color: #7e95b2;
+            flex-shrink: 0;
+        }
+    </style>
+@endpush

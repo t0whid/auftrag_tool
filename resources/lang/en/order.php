@@ -116,4 +116,7 @@ return [
     'load_more' => 'Load more',
     'loading' => 'Loading',
     'something_went_wrong' => 'Something went wrong.',
+    'attachments' => 'Attachments',
+    'file' => 'file',
+    'files' => 'files',
 ];
