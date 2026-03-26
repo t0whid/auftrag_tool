@@ -23,7 +23,7 @@
         <div class="order-page-divider"></div>
 
         <div class="panel-body">
-            <form method="POST" action="{{ route('admin.orders.update', $order) }}">
+            <form method="POST" action="{{ route('admin.orders.update', $order) }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 

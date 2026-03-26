@@ -48,4 +48,9 @@ class Order extends Model
     {
         return $this->hasMany(OrderResponse::class);
     }
+
+    public function attachments(): HasMany
+    {
+        return $this->hasMany(OrderAttachment::class);
+    }
 }

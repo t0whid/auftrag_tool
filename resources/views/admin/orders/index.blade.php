@@ -39,6 +39,7 @@
                                 <th>{{ __('order.start_date') }}</th>
                                 <th>{{ __('order.end_date') }}</th>
                                 <th>{{ __('order.created_by') }}</th>
+                                <th>Files</th>
                                 <th>{{ __('order.status') }}</th>
                                 <th>{{ __('order.actions') }}</th>
                             </tr>
@@ -47,14 +48,40 @@
                             @foreach ($orders as $index => $order)
                                 <tr>
                                     <td class="table-center fw-bold">{{ $index + 1 }}</td>
-                                    <td class="fw-semibold">{{ $order->title }}</td>
+
+                                    <td>
+                                        <div class="order-title-cell">
+                                            <div class="order-title-text">{{ $order->title }}</div>
+                                            @if (!empty($order->description))
+                                                <div class="order-title-subtext">
+                                                    {{ \Illuminate\Support\Str::limit(strip_tags($order->description), 70) }}
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </td>
+
                                     <td>{{ $order->location ?: '—' }}</td>
-                                    <td class="table-center">{{ $order->start_date?->format('d M Y') }}</td>
-                                    <td class="table-center">{{ $order->end_date?->format('d M Y') }}</td>
+
+                                    <td class="table-center">
+                                        {{ $order->start_date?->format('d M Y') ?: '—' }}
+                                    </td>
+
+                                    <td class="table-center">
+                                        {{ $order->end_date?->format('d M Y') ?: '—' }}
+                                    </td>
+
                                     <td>{{ $order->creator?->name ?? '—' }}</td>
 
                                     <td class="table-center">
-                                        <form method="POST" action="{{ route('admin.orders.toggle-status', $order) }}"
+                                        <span class="file-count-badge">
+                                            <i class="bi bi-paperclip me-1"></i>
+                                            {{ $order->attachments_count ?? 0 }}
+                                        </span>
+                                    </td>
+
+                                    <td class="table-center">
+                                        <form method="POST"
+                                            action="{{ route('admin.orders.toggle-status', $order) }}"
                                             class="d-inline-flex align-items-center gap-2 order-status-toggle-form">
                                             @csrf
                                             @method('PATCH')
@@ -62,18 +89,17 @@
                                             <div class="form-check form-switch m-0 order-status-switch-wrap">
                                                 <input class="form-check-input order-status-switch" type="checkbox"
                                                     role="switch" id="order_status_{{ $order->id }}"
-                                                    {{ $order->is_active ? 'checked' : '' }} onchange="this.form.submit()">
+                                                    {{ $order->is_active ? 'checked' : '' }}
+                                                    onchange="this.form.submit()">
                                             </div>
 
                                             @if ($order->is_active)
                                                 <span class="badge-block-no">
                                                     <i class="bi bi-check-circle"></i>
-                                                    {{-- {{ __('order.active') }} --}}
                                                 </span>
                                             @else
                                                 <span class="badge-block-yes">
                                                     <i class="bi bi-dash-circle"></i>
-                                                    {{-- {{ __('order.inactive') }} --}}
                                                 </span>
                                             @endif
                                         </form>
@@ -83,7 +109,8 @@
                                         <div class="action-group icon-action-group">
                                             <a href="{{ route('admin.orders.show', $order) }}"
                                                 class="btn btn-sm btn-icon-action btn-icon-view"
-                                                title="{{ __('order.view') }}" aria-label="{{ __('order.view') }}">
+                                                title="{{ __('order.view') }}"
+                                                aria-label="{{ __('order.view') }}">
                                                 <i class="bi bi-eye"></i>
                                             </a>
 
@@ -96,16 +123,21 @@
 
                                             <a href="{{ route('admin.orders.edit', $order) }}"
                                                 class="btn btn-sm btn-icon-action btn-icon-edit"
-                                                title="{{ __('order.edit') }}" aria-label="{{ __('order.edit') }}">
+                                                title="{{ __('order.edit') }}"
+                                                aria-label="{{ __('order.edit') }}">
                                                 <i class="bi bi-pencil-square"></i>
                                             </a>
 
-                                            <form method="POST" action="{{ route('admin.orders.destroy', $order) }}"
+                                            <form method="POST"
+                                                action="{{ route('admin.orders.destroy', $order) }}"
                                                 class="d-inline">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-icon-action btn-icon-delete"
-                                                    title="{{ __('order.delete') }}" aria-label="{{ __('order.delete') }}"
+
+                                                <button type="submit"
+                                                    class="btn btn-sm btn-icon-action btn-icon-delete"
+                                                    title="{{ __('order.delete') }}"
+                                                    aria-label="{{ __('order.delete') }}"
                                                     onclick="return confirm('{{ __('order.confirm_delete_order') }}')">
                                                     <i class="bi bi-trash"></i>
                                                 </button>
@@ -117,6 +149,16 @@
                         </tbody>
                     </table>
                 </div>
+
+                @if ($orders->isEmpty())
+                    <div class="empty-state-wrap">
+                        <div class="empty-state-icon">
+                            <i class="bi bi-inbox"></i>
+                        </div>
+                        <h5 class="empty-state-title">No orders found</h5>
+                        <p class="empty-state-text mb-0">Create your first order to get started.</p>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
@@ -214,6 +256,65 @@
             background: #ffe9e9;
             color: #b91c1c;
         }
+
+        .order-title-cell {
+            min-width: 180px;
+        }
+
+        .order-title-text {
+            font-weight: 700;
+            color: #163253;
+            line-height: 1.35;
+        }
+
+        .order-title-subtext {
+            margin-top: 4px;
+            font-size: .84rem;
+            color: #7b8aa0;
+            line-height: 1.45;
+        }
+
+        .file-count-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 62px;
+            padding: 7px 12px;
+            border-radius: 999px;
+            background: #f4f8ff;
+            border: 1px solid #dce7f7;
+            color: #315b97;
+            font-weight: 700;
+            font-size: .86rem;
+        }
+
+        .empty-state-wrap {
+            text-align: center;
+            padding: 40px 16px 12px;
+        }
+
+        .empty-state-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 12px;
+            border-radius: 18px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(180deg, #eef6ff 0%, #e2efff 100%);
+            color: #2f80ed;
+            font-size: 1.5rem;
+        }
+
+        .empty-state-title {
+            margin-bottom: 6px;
+            font-weight: 800;
+            color: #163253;
+        }
+
+        .empty-state-text {
+            color: #74839a;
+        }
     </style>
 @endpush
 
@@ -224,13 +325,14 @@
                 pageLength: 10,
                 ordering: true,
                 autoWidth: false,
-                columnDefs: [{
+                columnDefs: [
+                    {
                         orderable: false,
-                        targets: 6
+                        targets: [7, 8]
                     },
                     {
                         className: 'text-center',
-                        targets: [2, 3, 5, 6]
+                        targets: [0, 2, 3, 4, 6, 7, 8]
                     }
                 ]
             });

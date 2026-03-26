@@ -202,7 +202,8 @@
                                 <div class="order-metric-icon"><i class="bi bi-clock-history"></i></div>
                                 <div class="order-field-label">{{ __('order.hourly_rate') }}</div>
                                 <div class="order-metric-value">
-                                    {{ $order->hourly_rate !== null ? $order->hourly_rate : '—' }}</div>
+                                    {{ $order->hourly_rate !== null ? $order->hourly_rate : '—' }}
+                                </div>
                             </div>
                         </div>
 
@@ -211,7 +212,8 @@
                                 <div class="order-metric-icon"><i class="bi bi-signpost-split"></i></div>
                                 <div class="order-field-label">{{ __('order.travel_cost') }}</div>
                                 <div class="order-metric-value">
-                                    {{ $order->travel_cost !== null ? $order->travel_cost : '—' }}</div>
+                                    {{ $order->travel_cost !== null ? $order->travel_cost : '—' }}
+                                </div>
                             </div>
                         </div>
 
@@ -228,7 +230,8 @@
                                 <div class="order-metric-icon"><i class="bi bi-cup-hot"></i></div>
                                 <div class="order-field-label">{{ __('order.meal_allowance') }}</div>
                                 <div class="order-metric-value">
-                                    {{ $order->meal_allowance !== null ? $order->meal_allowance : '—' }}</div>
+                                    {{ $order->meal_allowance !== null ? $order->meal_allowance : '—' }}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -276,6 +279,59 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            {{-- ATTACHMENTS --}}
+            <div class="col-12">
+                <div class="card-soft order-section-card">
+                    <div class="order-section-header">
+                        <div class="order-section-icon">
+                            <i class="bi bi-paperclip"></i>
+                        </div>
+                        <div>
+                            <h3 class="order-section-title">Attachments</h3>
+                            <p class="order-section-subtitle">Uploaded images and PDF files for this order.</p>
+                        </div>
+                    </div>
+
+                    @if ($order->attachments->count())
+                        <div class="row g-3">
+                            @foreach ($order->attachments as $attachment)
+                                <div class="col-md-6 col-xl-4">
+                                    <a href="{{ asset($attachment->file_path) }}" target="_blank" class="attachment-view-card">
+                                        <div class="attachment-view-icon">
+                                            @if ($attachment->is_image)
+                                                <i class="bi bi-image"></i>
+                                            @elseif($attachment->is_pdf)
+                                                <i class="bi bi-file-earmark-pdf"></i>
+                                            @else
+                                                <i class="bi bi-file-earmark"></i>
+                                            @endif
+                                        </div>
+
+                                        <div class="attachment-view-content">
+                                            <div class="attachment-view-name">{{ $attachment->file_name }}</div>
+                                            <div class="attachment-view-meta">
+                                                {{ strtoupper(pathinfo($attachment->file_name, PATHINFO_EXTENSION)) }}
+                                                ·
+                                                {{ number_format(($attachment->file_size ?? 0) / 1024, 1) }} KB
+                                            </div>
+                                        </div>
+
+                                        <div class="attachment-view-arrow">
+                                            <i class="bi bi-box-arrow-up-right"></i>
+                                        </div>
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="empty-attachment-box">
+                            <i class="bi bi-folder2-open"></i>
+                            <span>No attachments found for this order.</span>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -562,6 +618,72 @@
             line-height: 1.2;
         }
 
+        .attachment-view-card {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px;
+            border-radius: 18px;
+            background: #f8fbff;
+            border: 1px solid #e7eef6;
+            text-decoration: none;
+            height: 100%;
+            transition: all .18s ease;
+        }
+
+        .attachment-view-card:hover {
+            background: #f2f8ff;
+            border-color: #d7e6f8;
+            transform: translateY(-1px);
+        }
+
+        .attachment-view-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #eaf3ff;
+            color: #2f80ed;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .attachment-view-content {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .attachment-view-name {
+            font-weight: 700;
+            color: #163253;
+            word-break: break-word;
+        }
+
+        .attachment-view-meta {
+            margin-top: 4px;
+            font-size: .85rem;
+            color: #6b7a90;
+        }
+
+        .attachment-view-arrow {
+            color: #7e95b2;
+            flex-shrink: 0;
+        }
+
+        .empty-attachment-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 18px;
+            border-radius: 18px;
+            background: #f9fbfe;
+            border: 1px dashed #d6e4f2;
+            color: #6b7a90;
+            font-weight: 600;
+        }
+
         @media (max-width: 991.98px) {
             .order-hero-title {
                 font-size: 1.55rem;
@@ -569,7 +691,6 @@
         }
 
         @media (max-width: 767.98px) {
-
             .order-hero-card,
             .order-section-card {
                 padding: 18px;

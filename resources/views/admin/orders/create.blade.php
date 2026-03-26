@@ -23,7 +23,7 @@
         <div class="order-page-divider"></div>
 
         <div class="panel-body">
-            <form method="POST" action="{{ route('admin.orders.store') }}">
+            <form method="POST" action="{{ route('admin.orders.store') }}" enctype="multipart/form-data">
                 @csrf
 
                 @include('admin.orders._form')
