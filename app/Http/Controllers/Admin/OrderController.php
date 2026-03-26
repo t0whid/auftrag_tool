@@ -9,7 +9,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Response;
 use Illuminate\View\View;
 
 class OrderController extends Controller
@@ -69,21 +70,10 @@ class OrderController extends Controller
         $validated['travel_cost_unit'] = $validated['travel_cost_unit'] ?: 'km';
 
         DB::transaction(function () use ($validated, $request, $order) {
-            $order->load('attachments');
-
-            $oldFolder = $this->getOrderUploadFolderRelative($order->id, $order->title);
-
             $order->update([
                 ...$validated,
                 'is_active' => (bool) $validated['is_active'],
             ]);
-
-            $newFolder = $this->getOrderUploadFolderRelative($order->id, $order->title);
-
-            if ($oldFolder !== $newFolder) {
-                $this->renameOrderFolderAndPaths($oldFolder, $newFolder, $order);
-                $order->load('attachments');
-            }
 
             $this->storeAttachments($request, $order);
         });
@@ -99,15 +89,12 @@ class OrderController extends Controller
             $order->load('attachments');
 
             foreach ($order->attachments as $attachment) {
-                $absolutePath = public_path($attachment->file_path);
+                $absolutePath = $this->absoluteAttachmentPath($attachment->file_path);
 
                 if (is_file($absolutePath)) {
                     @unlink($absolutePath);
                 }
             }
-
-            $folder = public_path($this->getOrderUploadFolderRelative($order->id, $order->title));
-            $this->deleteDirectoryIfExists($folder);
 
             $order->delete();
         });
@@ -131,6 +118,45 @@ class OrderController extends Controller
                     ? __('order.order_activated')
                     : __('order.order_deactivated')
             );
+    }
+
+    public function destroyAttachment(Order $order, OrderAttachment $attachment): RedirectResponse
+    {
+        if ((int) $attachment->order_id !== (int) $order->id) {
+            abort(404);
+        }
+
+        $absolutePath = $this->absoluteAttachmentPath($attachment->file_path);
+
+        if (is_file($absolutePath)) {
+            @unlink($absolutePath);
+        }
+
+        $attachment->delete();
+
+        return redirect()
+            ->back()
+            ->with('success', 'Attachment removed successfully.');
+    }
+
+    public function viewAttachment(Order $order, OrderAttachment $attachment)
+    {
+        if ((int) $attachment->order_id !== (int) $order->id) {
+            abort(404);
+        }
+
+        $absolutePath = $this->absoluteAttachmentPath($attachment->file_path);
+
+        if (! is_file($absolutePath)) {
+            abort(404);
+        }
+
+        $mimeType = $attachment->file_type ?: File::mimeType($absolutePath) ?: 'application/octet-stream';
+
+        return Response::file($absolutePath, [
+            'Content-Type' => $mimeType,
+            'Content-Disposition' => 'inline; filename="' . $attachment->file_name . '"',
+        ]);
     }
 
     protected function validateOrder(Request $request): array
@@ -167,10 +193,10 @@ class OrderController extends Controller
         }
 
         $relativeFolder = $this->getOrderUploadFolderRelative($order->id, $order->title);
-        $absoluteFolder = public_path($relativeFolder);
+        $absoluteFolder = $this->absoluteAttachmentPath($relativeFolder);
 
         if (! is_dir($absoluteFolder)) {
-            mkdir($absoluteFolder, 0775, true);
+            throw new \RuntimeException('Upload folder does not exist: ' . $relativeFolder);
         }
 
         foreach ($request->file('attachments') as $file) {
@@ -191,7 +217,6 @@ class OrderController extends Controller
             $generatedFileName = $order->id . '_' . $sanitizedBaseName . '.' . $extension;
             $finalFileName = $this->ensureUniqueFileName($absoluteFolder, $generatedFileName);
 
-            // move করার আগে এগুলো নিতে হবে
             $mimeType = $file->getMimeType();
             $fileSize = $file->getSize();
 
@@ -209,13 +234,12 @@ class OrderController extends Controller
 
     protected function getOrderUploadFolderRelative(int $orderId, string $title): string
     {
-        $slug = Str::slug(trim($title), '_');
+        return 'uploads/orders';
+    }
 
-        if ($slug === '') {
-            $slug = 'order';
-        }
-
-        return 'uploads/' . $orderId . '_' . $slug;
+    protected function absoluteAttachmentPath(string $relativePath): string
+    {
+        return base_path($relativePath);
     }
 
     protected function sanitizeOriginalFileName(string $name): string
@@ -241,92 +265,5 @@ class OrderController extends Controller
         $baseName = pathinfo($fileName, PATHINFO_FILENAME);
 
         return $baseName . '_' . now()->format('YmdHis') . '.' . $extension;
-    }
-
-    protected function renameOrderFolderAndPaths(string $oldRelativeFolder, string $newRelativeFolder, Order $order): void
-    {
-        if ($oldRelativeFolder === $newRelativeFolder) {
-            return;
-        }
-
-        $oldAbsoluteFolder = public_path($oldRelativeFolder);
-        $newAbsoluteFolder = public_path($newRelativeFolder);
-
-        if (is_dir($oldAbsoluteFolder) && ! is_dir($newAbsoluteFolder)) {
-            $parentDir = dirname($newAbsoluteFolder);
-
-            if (! is_dir($parentDir)) {
-                mkdir($parentDir, 0775, true);
-            }
-
-            @rename($oldAbsoluteFolder, $newAbsoluteFolder);
-        } elseif (! is_dir($newAbsoluteFolder)) {
-            mkdir($newAbsoluteFolder, 0775, true);
-        }
-
-        foreach ($order->attachments as $attachment) {
-            $fileName = basename($attachment->file_path);
-
-            $attachment->update([
-                'file_path' => $newRelativeFolder . '/' . $fileName,
-            ]);
-        }
-    }
-
-    protected function deleteDirectoryIfExists(string $directory): void
-    {
-        if (! is_dir($directory)) {
-            return;
-        }
-
-        $items = scandir($directory);
-
-        if ($items === false) {
-            return;
-        }
-
-        foreach ($items as $item) {
-            if (in_array($item, ['.', '..'])) {
-                continue;
-            }
-
-            $path = $directory . DIRECTORY_SEPARATOR . $item;
-
-            if (is_dir($path)) {
-                $this->deleteDirectoryIfExists($path);
-            } else {
-                @unlink($path);
-            }
-        }
-
-        @rmdir($directory);
-    }
-
-    public function destroyAttachment(Order $order, \App\Models\OrderAttachment $attachment): RedirectResponse
-    {
-        if ((int) $attachment->order_id !== (int) $order->id) {
-            abort(404);
-        }
-
-        $absolutePath = public_path($attachment->file_path);
-
-        if (is_file($absolutePath)) {
-            @unlink($absolutePath);
-        }
-
-        $attachment->delete();
-
-        $folder = public_path($this->getOrderUploadFolderRelative($order->id, $order->title));
-
-        if (is_dir($folder)) {
-            $items = array_diff(scandir($folder) ?: [], ['.', '..']);
-            if (empty($items)) {
-                @rmdir($folder);
-            }
-        }
-
-        return redirect()
-            ->back()
-            ->with('success', 'Attachment removed successfully.');
     }
 }

@@ -145,7 +145,7 @@
                                 $isPdf = $ext === 'pdf';
                             @endphp
 
-                            <a href="{{ asset($attachment->file_path) }}" target="_blank" class="employee-attachment-card">
+                            <a href="{{ route('employee.orders.attachments.view', [$order, $attachment]) }}" target="_blank" class="employee-attachment-card">
                                 <div class="employee-attachment-icon {{ $isPdf ? 'pdf' : 'image' }}">
                                     @if ($isImage)
                                         <i class="fa-regular fa-image"></i>

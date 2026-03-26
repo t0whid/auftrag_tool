@@ -42,9 +42,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::delete('/orders/{order}/attachments/{attachment}', [OrderController::class, 'destroyAttachment'])->name('orders.attachments.destroy');
 
     Route::get('/order-responses/export', [AdminOrderResponseController::class, 'exportCsv'])->name('order-responses.export');
-
-    Route::get('/order-responses', [AdminOrderResponseController::class, 'index'])
-        ->name('order-responses.index');
+    Route::get('/orders/{order}/attachments/{attachment}/view', [OrderController::class, 'viewAttachment'])->name('orders.attachments.view');
+    Route::get('/order-responses', [AdminOrderResponseController::class, 'index'])->name('order-responses.index');
 
     Route::get('/order-responses/{order}', [AdminOrderResponseController::class, 'show'])->name('order-responses.show');
 
@@ -83,4 +82,6 @@ Route::middleware(['auth', 'employee'])->name('employee.')->group(function () {
     Route::get('/dashboard', [EmployeeDashboardController::class, 'index'])->name('dashboard');
     Route::get('/orders/{order}', [EmployeeDashboardController::class, 'show'])->name('orders.show');
     Route::post('/orders/{order}/response', [OrderResponseController::class, 'store'])->name('orders.response.store');
+
+    Route::get('/orders/{order}/attachments/{attachment}/view', [EmployeeDashboardController::class, 'viewAttachment'])->name('orders.attachments.view');
 });

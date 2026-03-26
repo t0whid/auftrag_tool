@@ -303,7 +303,7 @@
                                     @foreach ($order->attachments as $attachment)
                                         <div class="col-md-6 col-xl-4">
                                             <div class="existing-attachment-card-wrap">
-                                                <a href="{{ asset($attachment->file_path) }}" target="_blank"
+                                                <a href="{{ route('admin.orders.attachments.view', [$order, $attachment]) }}" target="_blank"
                                                     class="existing-attachment-card">
                                                     <div class="existing-attachment-icon">
                                                         @if ($attachment->is_image)

@@ -24,3 +24,5 @@ Homestead.yaml
 Thumbs.db
 /public/uploads/*
 !/public/uploads/.gitkeep
+/uploads/orders/*
+!/uploads/orders/.gitkeep
