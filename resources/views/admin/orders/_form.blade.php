@@ -350,10 +350,7 @@
     </div>
 </div>
 
-<form id="attachmentDeleteHiddenForm" method="POST" class="d-none">
-    @csrf
-    @method('DELETE')
-</form>
+
 
 @once
     @push('styles')
